@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.compose.compiler)
     `maven-publish`
 }
 
@@ -33,25 +32,36 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
-        compose = true
-        buildConfig = true
+        buildConfig = false
         aidl = true
+    }
+    sourceSets["main"].java {
+        // Keep copied UI sources available for audit, but do not make Compose a host SDK dependency.
+        exclude("**/ui/**")
+        exclude("**/presentation/**")
+        exclude("**/MainActivity.kt")
+        exclude("**/MainViewModel.kt")
+        exclude("**/features/dashboard/**")
+        exclude("**/features/licenses/**")
+        exclude("**/features/settings/**")
+        exclude("**/core/ui/**")
+        exclude("**/core/notifications/**")
+        exclude("**/core/startup/legal/**")
     }
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
     }
 }
 
 dependencies {
     api(libs.androidx.core.ktx)
-    api(libs.kotlinx.coroutines.android)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.app.runtime)
-    implementation(libs.bundles.app.compose)
-    implementation(libs.aboutlibraries.compose.m3) {
-        exclude(group = "com.github.skydoves", module = "compose-stability-runtime")
-    }
-    implementation(libs.coil.compose)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.bundles.app.security)
     testImplementation(libs.junit)
 }

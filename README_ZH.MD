@@ -29,6 +29,8 @@ val duckReports = result.duckReports
 
 如不需要某部分，可使用 `CRoootScanOptions(includeHardware = false, includeDuckFeatures = false)`。结果是启发式安全证据，不保证设备绝对完整；OEM、设备、ABI 和沙盒限制可能降低覆盖度。完整 API 示例见 [`docs/SDK_USAGE.md`](docs/SDK_USAGE.md)。
 
+发布的核心 SDK 不强制宿主引入 Compose、Coil 或 Activity 依赖；复制保留的 UI 源码仅用于审计，也可由宿主按需单独接入。
+
 > **发布安全门禁：** 原 Duck 快照中的私钥材料已从 CRooot 当前树移除；若再���出现私钥材料，CI 必须失败。复制的 DirtySepolicy 实现尚未完成上游来源和许可声明核验，在核验完成前禁止再分发。详见 [`NOTICE`](NOTICE)。
 
 # ⚠️ **开发规范 / Development Rules**

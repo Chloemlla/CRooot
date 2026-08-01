@@ -39,6 +39,8 @@ val duckReports = result.duckReports
 
 Use `CRoootScanOptions(includeHardware = false, includeDuckFeatures = false)` to omit optional portions. Results are heuristic evidence, not a guarantee of device integrity; OEM, device, ABI, and sandbox restrictions can reduce coverage. See [`docs/SDK_USAGE.md`](docs/SDK_USAGE.md) for the full API example.
 
+The published core is UI-independent and does not force Compose, Coil, or Activity dependencies onto the host. The copied UI sources remain available for audit and optional host integration.
+
 > **Release security gate:** CRooot removed the private marker-key material present in the original Duck snapshot; CI must fail if private-key material is reintroduced. The copied DirtySepolicy implementation also has unresolved upstream provenance and notice requirements; redistribution is blocked until that provenance is verified. See [`NOTICE`](NOTICE).
 
 # ⚠️ Development Rules

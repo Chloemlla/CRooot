@@ -14,6 +14,10 @@ The current project configuration targets Android API 29 or newer.
 
 The public SDK namespace is `com.chloemlla.crooot`, and the native artifact is `libchloemlla-crooot.so`.
 
+The core artifact has no Compose, Coil, Activity, or UI dependency. The copied UI trees remain in the repository for audit and can be packaged as a separate host-owned layer when needed.
+
+If the host enables package-wide app visibility checks, declare `QUERY_ALL_PACKAGES` in the host manifest only after confirming the Play policy requirement. The SDK does not inject permissions into the host manifest.
+
 ## Scan
 
 Create the SDK with an Android `Context`, then call the suspend `scan` method from a coroutine:
