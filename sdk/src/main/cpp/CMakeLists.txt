@@ -9,7 +9,7 @@ add_library(chloemlla-crooot SHARED
 )
 add_subdirectory("${CROOOT_DUCK_ROOT}" duckdetector-build)
 target_include_directories(chloemlla-crooot PRIVATE "${CROOOT_DUCK_ROOT}")
-target_compile_options(chloemlla-crooot PRIVATE -std=c++17 -fvisibility=hidden -fstack-protector-all -O2)
+target_compile_options(chloemlla-crooot PRIVATE -std=c++20 -fvisibility=hidden -fstack-protector-all -O2)
 target_link_options(chloemlla-crooot PRIVATE -Wl,-z,max-page-size=16384)
 target_link_libraries(chloemlla-crooot android EGL GLESv2 log)
 if(CROOOT_DUCK_IPO_SUPPORTED)
