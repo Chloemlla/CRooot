@@ -16,6 +16,7 @@
 
 package com.eltavine.duckdetector.features.tee.data.verification.crl
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -408,6 +409,7 @@ internal class AndroidCrlNetworkStatusProvider(
     private val context: Context,
 ) : CrlNetworkStatusProvider {
 
+    @SuppressLint("MissingPermission")
     override fun isNetworkAvailable(): Boolean {
         val connectivityManager =
             context.getSystemService(ConnectivityManager::class.java) ?: return false
