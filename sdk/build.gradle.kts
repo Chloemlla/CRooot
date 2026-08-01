@@ -35,7 +35,7 @@ android {
         aidl = true
     }
     // Keep copied UI sources available for audit, but do not make Compose a host SDK dependency.
-    sourceSets.getByName("main").java.exclude(
+    sourceSets.getByName("main").java.setExcludes(
         "**/ui/**",
         "**/presentation/**",
         "**/MainActivity.kt",
