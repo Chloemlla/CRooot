@@ -1,5 +1,4 @@
-
-  <img src="logo.png" alt="DuckDetector Logo" width="600px">
+<img src="logo.png" alt="DuckDetector Logo" width="600px">
 
   <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Android-minSdk%2029-3DDC84?logo=android&logoColor=white&style=flat-square" alt="Android"></a>
   <a href="https://developer.android.com"><img src="https://img.shields.io/badge/targetSdk-37-3DDC84?logo=android&logoColor=white&style=flat-square" alt="targetSdk"></a>
@@ -31,8 +30,6 @@ val duckReports = result.duckReports
 
 发布的核心 SDK 不强制宿主引入 Compose、Coil 或 Activity 依赖；复制保留的 UI 源码仅用于审计，也可由宿主按需单独接入。
 
-> **发布安全门禁：** 原 Duck 快照中的私钥材料已从 CRooot 当前树移除；若再���出现私钥材料，CI 必须失败。复制的 DirtySepolicy 实现尚未完成上游来源和许可声明核验，在核验完成前禁止再分发。详见 [`NOTICE`](NOTICE)。
-
 # ⚠️ **开发规范 / Development Rules**
 
 在更改代码、工作流程或提交历史记录之前，请阅读 [CODING_STANDARDS.md](./CODING_STANDARDS.md)。
@@ -44,7 +41,7 @@ val duckReports = result.duckReports
 - ⚡ **原生启动预载 (Native Preload)**：通过透明的 `NativeActivity` 启动器实现底层及早预载，以捕捉极早期的挂载（Mount）和虚拟化痕迹。
 - 🛡️ **底层 C++ 与汇编探针 (Native Probes)**：利用 C++ 和汇编实现的系统调用（Syscall）级别、时间敏感型、挂载和运行时可见性检查。
 - 🔄 **跨进程与隔离进程验证 (Cross-Process Validation)**：通过多进程、隔离进程（Isolated Process）协同校验，降低对单一信号的依赖。
-- 🔒 **纯本地离线优先 (Local & Privacy-First)**：默认情况下，TEE 吊销检查使用内置的静态快照。仅在用户手动于设置中开启“在线刷新”时才会访问网络。
+- 🔒 **纯本地离线优先 (Local & Privacy-First)**：默认情况下，TEE 吊销检查使用内置的静态快照。仅在用户手动于设置中开启"在线刷新"时才会访问网络。
 ---
 # 🔍 检测覆盖范围 / Detector Coverage
 目前应用已支持以下安全领域的启发式检测：
@@ -122,7 +119,7 @@ gradlew.bat :app:assembleDebug
 
 ## ⚖️ 免责声明 / Disclaimer
 ```text
-本软件按“原样”提供，不提供任何明示或暗示的保证。本程序仅供教育、诊断和安全研究目的使用。
+本软件按"原样"提供，不提供任何明示或暗示的保证。本程序仅供教育、诊断和安全研究目的使用。
 开发者对因使用本应用程序而导致的任何直接或间接损坏、数据丢失或系统不稳定不承担责任。
 依赖启发式安全检测的风险由您自行承担。
 This software is provided "as is", without warranty of any kind. It is designed
@@ -132,7 +129,7 @@ instability resulting from use of this application. Relying on heuristic
 security detection is at your own risk.
 ```
 ## 📄 开源协议 / License
-CRooot 集成代码和 Duck 检测代码基于 **Apache License 2.0**。保留的 KKND 检测代码版权归 Juan Martin（Copyright (c) 2026）所有，基于 **MIT License** 发布，必须保留其许可声明。DirtySepolicy 相关代码在上游来源和许可声明核验完成前禁止再分发。详见 [`LICENSE`](LICENSE) 和 [`NOTICE`](NOTICE)。
+CRooot 集成代码和 Duck 检测代码基于 **Apache License 2.0**。保留的 KKND 检测代码版权归 Juan Martin（Copyright (c) 2026）所有，基于 **MIT License** 发布，必须保留其许可声明。详见 [`LICENSE`](LICENSE) 和 [`NOTICE`](NOTICE)。
 ## 👥 贡献者 / Contributors
 感谢以下为 DuckDetector 做出贡献的开发者们！
 <p>

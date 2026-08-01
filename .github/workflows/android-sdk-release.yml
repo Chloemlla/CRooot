@@ -83,6 +83,20 @@ jobs:
 
           echo "version=${release_version}" >> "${GITHUB_OUTPUT}"
 
+      - name: Scan for private-key material
+        shell: bash
+        run: |
+          set -euo pipefail
+          matches=$(grep -rI --include='*.java' --include='*.kt' --include='*.cpp' \
+            --include='*.h' --include='*.hpp' --include='*.aidl' \
+            -l '-----BEGIN.*PRIVATE KEY-----' sdk/ app/ 2>/dev/null || true)
+          if [ -n "${matches}" ]; then
+            echo "ERROR: Private-key material detected in the following files:" >&2
+            echo "${matches}" >&2
+            exit 1
+          fi
+          echo "No private-key material found."
+
       - name: Verify declared Android toolchain
         shell: bash
         run: |

@@ -41,8 +41,6 @@ Use `CRoootScanOptions(includeHardware = false, includeDuckFeatures = false)` to
 
 The published core is UI-independent and does not force Compose, Coil, or Activity dependencies onto the host. The copied UI sources remain available for audit and optional host integration.
 
-> **Release security gate:** CRooot removed the private marker-key material present in the original Duck snapshot; CI must fail if private-key material is reintroduced. The copied DirtySepolicy implementation also has unresolved upstream provenance and notice requirements; redistribution is blocked until that provenance is verified. See [`NOTICE`](NOTICE).
-
 # ⚠️ Development Rules
 > Please read the [DuckDetector coding standards](./CODING_STANDARDS.md) before submitting changes to the codebase, workflows, or git history.
 

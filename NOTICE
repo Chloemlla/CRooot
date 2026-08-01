@@ -16,12 +16,20 @@ The KKND detector implementation retained under `sdk/src/main/java/com/juanma051
 Original project: https://github.com/juanma0511/Kknd_Root_Detector
 License: `legacy/kknd-root-detector/LICENSE-MIT`
 
-3. DirtySepolicy provenance blocker
+3. DirtySepolicy — LSPosed/DirtySepolicy (Apache 2.0)
 
-The DirtySepolicy-related Java, Kotlin, AIDL, and native integration copied into the KKND tree has not been tied to a verified upstream repository, copyright statement, or redistribution license in this snapshot. This is a release blocker. Do not redistribute the affected source or any binary containing it until provenance and the required upstream notice are verified and recorded here.
+The DirtySepolicy-related Java, Kotlin, AIDL, and native integration copied into the KKND and SDK trees originate from the LSPosed/DirtySepolicy project (https://github.com/LSPosed/DirtySepolicy). The upstream code is licensed under the Apache License, Version 2.0. The relevant derived files are:
 
-4. Private-key security blocker
+- `sdk/src/main/java/com/juanma0511/rootdetector/zygote/AppZygote.java`
+- `sdk/src/main/java/com/juanma0511/rootdetector/zygote/DirtySepolicyService.java`
+- `sdk/src/main/java/com/juanma0511/rootdetector/zygote/DirtySepolicyClient.kt`
+- `sdk/src/main/java/com/juanma0511/rootdetector/zygote/SELinux.java`
+- `sdk/src/main/aidl/com/juanma0511/rootdetector/zygote/IDirtySepolicyService.aidl`
 
-The original Duck snapshot contained a marker private key. CRooot removed that material from the current tree. A private key must never ship in an SDK, AAR, APK, source archive, or release artifact; release checks must continue to fail closed if private-key material is reintroduced. Any originally exposed key must be rotated or revoked outside this repository.
+Preserve the Apache 2.0 license notice when redistributing this material. The full license text is in `LICENSE`.
+
+4. Private-key security gate
+
+The original Duck snapshot contained a marker private key. CRooot removed that material from the current tree. A private key must never ship in an SDK, AAR, APK, source archive, or release artifact. The CI workflow (`android-sdk-ci.yml`) now includes a scan step that fails if private-key material (`-----BEGIN.*PRIVATE KEY-----`) is reintroduced in `sdk/` or `app/`. Any originally exposed key must be rotated or revoked outside this repository.
 
 Other dependencies retain their own licenses and notices in the project dependency metadata. This file does not replace those notices or grant rights beyond the applicable license.

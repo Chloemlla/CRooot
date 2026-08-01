@@ -40,9 +40,9 @@ val duckReports = result.duckReports
 
 Set `includeHardware` or `includeDuckFeatures` to `false` when the host does not need that portion of the scan. The scan does not require root access, but device, OEM, ABI, and sandbox restrictions can reduce coverage.
 
-## Release blockers
+## Resolved release notes
 
-- The copied `sdk/src/main/java/com/juanma0511/rootdetector/zygote/DirtySepolicyService.java` and related files have unresolved upstream provenance and notice requirements. Do not redistribute source or binaries containing this implementation until its origin, copyright, and license notice are verified.
-- The original Duck snapshot contained private marker-key material; CRooot removed it. Release checks must fail if any private-key material is reintroduced, and any originally exposed key must be rotated or revoked.
+- The DirtySepolicy implementation has been traced to LSPosed/DirtySepolicy (Apache 2.0). See [`NOTICE`](../NOTICE) for full attribution.
+- The original Duck snapshot private marker key has been removed from the source tree. CI workflows now scan for private-key material and fail if reintroduced. Any originally exposed key must be rotated or revoked outside this repository.
 
 See [`../NOTICE`](../NOTICE) for the attribution and redistribution gate.

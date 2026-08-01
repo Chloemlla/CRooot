@@ -91,6 +91,23 @@ jobs:
               raise SystemExit(f"Gradle toolchain properties do not match the workflow: {mismatches}")
           PY
 
+      - name: Scan for private-key material
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Fail if any file under sdk/ or app/ contains a PEM-encoded private key.
+          # The marker key was removed from the original Duck snapshot; this gate
+          # prevents reintroduction.
+          matches=$(grep -rI --include='*.java' --include='*.kt' --include='*.cpp' \
+            --include='*.h' --include='*.hpp' --include='*.aidl' \
+            -l '-----BEGIN.*PRIVATE KEY-----' sdk/ app/ 2>/dev/null || true)
+          if [ -n "${matches}" ]; then
+            echo "ERROR: Private-key material detected in the following files:" >&2
+            echo "${matches}" >&2
+            exit 1
+          fi
+          echo "No private-key material found."
+
       - name: Install exact Android SDK packages
         shell: bash
         run: |
