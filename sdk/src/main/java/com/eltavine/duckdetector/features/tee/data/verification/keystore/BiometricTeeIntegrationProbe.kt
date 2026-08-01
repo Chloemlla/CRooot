@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.biometrics.BiometricManager
 import android.os.Build
+import android.annotation.SuppressLint
 import com.eltavine.duckdetector.features.tee.data.keystore.AndroidKeyStoreTools
 import javax.crypto.SecretKey
 
@@ -27,6 +28,7 @@ class BiometricTeeIntegrationProbe(
     private val context: Context,
 ) {
 
+    @SuppressLint("MissingPermission")
     fun inspect(): BiometricTeeIntegrationResult {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             return BiometricTeeIntegrationResult(
