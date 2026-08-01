@@ -1,0 +1,249 @@
+# Duck Detector 编码规范
+
+## 1. 文档目的
+
+本规范用于统一 Duck Detector 项目的编码、模块划分、测试、文档与提交要求。
+
+适用范围：
+
+- Kotlin / Compose 代码
+- Native / JNI 代码
+- Gradle / CI / 脚本
+- 文档与 commit
+
+默认原则：
+
+- 先保证结论正确，再追求代码简短
+- 先保证模块边界清晰，再考虑复用
+- 先补足验证，再扩大改动范围
+
+## 2. 总体原则
+
+### 2.1 单一职责
+
+- 一个类只负责一件清晰的事。
+- 一个 probe 只负责一种探测语义，不要把多个独立异常揉进一个大类里。
+- 一个 reducer 负责汇总与判定，不负责底层采集。
+
+### 2.2 小步提交
+
+- 一个 commit 应只表达一个主目标。
+- 不要把功能新增、重构、格式清理、版本修改、无关文档改动混在一起。
+- 如果必须一起提交，正文里要明确说明它们为何耦合。
+
+### 2.3 可追溯
+
+- 代码必须能解释“为什么这样做”。
+- 探测类改动要能追溯到具体证据语义，而不是只留下启发式代码。
+- 重要判断应在命名、注释、测试或文档中体现出处和意图。
+
+## 3. 模块化要求
+
+### 3.1 按功能分层
+
+每个 feature 应优先维持以下边界：
+
+- `data`：采集、解析、桥接、底层探测
+- `domain`：报告模型、状态定义、判定抽象
+- `presentation`：卡片映射、UI 展示、文案呈现
+
+不要出现这些情况：
+
+- `presentation` 直接调用 native / JNI
+- `domain` 持有 Android Framework 细节
+- `reducer` 直接做文件系统、Binder、KeyStore 访问
+
+### 3.2 Probe 拆分规则
+
+新增检测时，优先按下面的结构拆分：
+
+- `Probe`：执行一次独立探测
+- `Result`：输出结构化结果
+- `Repository`：协调多个 probe
+- `Reducer`：把结果转成最终报告
+- `Mapper / UI`：决定如何展示
+
+不要把“采集 + 判定 + UI 文案”写在同一个类里。
+
+### 3.3 共享逻辑收敛
+
+- 只有在两个以上模块确实共享同一语义时，才抽公共 helper。
+- 公共 helper 必须表达稳定语义，不要为了省几行代码强行抽象。
+- 涉及安全级别、判定等级、字段兼容映射的 helper，要优先测试覆盖。
+
+### 3.4 允许耦合的情况
+
+以下场景可以接受耦合，但要在 commit 或注释里说明原因：
+
+- virtualization / preload / native runtime 一起变动
+- TEE deep checks 与 reducer / presentation 联动修改
+- JNI bridge 改动导致 Kotlin parser 同步修改
+
+## 4. Kotlin / Compose 规范
+
+### 4.1 Kotlin
+
+- 命名优先表达语义，不优先缩写。
+- 尽量返回结构化结果，不要靠字符串判断主逻辑。
+- `Result` 数据类要让“成功 / 失败 / 跳过”状态清晰可区分。
+- 对异常路径，优先保留可审计的 `detail`，不要只返回布尔值。
+
+### 4.2 Compose
+
+- UI 层只消费报告与展示模型，不重新发明判定逻辑。
+- 不要在 Compose 组件里重新拼安全结论。
+- 展示文案与证据等级要和 reducer 保持一致。
+
+### 4.3 注释
+
+- 只给非显然逻辑写注释。
+- 注释应解释“为什么”，不是重复“代码在做什么”。
+- 对兼容 API、厂商差异、行为学阈值，必要时写明背景。
+
+## 5. Native / JNI / 兼容性规范
+
+### 5.1 Native 改动
+
+- Native 结果要尽量输出稳定、可解析的结构，而不是临时字符串拼接。
+- 修改 native payload 时，要同步更新 Kotlin 侧 parser，并保持向后兼容或明确中断。
+- ABI 敏感改动必须完成构建验证。
+
+### 5.2 Android 兼容性
+
+- 涉及 API level 差异时，要明确区分新旧路径。
+- 对 deprecated API 的兼容访问，要集中封装，避免散落在多个调用点。
+- 对 `KeyInfo`、Binder、系统属性、`/proc` 等平台行为，不要假设所有厂商完全一致。
+
+## 6. 测试与验证要求
+
+### 6.1 基本要求
+
+- 新增 probe 必须至少有一个结果层测试。
+- 修改 reducer / mapper 时，必须补展示或判定回归测试。
+- 修复 bug 时，优先先补回归测试，再改实现。
+
+### 6.2 TEE / Native 相关改动
+
+以下改动至少应执行对应验证：
+
+- TEE probe / reducer 改动：相关 unit tests + `:app:assembleDebug`
+- Native / JNI 改动：`externalNativeBuildDebug` + `:app:assembleDebug`
+- 文案或卡片映射改动：对应 mapper / reducer tests
+
+### 6.3 真机验证
+
+以下类型不能只依赖 JVM 单测：
+
+- AndroidKeyStore 硬件路径
+- StrongBox 行为
+- Binder hook / native anti-hook
+- `/proc` / SELinux / mount / cgroup 运行态探测
+
+如果没有真机验证，要在最终说明里明确指出。
+
+## 7. 文档同步要求
+
+以下改动原则上应同步文档：
+
+- 新增或删除检测项
+- 修改 verdict 影响规则
+- 修改证据层级定义
+- 修改 release / CI / Telegram 推送行为
+
+涉及 TEE、native root、virtualization 这类检测口径变化时，应同步更新对应根目录文档或 README。
+
+## 8. Commit 规范
+
+### 8.1 基本格式
+
+commit 标题使用英文，推荐格式：
+
+`type(scope): imperative summary`
+
+示例：
+
+- `feat(tee): add AES-GCM keystore round-trip deep check`
+- `fix(nativeroot): preserve SELinux process contexts in cgroup parsing`
+- `refactor(virtualization): split preload parsing from reducer logic`
+
+### 8.2 type 建议
+
+- `feat`：新增功能或检测能力
+- `fix`：修复错误、误判、兼容性问题
+- `refactor`：重构但不改变外部语义
+- `test`：测试补充或重构
+- `docs`：文档修改
+- `build`：构建、CI、签名、发布流程
+- `chore`：杂项维护
+
+### 8.3 scope 要求
+
+- scope 应尽量对应真实模块。
+- 优先使用 feature 名或工程域名，例如：
+    - `tee`
+    - `nativeroot`
+    - `virtualization`
+    - `mount`
+    - `workflow`
+
+不要使用无信息量 scope：
+
+- `misc`
+- `update`
+- `stuff`
+
+### 8.4 标题要求
+
+- 标题使用祈使句。
+- 标题应说明“做了什么”，不是“这个提交很重要”。
+- 不要把多个主语义塞进同一个标题。
+- 标题建议控制在 72 个字符左右。
+
+### 8.5 正文要求
+
+commit 正文使用英文，推荐包含三部分：
+
+- 背景：为什么要改
+- 变更：具体改了什么
+- 验证：跑了哪些测试或构建
+
+推荐风格：
+
+- 先写 1 到 2 段背景说明
+- 再用 flat bullets 列出关键变更
+- 结尾列出验证命令
+
+### 8.6 不合格 commit 示例
+
+以下提交信息不应出现：
+
+- `update`
+- `fix bug`
+- `try fix`
+- `misc changes`
+- `wip`
+
+这些标题无法表达模块、目标与风险边界。
+
+## 9. 变更边界要求
+
+- 不要在同一提交里混入无关格式化。
+- 不要顺手修改无关 feature 的命名和文案。
+- 不要因为方便而重写大段无关代码。
+
+如果工作区里已有他人改动：
+
+- 先理解再兼容
+- 不要直接覆盖
+- 不要回退不属于本任务的变更
+
+## 10. 最终交付要求
+
+完成编码后，输出说明至少应交代：
+
+- 改了什么
+- 是否完成测试 / 构建
+- 是否还有真机验证缺口
+- 是否同步了相关文档
+
+如果没有完成某项验证，不要省略，要明确说明。

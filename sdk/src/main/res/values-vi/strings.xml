@@ -1,0 +1,164 @@
+<!--
+Copyright 2026 Duck Apps Contributor
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<resources>
+    <string name="duck_logo_description">Biểu trưng Duck Detector</string>
+    <string name="social_github">GitHub</string>
+    <string name="social_telegram">Telegram</string>
+    <string name="user_agreement">Thỏa thuận người dùng</string>
+    <string name="disclaimer">và tuyên bố miễn trừ</string>
+    <string name="please_read_carefully">Vui lòng đọc kỹ trước khi tiếp tục</string>
+    <string name="agreement_risk_title">Lưu ý sử dụng có rủi ro cao</string>
+    <string name="agreement_risk_body_emphasis">Không nên coi bất kỳ kết quả đơn lẻ nào là kết luận cuối cùng về pháp lý, tuân thủ, bảo hành hoặc an toàn bảo mật.</string>
+    <string name="agreement_risk_body_template">Duck Detector chỉ cung cấp các tín hiệu tham khảo. %1$s Trước khi đưa ra hành động, hãy luôn kết hợp đầu ra của ứng dụng với việc kiểm tra thủ công, bằng chứng từ dự án nguồn và đánh giá rủi ro của chính bạn.</string>
+    <string name="user_agreement_title">Thỏa thuận người dùng</string>
+    <string name="user_agreement_content" formatted="false">Bằng việc sử dụng Duck Detector, bạn đồng ý với các điều khoản sau:&#10;&#10;1. Mục đích sử dụng&#10;Ứng dụng này chỉ được thiết kế cho mục đích giáo dục và đánh giá an toàn cá nhân, giúp người dùng hiểu rõ trạng thái bảo mật của chính thiết bị mình.&#10;&#10;2. Không bảo hành&#10;Ứng dụng này được cung cấp theo hiện trạng, không kèm theo bất kỳ bảo đảm rõ ràng hay ngụ ý nào. Nhà phát triển không đảm bảo tính chính xác, đầy đủ hay độ tin cậy của kết quả phát hiện.&#10;&#10;3. Trách nhiệm của người dùng&#10;Bạn tự chịu trách nhiệm về cách sử dụng ứng dụng này và mọi hậu quả có thể phát sinh từ việc sử dụng đó.&#10;&#10;4. Tuân thủ pháp luật&#10;Bạn đồng ý sử dụng ứng dụng này phù hợp với mọi quy định pháp luật địa phương, quốc gia và quốc tế có liên quan.</string>
+    <string name="disclaimer_title">Tuyên bố miễn trừ</string>
+    <string name="disclaimer_content" formatted="false">LƯU Ý QUAN TRỌNG:&#10;&#10;1. Giới hạn phát hiện&#10;Duck Detector sử dụng nhiều phương pháp để đánh giá trạng thái bảo mật của thiết bị, nhưng không có phương pháp nào đạt độ chính xác 100&#37;. Kết quả chỉ nên được xem là dấu hiệu tham khảo, không phải kết luận cuối cùng.&#10;&#10;2. Báo động sai và bỏ sót&#10;Ứng dụng có thể tạo ra báo động sai hoặc bỏ sót. Hãy luôn kết hợp công cụ bảo mật chuyên nghiệp và việc tự xác minh của bạn để có đánh giá đầy đủ.&#10;&#10;3. Miễn trừ trách nhiệm&#10;Các nhà phát triển, người đóng góp và bên phân phối Duck Detector sẽ không chịu trách nhiệm đối với mọi thiệt hại trực tiếp, gián tiếp, ngẫu nhiên, đặc biệt hoặc hậu quả phát sinh từ việc sử dụng hoặc không thể sử dụng ứng dụng này.&#10;&#10;4. Dịch vụ bên thứ ba&#10;Kiểm tra thu hồi TEE mặc định dùng ảnh chụp tích hợp trong ứng dụng. Nếu bạn cho phép cập nhật dữ liệu thu hồi trực tuyến, ứng dụng có thể truy cập Google attestation revocation endpoint. Bản thân quá trình quét vẫn được thực hiện cục bộ trên thiết bị của bạn, và các kết quả phát hiện không được cố ý tải lên dưới dạng telemetry quét.</string>
+    <string name="privacy_notice_title">Thông báo quyền riêng tư</string>
+    <string name="privacy_notice_content" formatted="false">Tóm tắt quyền riêng tư: các kiểm tra bảo mật được thực hiện cục bộ trên thiết bị của bạn. Kết quả phát hiện không được cố ý tải lên dưới dạng telemetry quét. Kiểm tra thu hồi TEE mặc định dùng ảnh chụp tích hợp; nếu bạn cho phép cập nhật dữ liệu thu hồi trực tuyến, ứng dụng có thể truy cập Google attestation revocation endpoint.</string>
+    <string name="timer_elapsed">Đã chờ 30 giây</string>
+    <string name="timer_waiting">Vui lòng chờ %1$d giây</string>
+    <string name="fully_reviewed">Đã xem hết</string>
+    <string name="scroll_to_bottom">Cuộn xuống cuối</string>
+    <string name="i_agree_continue">Tôi đồng ý và tiếp tục</string>
+    <string name="complete_all_conditions">Hoàn thành tất cả điều kiện</string>
+    <string name="agreement_acknowledgement">Khi tiếp tục, bạn xác nhận rằng mình đã đọc và đồng ý với các điều khoản này.</string>
+    <string name="settings_title">Cài đặt</string>
+    <string name="settings_subtitle">Các điều khiển thời gian chạy cho các đường xác minh trực tuyến.</string>
+    <string name="settings_crl_title">Cho phép làm mới CRL trực tuyến</string>
+    <string name="settings_crl_summary">Kiểm tra thu hồi TEE luôn dùng ảnh chụp tích hợp; tùy chọn này chỉ cho phép tải Google attestation revocation feed mới nhất.</string>
+    <string name="settings_crl_footer">Thay đổi có hiệu lực ngay với hành vi làm mới trực tuyến. Kiểm tra thu hồi TEE tích hợp vẫn luôn bật.</string>
+    <string name="about_title">Giới thiệu</string>
+    <string name="about_subtitle">Liên kết dự án và siêu dữ liệu bản build.</string>
+    <string name="about_label_version">Phiên bản</string>
+    <string name="about_value_version">%1$s (%2$d)</string>
+    <string name="about_label_website">Trang web</string>
+    <string name="about_label_email">Email</string>
+    <string name="about_label_build_time">Thời gian build</string>
+    <string name="about_value_build_time">%1$s UTC</string>
+    <string name="about_label_build_hash">Mã băm build</string>
+    <string name="about_label_privacy">Quyền riêng tư / Dữ liệu</string>
+    <string name="about_privacy_summary">Các kiểm tra chạy cục bộ trên thiết bị. Dữ liệu thu hồi TEE được tích hợp trong ứng dụng; làm mới CRL trực tuyến là tùy chọn và chỉ xảy ra khi bạn bật trong Cài đặt.</string>
+    <string name="about_label_copy_build_info">Sao chép thông tin build</string>
+    <string name="about_copy_build_info_summary">Sao chép phiên bản, thời gian build và mã băm build</string>
+    <string name="about_clipboard_label">Thông tin build Duck Detector</string>
+    <string name="about_clipboard_version_line">Phiên bản: %1$s (%2$d)</string>
+    <string name="about_clipboard_build_time_line">Thời gian build (UTC): %1$s UTC</string>
+    <string name="about_clipboard_build_hash_line">Mã băm build: %1$s</string>
+    <string name="about_copy_toast">Đã sao chép thông tin build</string>
+    <string name="author_summary_eltavine">Đóng góp UI, C++, ASM và Kotlin.</string>
+    <string name="author_summary_baka">TEE &amp; Zygisk</string>
+    <string name="author_summary_xiaotong">TEE (C++, Kotlin)</string>
+    <string name="author_summary_wxx">CI (Kotlin)</string>
+    <string name="author_swipe_hint_single">Vuốt sang trái hoặc phải để xem các tác giả.</string>
+    <string name="author_swipe_hint_paged">Vuốt sang trái hoặc phải để xem các tác giả. %1$d/%2$d</string>
+    <string name="author_boundary_toast">Điểm cuối</string>
+    <string name="licenses_entry_label">Minh bạch</string>
+    <string name="licenses_entry_title">Thư viện mã nguồn mở</string>
+    <string name="licenses_entry_subtitle">Xem các dự án bên thứ ba đi kèm trong bản build này và kiểm tra thông báo giấy phép của chúng.</string>
+    <string name="licenses_screen_back">Quay lại</string>
+    <string name="licenses_screen_title">Giấy phép mã nguồn mở</string>
+    <string name="licenses_screen_subtitle">Các thành phần bên thứ ba được đóng gói trong bản build này.</string>
+    <string name="licenses_inventory_title">Danh mục thư viện đi kèm</string>
+    <string name="licenses_inventory_subtitle">Chạm vào bất kỳ dependency nào để xem văn bản giấy phép và liên kết dự án nguồn.</string>
+    <string name="licenses_dialog_close">Đóng</string>
+    <string name="licenses_dialog_home_page">Trang chủ</string>
+    <string name="licenses_dialog_source_repo">Kho mã nguồn</string>
+    <string name="licenses_dialog_version">Phiên bản %1$s</string>
+    <string name="licenses_dialog_licenses">Giấy phép: %1$s</string>
+    <string name="licenses_dialog_open">Mở</string>
+    <string name="licenses_dialog_no_license_text">Không có văn bản giấy phép.</string>
+    <string name="alpha_title">Bản build ALPHA</string>
+    <string name="alpha_banner">ALPHA</string>
+    <string name="alpha_message">Đây là bản build thử nghiệm alpha. Vì có đợt refactor lớn liên quan đến C++ và assembly, có thể xảy ra crash không ổn định.</string>
+    <string name="alpha_warning_runtime">Nhánh này vẫn có thể gặp lỗi khởi động ngoài ý muốn hoặc crash khi chạy.</string>
+    <string name="alpha_warning_report">Nếu gặp sự cố, vui lòng báo cáo. Các bước tái hiện rõ ràng sẽ đặc biệt hữu ích.</string>
+    <string name="alpha_warning_download">Nếu bạn chưa biết cách lấy crash log, hãy tải AppErrorsTracking từ một trong các liên kết bên dưới.</string>
+    <string name="alpha_helper">Trợ giúp crash log: AppErrorsTracking có sẵn trên GitHub Actions và Telegram CI.</string>
+    <string name="alpha_dismiss_ready">Bạn có thể đóng cảnh báo này ngay bây giờ.</string>
+    <string name="alpha_dismiss_waiting">Có thể đóng sau %1$d giây.</string>
+    <string name="alpha_continue">Tôi hiểu, tiếp tục</string>
+    <string name="alpha_continue_waiting">Tôi hiểu (%1$d giây)</string>
+    <string name="screen_capture_title">Đã phát hiện chụp màn hình</string>
+    <string name="screen_capture_message">Nếu ảnh chụp màn hình không chứa thông tin chi tiết, vấn đề này sẽ không được xử lý.</string>
+    <string name="dialog_continue">Tiếp tục</string>
+    <string name="dialog_continue_waiting">Tiếp tục (%1$d giây)</string>
+    <string name="detector_result_title">Trước khi nhờ hỗ trợ</string>
+    <string name="detector_result_notice">Hãy cung cấp đầy đủ thông tin để được hỗ trợ.</string>
+    <string name="detector_result_detail">Các thẻ nguy hiểm và cảnh báo đã được tự động mở rộng để xem xét đầy đủ.</string>
+    <string name="startup_review_label">Kiểm tra chính sách khởi động</string>
+    <string name="startup_preparing_title">Đang chuẩn bị khởi động</string>
+    <string name="startup_before_scan_title">Trước khi quét</string>
+    <string name="startup_loading_detail">Các tùy chọn và khả năng hiển thị PackageManager vẫn đang được tải. Detector ViewModel sẽ tiếp tục tạm dừng cho đến khi hoàn tất.</string>
+    <string name="startup_intro_detail">Hoàn tất các lựa chọn bắt buộc trước khi quá trình quét của detector bắt đầu. Thông báo, định tuyến Live Update, làm mới CRL trực tuyến và khả năng hiển thị PackageManager đều được xem xét tại đây. Pipeline detector sẽ bị chặn cho đến khi mọi thẻ bắt buộc bên dưới được xử lý xong.</string>
+    <string name="startup_loading_state">Đang tải trạng thái khởi động…</string>
+    <string name="startup_progress_resolved">Đã xử lý %1$d trên %2$d thẻ khởi động</string>
+    <string name="startup_loading_dependencies_title">Đang tải các phụ thuộc khởi động</string>
+    <string name="startup_loading_dependencies_detail">Đang đọc kho lưu chấp thuận và khả năng hiển thị PackageManager trước khi bất kỳ detector nào bắt đầu.</string>
+    <string name="startup_status_ready">Sẵn sàng</string>
+    <string name="startup_status_action_required">Cần thao tác</string>
+    <string name="startup_status_skipped">Đã bỏ qua</string>
+    <string name="startup_status_unsupported">Không hỗ trợ</string>
+    <string name="startup_status_waiting">Đang chờ</string>
+    <string name="startup_status_regular">Thường</string>
+    <string name="startup_status_local">Cục bộ</string>
+    <string name="startup_status_optional">Tùy chọn</string>
+    <string name="startup_status_acknowledged">Đã xác nhận</string>
+    <string name="startup_status_review_later">Xem lại sau</string>
+    <string name="startup_notifications_title">Thông báo</string>
+    <string name="startup_notifications_ready_headline">Thông báo quét đã được bật.</string>
+    <string name="startup_notifications_ready_detail">Duck Detector có thể phát thông báo tiến trình quét trong khi các thẻ detector thu thập bằng chứng.</string>
+    <string name="startup_notifications_prompt_headline">Chọn xem tiến trình quét có được phép đăng thông báo hay không.</string>
+    <string name="startup_notifications_prompt_detail_api33">Android %1$d yêu cầu quyền thông báo thời gian chạy. Quá trình quét khi khởi động sẽ tiếp tục bị chặn cho đến khi bạn cho phép hoặc chủ động tiếp tục mà không bật.</string>
+    <string name="startup_notifications_prompt_detail_legacy">Phiên bản Android này không yêu cầu hộp thoại quyền thông báo thời gian chạy, nhưng chính sách khởi động vẫn cần ghi nhận lựa chọn của bạn.</string>
+    <string name="startup_notifications_allow">Cho phép thông báo</string>
+    <string name="startup_notifications_skip">Bỏ qua</string>
+    <string name="startup_notifications_skipped_headline">Đã bỏ qua thông báo.</string>
+    <string name="startup_notifications_skipped_detail">Tiến trình quét sẽ chỉ hiển thị trong ứng dụng cho đến khi bạn cấp quyền thông báo sau này.</string>
+    <string name="startup_live_update_title">Live Update</string>
+    <string name="startup_live_update_unsupported_headline">Thông báo đang diễn ra được quảng bá không khả dụng trên phiên bản Android này.</string>
+    <string name="startup_live_update_unsupported_detail">Duck Detector sẽ dùng đường thông báo thông thường khi có quyền thông báo.</string>
+    <string name="startup_live_update_waiting_headline">Live Update phụ thuộc vào đường thông báo.</string>
+    <string name="startup_live_update_waiting_detail">Hãy cấp quyền thông báo trước. Nếu bạn tiếp tục tắt thông báo, thẻ này sẽ quay về chỉ hiển thị tiến trình trong ứng dụng.</string>
+    <string name="startup_live_update_ready_headline">Thông báo đang diễn ra được quảng bá đã được cho phép.</string>
+    <string name="startup_live_update_ready_detail">Trên các phiên bản Android được hỗ trợ, tiến trình quét có thể xuất hiện qua đường Live Update phong phú hơn.</string>
+    <string name="startup_live_update_prompt_headline">Chọn xem có dùng đường Live Update của Android hay không.</string>
+    <string name="startup_live_update_prompt_detail">Duck Detector có thể mở trang hệ thống cho thông báo đang diễn ra được quảng bá. Nếu bạn bỏ qua, tiến trình quét sẽ quay về thông báo thường.</string>
+    <string name="startup_live_update_open_settings">Mở cài đặt</string>
+    <string name="startup_live_update_use_regular">Dùng thông báo thường</string>
+    <string name="startup_live_update_regular_headline">Đã chọn thông báo thường.</string>
+    <string name="startup_live_update_regular_detail">Thông báo đang diễn ra được quảng bá sẽ tiếp tục tắt. Tiến trình quét sẽ dùng đường thông báo thường.</string>
+    <string name="startup_crl_title">Làm mới CRL trực tuyến</string>
+    <string name="startup_crl_prompt_headline">Chọn xem kiểm tra thu hồi TEE có được tải cập nhật trực tuyến hay không.</string>
+    <string name="startup_crl_prompt_detail">Duck Detector luôn kiểm tra ảnh chụp thu hồi tích hợp. Cho phép mạng sẽ tải Google attestation revocation feed mới nhất trong quá trình xác minh TEE.</string>
+    <string name="startup_crl_allow_network">Cho phép làm mới</string>
+    <string name="startup_crl_local_only">Chỉ tích hợp</string>
+    <string name="startup_crl_ready_headline">Đã cho phép làm mới CRL trực tuyến.</string>
+    <string name="startup_crl_ready_detail">Quá trình xác minh TEE kiểm tra ảnh chụp tích hợp và có thể làm mới Google attestation revocation feed khi điều kiện mạng cho phép.</string>
+    <string name="startup_crl_local_headline">Kiểm tra thu hồi TEE dùng ảnh chụp tích hợp.</string>
+    <string name="startup_crl_local_detail">Duck Detector sẽ không thực hiện làm mới CRL trực tuyến cho đến khi bạn bật lại trong Cài đặt. Kiểm tra thu hồi tích hợp vẫn luôn hoạt động.</string>
+    <string name="startup_package_manager_title">PackageManager</string>
+    <string name="startup_package_restricted_headline">Danh mục gói có vẻ bị giới hạn hoặc bị lọc.</string>
+    <string name="startup_package_restricted_detail">PackageManager chỉ hiển thị %1$d gói đã cài đặt. Dangerous Apps và các đầu dò liên quan có thể báo thiếu các công cụ đã cài trong điều kiện hiển thị bị hạn chế, danh mục bị giới hạn hoặc lọc kiểu HMA.</string>
+    <string name="startup_package_continue_anyway">Vẫn tiếp tục</string>
+    <string name="startup_package_ack_headline">Đã xác nhận khả năng hiển thị PackageManager bị hạn chế.</string>
+    <string name="startup_package_ack_detail">Số gói hiện đang hiển thị: %1$d. Kết quả Dangerous Apps có thể sẽ thận trọng hơn trong phạm vi danh mục này.</string>
+    <string name="startup_package_low_inventory_headline">PackageManager có vẻ đầy đủ nhưng danh mục hiển thị lại nhỏ bất thường.</string>
+    <string name="startup_package_low_inventory_detail">Số gói hiện đang hiển thị: %1$d. Quá trình khởi động vẫn tiếp tục, nhưng Dangerous Apps sẽ xem tình trạng danh mục thấp này như bằng chứng lọc tiềm năng.</string>
+    <string name="startup_package_ready_headline">Danh mục PackageManager có vẻ đầy đủ.</string>
+    <string name="startup_package_ready_detail">Số gói hiện đang hiển thị: %1$d. Dangerous Apps có thể dùng đường danh mục gói tiêu chuẩn.</string>
+</resources>

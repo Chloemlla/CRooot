@@ -1,0 +1,129 @@
+name: Android SDK CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - "sdk/**"
+      - "build-logic/**"
+      - "gradle/**"
+      - "*.gradle.kts"
+      - "*.properties"
+      - "gradlew"
+      - "gradle/wrapper/**"
+      - ".github/workflows/android-sdk-ci.yml"
+  pull_request:
+    paths:
+      - "sdk/**"
+      - "build-logic/**"
+      - "gradle/**"
+      - "*.gradle.kts"
+      - "*.properties"
+      - "gradlew"
+      - "gradle/wrapper/**"
+      - ".github/workflows/android-sdk-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-sdk-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Keep these package identifiers exact and in sync with gradle.properties.
+  ANDROID_PLATFORM: "37"
+  ANDROID_BUILD_TOOLS: "37.0.0"
+  ANDROID_NDK: "30.0.15729638"
+  ANDROID_CMAKE: "4.1.2"
+
+jobs:
+  sdk-check:
+    name: Check and build SDK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK tooling
+        uses: android-actions/setup-android@v3
+
+      - name: Verify declared Android toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          expected = {
+              "duckdetector.android.compileSdk": "37",
+              "duckdetector.android.buildTools": "37.0.0",
+              "duckdetector.android.ndk": "30.0.15729638",
+              "duckdetector.android.cmake": "4.1.2",
+          }
+          properties = {}
+          for raw_line in Path("gradle.properties").read_text(encoding="utf-8").splitlines():
+              line = raw_line.strip()
+              if line and not line.startswith("#") and "=" in line:
+                  key, value = line.split("=", 1)
+                  properties[key.strip()] = value.strip()
+
+          mismatches = {
+              key: (properties.get(key), value)
+              for key, value in expected.items()
+              if properties.get(key) != value
+          }
+          if mismatches:
+              raise SystemExit(f"Gradle toolchain properties do not match the workflow: {mismatches}")
+          PY
+
+      - name: Install exact Android SDK packages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          yes | sdkmanager --sdk_root="${ANDROID_SDK_ROOT}" --licenses >/dev/null
+          sdkmanager --sdk_root="${ANDROID_SDK_ROOT}" --install \
+            "platform-tools" \
+            "platforms;android-${ANDROID_PLATFORM}" \
+            "build-tools;${ANDROID_BUILD_TOOLS}" \
+            "cmake;${ANDROID_CMAKE}" \
+            "ndk;${ANDROID_NDK}"
+
+          test -x "${ANDROID_SDK_ROOT}/platform-tools/adb"
+          test -f "${ANDROID_SDK_ROOT}/platforms/android-${ANDROID_PLATFORM}/android.jar"
+          test -x "${ANDROID_SDK_ROOT}/build-tools/${ANDROID_BUILD_TOOLS}/aapt2"
+          test -x "${ANDROID_SDK_ROOT}/cmake/${ANDROID_CMAKE}/bin/cmake"
+          test -f "${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK}/source.properties"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make Gradle wrapper executable
+        shell: bash
+        run: chmod +x ./gradlew
+
+      - name: Run SDK lint and remote build
+        shell: bash
+        run: ./gradlew --no-daemon --stacktrace :sdk:lintRelease :sdk:assembleRelease
+
+      - name: Upload SDK AARs
+        uses: actions/upload-artifact@v4
+        with:
+          name: crooot-sdk-aars-${{ github.sha }}
+          path: sdk/build/outputs/aar/*.aar
+          if-no-files-found: error

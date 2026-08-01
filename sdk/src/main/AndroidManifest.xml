@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+        <service
+            android:name="com.eltavine.duckdetector.features.zygisk.data.fdtrap.ZygiskFdTrapDetectorService"
+            android:exported="false"
+            android:process=":zygisk_fd_detector" />
+        <service
+            android:name="com.eltavine.duckdetector.features.virtualization.data.service.VirtualizationProbeService"
+            android:exported="false"
+            android:process=":virtualization_probe" />
+        <service
+            android:name="com.eltavine.duckdetector.features.virtualization.data.service.VirtualizationIsolatedProbeService"
+            android:exported="false"
+            android:isolatedProcess="true" />
+        <service
+            android:name="com.eltavine.duckdetector.features.selinux.data.service.SelinuxContextValidityCarrierService"
+            android:exported="false"
+            android:isolatedProcess="true" />
+        <service
+            android:name="com.eltavine.duckdetector.features.tee.data.verification.keystore.TeeGrantDomainGranteeService"
+            android:exported="false"
+            android:isolatedProcess="true" />
+    </application>
+</manifest>

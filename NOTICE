@@ -1,0 +1,27 @@
+CRooot NOTICE
+
+CRooot combines original integration and SDK facade code with detector code retained from two source projects. Copyright and license notices must remain with the corresponding source and binary distributions.
+
+1. Duck Detector / Duck-Detector-Refactoring
+
+The Duck detector implementation under `sdk/src/main/java/com/eltavine/duckdetector/` and its associated native and resource files are attributed to Duck Apps Contributor and are licensed under the Apache License, Version 2.0. The license text is in `LICENSE`. Preserve the Apache license and copyright notices when redistributing this material.
+
+Original project: https://github.com/eltavine/Duck-Detector-Refactoring
+License: https://www.apache.org/licenses/LICENSE-2.0
+
+2. KKND Root Detector
+
+The KKND detector implementation retained under `sdk/src/main/java/com/juanma0511/rootdetector/` and `legacy/kknd-root-detector/` is attributed to Juan Martin, Copyright (c) 2026, and is licensed under the MIT License. Preserve the MIT notice and permission text in `legacy/kknd-root-detector/LICENSE-MIT` when redistributing this material.
+
+Original project: https://github.com/juanma0511/Kknd_Root_Detector
+License: `legacy/kknd-root-detector/LICENSE-MIT`
+
+3. DirtySepolicy provenance blocker
+
+The DirtySepolicy-related Java, Kotlin, AIDL, and native integration copied into the KKND tree has not been tied to a verified upstream repository, copyright statement, or redistribution license in this snapshot. This is a release blocker. Do not redistribute the affected source or any binary containing it until provenance and the required upstream notice are verified and recorded here.
+
+4. Private-key security blocker
+
+The original Duck snapshot contained a marker private key. CRooot removed that material from the current tree. A private key must never ship in an SDK, AAR, APK, source archive, or release artifact; release checks must continue to fail closed if private-key material is reintroduced. Any originally exposed key must be rotated or revoked outside this repository.
+
+Other dependencies retain their own licenses and notices in the project dependency metadata. This file does not replace those notices or grant rights beyond the applicable license.

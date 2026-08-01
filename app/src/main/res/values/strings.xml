@@ -1,0 +1,180 @@
+<!--
+Copyright 2026 Duck Apps Contributor
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<resources>
+    <string name="duck_logo_description">Duck Detector logo</string>
+    <string name="social_github">GitHub</string>
+    <string name="social_telegram">Telegram</string>
+    <string name="user_agreement">User Agreement</string>
+    <string name="disclaimer">&amp; Disclaimer</string>
+    <string name="please_read_carefully">Please read carefully before continuing</string>
+    <string name="agreement_risk_title">High-risk use reminder</string>
+    <string name="agreement_risk_body_emphasis">Do not treat any single result as a final legal, compliance, warranty, or security conclusion.</string>
+    <string name="agreement_risk_body_template">Duck Detector provides reference signals only. %1$s Always combine the app\'s output with manual verification, upstream evidence, and your own risk assessment before taking action.</string>
+    <string name="user_agreement_title">User Agreement</string>
+    <string name="user_agreement_content" formatted="false">By using Duck Detector, you agree to the following terms:&#10;&#10;1. Purpose of use&#10;This application is designed solely for educational and personal security-assessment purposes. It helps users understand the security status of their own devices.&#10;&#10;2. No warranty&#10;This application is provided &quot;as is&quot; without any warranties, express or implied. The developers do not guarantee the accuracy, completeness, or reliability of detection results.&#10;&#10;3. User responsibility&#10;You are solely responsible for how you use this application and any consequences that may arise from its use.&#10;&#10;4. Compliance with laws&#10;You agree to use this application in compliance with all applicable local, national, and international laws and regulations.</string>
+    <string name="disclaimer_title">Disclaimer</string>
+    <string name="disclaimer_content" formatted="false">IMPORTANT NOTICE:&#10;&#10;1. Detection limitations&#10;Duck Detector uses various methods to detect device security status, but no detection method is 100&#37; accurate. Results should be considered indicators rather than definitive assessments.&#10;&#10;2. False positives and false negatives&#10;The application may produce false positives or false negatives. Always use professional security tools and your own verification for comprehensive assessment.&#10;&#10;3. No liability&#10;The developers, contributors, and distributors of Duck Detector shall not be held liable for any direct, indirect, incidental, special, or consequential damages arising from the use or inability to use this application.&#10;&#10;4. Third-party services&#10;TEE revocation checks use a built-in snapshot by default. If you allow online revocation refresh, the app may contact the Google attestation revocation endpoint. Security scans themselves still run locally on your device, and detector findings are not intentionally uploaded as scan telemetry.</string>
+    <string name="privacy_notice_title">Privacy Notice</string>
+    <string name="privacy_notice_content" formatted="false">Privacy summary: Security checks run locally on your device. Detector findings are not intentionally uploaded as scan telemetry. TEE revocation checks use a built-in snapshot by default; if you allow online revocation refresh, the app may contact the Google attestation revocation endpoint.</string>
+    <string name="timer_elapsed">30 seconds elapsed</string>
+    <string name="timer_waiting">Please wait %1$ds</string>
+    <string name="fully_reviewed">Fully reviewed</string>
+    <string name="scroll_to_bottom">Scroll to bottom</string>
+    <string name="i_agree_continue">I Agree &amp; Continue</string>
+    <string name="complete_all_conditions">Complete all conditions</string>
+    <string name="agreement_acknowledgement">By continuing, you acknowledge that you have read and agree to these terms.</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Runtime controls for online verification paths.</string>
+    <string name="settings_crl_title">Allow online CRL refresh</string>
+    <string name="settings_crl_summary">TEE revocation checks always use the built-in snapshot; this only permits fetching Google\'s latest attestation revocation feed.</string>
+    <string name="settings_crl_footer">Changes apply immediately to online refresh behavior. Built-in TEE revocation checks remain enabled.</string>
+    <string name="about_title">About</string>
+    <string name="about_subtitle">Project links and build metadata.</string>
+    <string name="about_label_version">Version</string>
+    <string name="about_value_version">%1$s (%2$d)</string>
+    <string name="about_label_website">Website</string>
+    <string name="about_label_email">Email</string>
+    <string name="about_label_build_time">Build Time</string>
+    <string name="about_value_build_time">%1$s UTC</string>
+    <string name="about_label_build_hash">Build Hash</string>
+    <string name="about_label_privacy">Privacy / Data Use</string>
+    <string name="about_privacy_summary">Checks run locally on-device. Built-in TEE revocation data is bundled with the app; online CRL refresh is optional and only happens if you enable it in Settings.</string>
+    <string name="about_label_copy_build_info">Copy Build Info</string>
+    <string name="about_copy_build_info_summary">Copy version, build time and build hash</string>
+    <string name="about_clipboard_label">Duck Detector build info</string>
+    <string name="about_clipboard_version_line">Version: %1$s (%2$d)</string>
+    <string name="about_clipboard_build_time_line">Build Time (UTC): %1$s UTC</string>
+    <string name="about_clipboard_build_hash_line">Build Hash: %1$s</string>
+    <string name="about_copy_toast">Build info copied</string>
+    <string name="tee_diagnostic_clipboard_label">TEE diagnostic detail</string>
+    <string name="tee_diagnostic_copied_toast">Diagnostic detail copied</string>
+    <string name="author_summary_eltavine">Contributed UI, C++, ASM and Kotlin.</string>
+    <string name="author_summary_baka">TEE &amp; Zygisk</string>
+    <string name="author_summary_xiaotong">TEE (C++, Kotlin)</string>
+    <string name="author_summary_searchur">Dashboard, Dangerous Apps and Zygisk</string>
+    <string name="author_summary_wxx">CI (Kotlin)</string>
+    <string name="author_summary_alex">SELinux(C++, Kotlin)</string>
+    <string name="author_summary_hsskyboy">Repository fixes, Kernel Check</string>
+    <string name="author_summary_lingqing">TEE</string>
+    <string name="author_summary_sqmy">Kotlin</string>
+    <string name="author_summary_victor">CI</string>
+    <string name="author_summary_zg089">Arabic translation</string>
+    <string name="author_summary_coolzyd">Kernel Check</string>
+    <string name="author_summary_947409161">Ukrainian translation</string>
+    <string name="author_summary_qwq233">TEE</string>
+    <string name="author_summary_mirin">UI</string>
+    <string name="author_summary_aviraxp">SELinux and LSPosed false-positive report</string>
+    <string name="author_summary_5ec1cff">SELinux and LSPosed false-positive finding</string>
+    <string name="author_summary_default">Contributor</string>
+    <string name="author_swipe_hint_single">Swipe left or right to browse authors.</string>
+    <string name="author_swipe_hint_paged">Swipe left or right to browse authors. %1$d/%2$d</string>
+    <string name="author_boundary_toast">Finality</string>
+    <string name="licenses_entry_label">Transparency</string>
+    <string name="licenses_entry_title">Open-source libraries</string>
+    <string name="licenses_entry_subtitle">Browse bundled third-party projects and inspect their license notices.</string>
+    <string name="licenses_screen_back">Back</string>
+    <string name="licenses_screen_title">Open-source licenses</string>
+    <string name="licenses_screen_subtitle">Third-party components bundled in this build.</string>
+    <string name="licenses_inventory_title">Bundled library inventory</string>
+    <string name="licenses_inventory_subtitle">Tap any dependency to inspect license text and upstream project links.</string>
+    <string name="licenses_dialog_close">Close</string>
+    <string name="licenses_dialog_home_page">Home page</string>
+    <string name="licenses_dialog_source_repo">Source repo</string>
+    <string name="licenses_dialog_version">Version %1$s</string>
+    <string name="licenses_dialog_licenses">Licenses: %1$s</string>
+    <string name="licenses_dialog_open">Open</string>
+    <string name="licenses_dialog_no_license_text">No license text available.</string>
+    <string name="alpha_title">ALPHA BUILD</string>
+    <string name="alpha_banner">ALPHA</string>
+    <string name="alpha_message">This build is an alpha testing build. Because it includes a large-scale refactor touching C++ and assembly, unstable crashes may occur.</string>
+    <string name="alpha_warning_runtime">Unexpected startup failures or runtime crashes can still happen in this branch.</string>
+    <string name="alpha_warning_report">If you hit a problem, please report it. Clear reproduction steps are especially useful.</string>
+    <string name="alpha_warning_download">If you do not know how to capture crash logs, download AppErrorsTracking from one of the links below.</string>
+    <string name="alpha_helper">Crash Log Helper: AppErrorsTracking is available on GitHub Actions and Telegram CI.</string>
+    <string name="alpha_dismiss_ready">You can dismiss this warning now.</string>
+    <string name="alpha_dismiss_waiting">Dismiss available in %1$ds.</string>
+    <string name="alpha_continue">I understand, continue</string>
+    <string name="alpha_continue_waiting">I understand (%1$ds)</string>
+    <string name="screen_capture_title">Screenshot detected</string>
+    <string name="screen_capture_message">If the screenshot does not contain detailed information, this issue will not be handled.</string>
+    <string name="dialog_continue">Continue</string>
+    <string name="dialog_continue_waiting">Continue (%1$ds)</string>
+    <string name="detector_result_title">Before asking for help</string>
+    <string name="detector_result_notice">Provide complete information to get help.</string>
+    <string name="detector_result_detail">Danger and warning cards were expanded automatically for full review.</string>
+    <string name="startup_review_label">Startup policy review</string>
+    <string name="startup_preparing_title">Preparing startup</string>
+    <string name="startup_before_scan_title">Before the scan</string>
+    <string name="startup_loading_detail">Preferences and PackageManager visibility are still being loaded. Detector ViewModels stay paused until this completes.</string>
+    <string name="startup_intro_detail">Finish the required choices before detector scans begin. Notifications, Live Update routing, CRL online refresh, and PackageManager visibility are reviewed here in one place. The detector pipeline remains blocked until every required card below is settled.</string>
+    <string name="startup_loading_state">Loading startup state…</string>
+    <string name="startup_progress_resolved">%1$d of %2$d startup cards resolved</string>
+    <string name="startup_loading_dependencies_title">Loading startup dependencies</string>
+    <string name="startup_loading_dependencies_detail">Reading consent stores and PackageManager visibility before any detector starts.</string>
+    <string name="startup_status_ready">Ready</string>
+    <string name="startup_status_action_required">Action required</string>
+    <string name="startup_status_skipped">Skipped</string>
+    <string name="startup_status_unsupported">Unsupported</string>
+    <string name="startup_status_waiting">Waiting</string>
+    <string name="startup_status_regular">Regular</string>
+    <string name="startup_status_local">Local</string>
+    <string name="startup_status_optional">Optional</string>
+    <string name="startup_status_acknowledged">Acknowledged</string>
+    <string name="startup_status_review_later">Review later</string>
+    <string name="startup_notifications_title">Notifications</string>
+    <string name="startup_notifications_ready_headline">Scan notifications are enabled.</string>
+    <string name="startup_notifications_ready_detail">Duck Detector can publish scan-progress notifications while detector cards collect evidence.</string>
+    <string name="startup_notifications_prompt_headline">Choose whether scan progress may post notifications.</string>
+    <string name="startup_notifications_prompt_detail_api33">Android %1$d requires runtime notification permission. Startup scanning stays blocked until you allow it or explicitly continue without it.</string>
+    <string name="startup_notifications_prompt_detail_legacy">This Android version does not require a runtime notification prompt, but the startup policy still needs to record your choice.</string>
+    <string name="startup_notifications_allow">Allow notifications</string>
+    <string name="startup_notifications_skip">Skip</string>
+    <string name="startup_notifications_skipped_headline">Notifications were skipped.</string>
+    <string name="startup_notifications_skipped_detail">Scan progress will stay inside the app until you grant notification permission later.</string>
+    <string name="startup_live_update_title">Live Update</string>
+    <string name="startup_live_update_unsupported_headline">Promoted ongoing notifications are not available on this Android version.</string>
+    <string name="startup_live_update_unsupported_detail">Duck Detector will use a regular notification path when notification permission is available.</string>
+    <string name="startup_live_update_waiting_headline">Live Update depends on the notification path.</string>
+    <string name="startup_live_update_waiting_detail">Grant notification permission first. If you keep notifications disabled, this card will fall back to regular in-app progress only.</string>
+    <string name="startup_live_update_ready_headline">Promoted ongoing notifications are allowed.</string>
+    <string name="startup_live_update_ready_detail">On supported Android versions, scan progress can surface through the richer Live Update path.</string>
+    <string name="startup_live_update_prompt_headline">Choose whether to use the Android Live Update path.</string>
+    <string name="startup_live_update_prompt_detail">Duck Detector can open the system page for promoted ongoing notifications. If you skip this, scan progress falls back to a regular notification.</string>
+    <string name="startup_live_update_open_settings">Open settings</string>
+    <string name="startup_live_update_use_regular">Use regular</string>
+    <string name="startup_live_update_regular_headline">Regular notifications were selected.</string>
+    <string name="startup_live_update_regular_detail">Promoted ongoing notifications stay disabled. Scan progress will use the regular notification path instead.</string>
+    <string name="startup_crl_title">CRL online refresh</string>
+    <string name="startup_crl_prompt_headline">Choose whether TEE revocation checks may fetch online updates.</string>
+    <string name="startup_crl_prompt_detail">Duck Detector always checks the built-in revocation snapshot. Allowing network lets it fetch Google\'s latest attestation revocation feed during TEE validation.</string>
+    <string name="startup_crl_allow_network">Allow refresh</string>
+    <string name="startup_crl_local_only">Built-in only</string>
+    <string name="startup_crl_ready_headline">Online CRL refresh is allowed.</string>
+    <string name="startup_crl_ready_detail">TEE validation checks the built-in snapshot and may refresh Google\'s attestation revocation feed whenever network conditions permit.</string>
+    <string name="startup_crl_local_headline">TEE revocation checks use the built-in snapshot.</string>
+    <string name="startup_crl_local_detail">Duck Detector will not perform online CRL refresh until you re-enable it in Settings. Built-in revocation checks remain active.</string>
+    <string name="startup_package_manager_title">PackageManager</string>
+    <string name="startup_package_restricted_headline">Package inventory looks scoped or filtered.</string>
+    <string name="startup_package_restricted_detail">PackageManager exposed only %1$d installed packages. Dangerous Apps and related probes can under-report installed tools under restricted visibility, scoped inventory, or HMA-style filtering.</string>
+    <string name="startup_package_continue_anyway">Continue anyway</string>
+    <string name="startup_package_ack_headline">Restricted PackageManager visibility was acknowledged.</string>
+    <string name="startup_package_ack_detail">Current visible package count: %1$d. Dangerous Apps findings may be conservative under this inventory scope.</string>
+    <string name="startup_package_low_inventory_headline">PackageManager looks full but the visible inventory is unusually small.</string>
+    <string name="startup_package_low_inventory_detail">Current visible package count: %1$d. Startup will continue, but Dangerous Apps will review this low-inventory condition as potential filtering evidence.</string>
+    <string name="startup_package_ready_headline">PackageManager inventory looks full.</string>
+    <string name="startup_package_ready_detail">Current visible package count: %1$d. Dangerous Apps can use the standard package inventory path.</string>
+</resources>

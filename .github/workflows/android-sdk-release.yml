@@ -1,0 +1,156 @@
+name: Android SDK Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to publish when running manually (defaults to crooot.version)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: android-sdk-release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # These package identifiers must match the SDK's Gradle configuration.
+  ANDROID_PLATFORM: "37"
+  ANDROID_BUILD_TOOLS: "37.0.0"
+  ANDROID_NDK: "30.0.15729638"
+  ANDROID_CMAKE: "4.1.2"
+
+jobs:
+  publish:
+    name: Publish SDK to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK tooling
+        uses: android-actions/setup-android@v3
+
+      - name: Resolve and validate release version
+        id: release
+        shell: bash
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          configured_version=$(sed -n 's/^crooot\.version=//p' gradle.properties | head -n 1)
+          if [ -z "${configured_version}" ]; then
+            echo "crooot.version is missing from gradle.properties." >&2
+            exit 1
+          fi
+
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            release_version="${GITHUB_REF_NAME#v}"
+            if [ "${release_version}" != "${configured_version}" ]; then
+              echo "Tag version ${release_version} does not match crooot.version ${configured_version}." >&2
+              exit 1
+            fi
+          elif [ -n "${INPUT_VERSION}" ]; then
+            release_version="${INPUT_VERSION}"
+          else
+            release_version="${configured_version}"
+          fi
+
+          if [[ ! "${release_version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid Maven version: ${release_version}" >&2
+            exit 1
+          fi
+
+          echo "version=${release_version}" >> "${GITHUB_OUTPUT}"
+
+      - name: Verify declared Android toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          expected = {
+              "duckdetector.android.compileSdk": "37",
+              "duckdetector.android.buildTools": "37.0.0",
+              "duckdetector.android.ndk": "30.0.15729638",
+              "duckdetector.android.cmake": "4.1.2",
+          }
+          properties = {}
+          for raw_line in Path("gradle.properties").read_text(encoding="utf-8").splitlines():
+              line = raw_line.strip()
+              if line and not line.startswith("#") and "=" in line:
+                  key, value = line.split("=", 1)
+                  properties[key.strip()] = value.strip()
+
+          mismatches = {
+              key: (properties.get(key), value)
+              for key, value in expected.items()
+              if properties.get(key) != value
+          }
+          if mismatches:
+              raise SystemExit(f"Gradle toolchain properties do not match the workflow: {mismatches}")
+          PY
+
+      - name: Install exact Android SDK packages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          yes | sdkmanager --sdk_root="${ANDROID_SDK_ROOT}" --licenses >/dev/null
+          sdkmanager --sdk_root="${ANDROID_SDK_ROOT}" --install \
+            "platform-tools" \
+            "platforms;android-${ANDROID_PLATFORM}" \
+            "build-tools;${ANDROID_BUILD_TOOLS}" \
+            "cmake;${ANDROID_CMAKE}" \
+            "ndk;${ANDROID_NDK}"
+
+          test -x "${ANDROID_SDK_ROOT}/platform-tools/adb"
+          test -f "${ANDROID_SDK_ROOT}/platforms/android-${ANDROID_PLATFORM}/android.jar"
+          test -x "${ANDROID_SDK_ROOT}/build-tools/${ANDROID_BUILD_TOOLS}/aapt2"
+          test -x "${ANDROID_SDK_ROOT}/cmake/${ANDROID_CMAKE}/bin/cmake"
+          test -f "${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK}/source.properties"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make Gradle wrapper executable
+        shell: bash
+        run: chmod +x ./gradlew
+
+      - name: Publish release Maven publication
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          ./gradlew --no-daemon --stacktrace
+          -Pcrooot.version=${{ steps.release.outputs.version }}
+          :sdk:publishReleasePublicationToGitHubPackagesRepository
+
+      - name: Upload published SDK AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: crooot-sdk-release-${{ steps.release.outputs.version }}
+          path: sdk/build/outputs/aar/*.aar
+          if-no-files-found: error

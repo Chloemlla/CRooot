@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2026 Duck Apps Contributor
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<issues format="6" by="lint 9.1.0" type="baseline" client="gradle" dependencies="false"
+    name="AGP (9.1.0)" variant="all" version="9.1.0">
+
+    <issue id="PrivateApi"
+        message="Accessing internal APIs via reflection is not supported and may not work on all devices or in the future"
+        errorLine1="            val clazz = Class.forName(&quot;android.os.SystemProperties&quot;)"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/tee/data/verification/boot/BootConsistencyProbe.kt"
+            line="122" column="25" />
+    </issue>
+
+    <issue id="PrivateApi"
+        message="Accessing internal APIs via reflection is not supported and may not work on all devices or in the future"
+        errorLine1="            val clazz = Class.forName(&quot;android.os.SystemProperties&quot;)"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/customrom/data/repository/CustomRomRepository.kt"
+            line="433" column="25" />
+    </issue>
+
+    <issue id="PrivateApi"
+        message="Accessing internal APIs via reflection is not supported and may not work on all devices or in the future"
+        errorLine1="            val clazz = Class.forName(&quot;android.os.SystemProperties&quot;)"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/playintegrityfix/data/utils/PlayIntegrityPropertyReadUtils.kt"
+            line="57" column="25" />
+    </issue>
+
+    <issue id="PrivateApi"
+        message="Accessing internal APIs via reflection is not supported and may not work on all devices or in the future"
+        errorLine1="            val clazz = Class.forName(&quot;android.os.SystemProperties&quot;)"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/systemproperties/data/utils/SystemPropertyReadUtils.kt"
+            line="67" column="25" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/MT2&quot; to &quot;bin.mt.termex&quot;,"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="171" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/NP&quot; to &quot;com.wn.app.np&quot;,"
+        errorLine2="         ~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="172" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/xinhao&quot; to &quot;com.termux&quot;,"
+        errorLine2="         ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="173" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/Download/advanced/&quot; to &quot;com.byyoung.setting&quot;,"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="174" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/.OShin&quot; to &quot;com.suqi8.oshin&quot;,"
+        errorLine2="         ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="175" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/MT2&quot;," errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="179" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/NP&quot;," errorLine2="         ~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="180" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/xinhao&quot;," errorLine2="         ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="181" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/Download/advanced/&quot;,"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="182" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        &quot;/sdcard/.OShin&quot;," errorLine2="         ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/rules/DangerousAppsCatalog.kt"
+            line="183" column="10" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        listOf(&quot;/sdcard/Android/data&quot;, &quot;/sdcard/Android/obb&quot;).forEach { targetPath ->"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/repository/DangerousAppsRepository.kt"
+            line="209" column="17" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        listOf(&quot;/sdcard/Android/data&quot;, &quot;/sdcard/Android/obb&quot;).forEach { targetPath ->"
+        errorLine2="                                        ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/repository/DangerousAppsRepository.kt"
+            line="209" column="41" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        val basePath = &quot;/sdcard/Android/data/&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/repository/DangerousAppsRepository.kt"
+            line="222" column="25" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        val targetDirs = listOf(&quot;/sdcard/Android/data&quot;, &quot;/sdcard/Android/obb&quot;)"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/repository/DangerousAppsRepository.kt"
+            line="229" column="34" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        val targetDirs = listOf(&quot;/sdcard/Android/data&quot;, &quot;/sdcard/Android/obb&quot;)"
+        errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/repository/DangerousAppsRepository.kt"
+            line="229" column="58" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="                    &quot;/sdcard/${bypassChar}Android/${targetPath.substringAfterLast(&quot;/&quot;)}&quot;,"
+        errorLine2="                     ~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/repository/DangerousAppsRepository.kt"
+            line="238" column="22" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="                    &quot;/sdcard$bypassChar/Android/${targetPath.substringAfterLast(&quot;/&quot;)}&quot;,"
+        errorLine2="                     ~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/dangerousapps/data/repository/DangerousAppsRepository.kt"
+            line="239" column="22" />
+    </issue>
+
+    <issue id="SdCardPath"
+        message="Do not hardcode &quot;/sdcard/&quot;; use `Environment.getExternalStorageDirectory().getPath()` instead"
+        errorLine1="        val targetPath = &quot;/sdcard/Android/data&quot;"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/kernelcheck/data/repository/KernelCheckRepository.kt"
+            line="606" column="27" />
+    </issue>
+
+    <issue id="NewerVersionAvailable"
+        message="A newer version of org.jetbrains.kotlin.android than 2.3.10 is available: 2.3.20"
+        errorLine1="kotlin = &quot;2.3.10&quot;" errorLine2="         ~~~~~~~~">
+        <location file="$HOME/AndroidStudioProjects/DuckDetector_new/gradle/libs.versions.toml"
+            line="10" column="10" />
+    </issue>
+
+    <issue id="NewerVersionAvailable"
+        message="A newer version of org.jetbrains.kotlin.plugin.compose than 2.3.10 is available: 2.3.20"
+        errorLine1="kotlin = &quot;2.3.10&quot;" errorLine2="         ~~~~~~~~">
+        <location file="$HOME/AndroidStudioProjects/DuckDetector_new/gradle/libs.versions.toml"
+            line="10" column="10" />
+    </issue>
+
+    <issue id="ObsoleteSdkInt" message="Unnecessary; `SDK_INT` is always >= 29"
+        errorLine1="                if (useStrongBox &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {"
+        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/tee/data/keystore/AndroidKeyStoreTools.kt"
+            line="153" column="37" />
+    </issue>
+
+    <issue id="ObsoleteSdkInt" message="Unnecessary; `SDK_INT` is always >= 29"
+        errorLine1="                if (useStrongBox &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {"
+        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/tee/data/keystore/AndroidKeyStoreTools.kt"
+            line="176" column="37" />
+    </issue>
+
+    <issue id="ObsoleteSdkInt" message="Unnecessary; `SDK_INT` is always >= 29"
+        errorLine1="            if (useStrongBox &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/tee/data/verification/keystore/OperationPruningProbe.kt"
+            line="22" column="33" />
+    </issue>
+
+    <issue id="ObsoleteSdkInt" message="Unnecessary; `SDK_INT` is always >= 29"
+        errorLine1="        if (filesystemActive &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/selinux/data/repository/SelinuxRepository.kt"
+            line="697" column="33" />
+    </issue>
+
+    <issue id="ObsoleteSdkInt" message="Unnecessary; `SDK_INT` is always >= 29"
+        errorLine1="            if (useStrongBox &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/eltavine/duckdetector/features/tee/data/verification/keystore/UpdateSubcomponentProbe.kt"
+            line="19" column="33" />
+    </issue>
+
+    <issue id="ObsoleteSdkInt"
+        message="This folder configuration (`v26`) is unnecessary; `minSdkVersion` is 29. Merge all the resources in this folder into `mipmap-anydpi`.">
+        <location file="src/main/res/mipmap-anydpi-v26" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.drawable.ic_notification` appears to be unused"
+        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location file="src/main/res/drawable/ic_notification.xml" line="1" column="1" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.duck_logo_description` appears to be unused"
+        errorLine1="    &lt;string name=&quot;duck_logo_description&quot;>Duck Detector logo&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="3" column="13" />
+    </issue>
+
+    <issue id="UnusedResources" message="The resource `R.string.social_github` appears to be unused"
+        errorLine1="    &lt;string name=&quot;social_github&quot;>GitHub&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="4" column="13" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.social_telegram` appears to be unused"
+        errorLine1="    &lt;string name=&quot;social_telegram&quot;>Telegram&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="5" column="13" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.dashboard_info_card` appears to be unused"
+        errorLine1="    &lt;string name=&quot;dashboard_info_card&quot;>Info Card&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="12" column="13" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.dashboard_system_time` appears to be unused"
+        errorLine1="    &lt;string name=&quot;dashboard_system_time&quot;>System Time&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="13" column="13" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.dashboard_additional` appears to be unused"
+        errorLine1="    &lt;string name=&quot;dashboard_additional&quot;>Additional&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="14" column="13" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.dashboard_detectors` appears to be unused"
+        errorLine1="    &lt;string name=&quot;dashboard_detectors&quot;>Detectors&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="15" column="13" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.card_action_view_details` appears to be unused"
+        errorLine1="    &lt;string name=&quot;card_action_view_details&quot;>View details&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="18" column="13" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.card_action_review_evidence` appears to be unused"
+        errorLine1="    &lt;string name=&quot;card_action_review_evidence&quot;>Review evidence&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="19" column="13" />
+    </issue>
+
+    <issue id="UnusedResources"
+        message="The resource `R.string.card_action_certificate_chain` appears to be unused"
+        errorLine1="    &lt;string name=&quot;card_action_certificate_chain&quot;>Certificate chain&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="20" column="13" />
+    </issue>
+
+</issues>

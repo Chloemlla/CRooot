@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2026 Duck Apps Contributor
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <queries>
+        <package android:name="com.tencent.soter.soterserver" />
+    </queries>
+
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.DETECT_SCREEN_CAPTURE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DuckDetector"
+        android:zygotePreloadName="com.eltavine.duckdetector.features.selinux.data.service.AppZygotePreload"
+        tools:targetApi="tiramisu">
+        <activity
+            android:name="android.app.NativeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:theme="@style/Theme.DuckDetector.Transparent">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="duckdetector" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+        <service
+            android:name=".features.zygisk.data.fdtrap.ZygiskFdTrapDetectorService"
+            android:exported="false"
+            android:process=":zygisk_fd_detector" />
+        <service
+            android:name=".features.virtualization.data.service.VirtualizationProbeService"
+            android:exported="false"
+            android:process=":virtualization_probe" />
+        <service
+            android:name=".features.virtualization.data.service.VirtualizationIsolatedProbeService"
+            android:exported="false"
+            android:isolatedProcess="true" />
+        <service
+            android:name=".features.selinux.data.service.SelinuxContextValidityCarrierService"
+            android:exported="false"
+            android:isolatedProcess="true"
+            android:useAppZygote="true" />
+        <service
+            android:name=".features.tee.data.verification.keystore.TeeGrantDomainGranteeService"
+            android:exported="false"
+            android:isolatedProcess="true"
+            tools:targetApi="oreo" />
+    </application>
+
+</manifest>

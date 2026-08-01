@@ -1,0 +1,166 @@
+<!--
+Copyright 2026 Duck Apps Contributor
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<resources>
+    <string name="duck_logo_description">Duck Detector 標誌</string>
+    <string name="social_github">GitHub</string>
+    <string name="social_telegram">Telegram</string>
+    <string name="user_agreement">使用者協議</string>
+    <string name="disclaimer">及免責聲明</string>
+    <string name="please_read_carefully">請在繼續前仔細閱讀</string>
+    <string name="agreement_risk_title">高風險使用提醒</string>
+    <string name="agreement_risk_body_emphasis">請勿將任何單次結果視為最終的法律、合規、保固或安全結論。</string>
+    <string name="agreement_risk_body_template">Duck Detector 僅提供參考性訊號。%1$s在採取行動前，請務必結合人工核驗、上游證據以及您自己的風險判斷進行綜合評估。</string>
+    <string name="user_agreement_title">使用者協議</string>
+    <string name="user_agreement_content" formatted="false">使用 Duck Detector 即表示您同意以下條款：&#10;&#10;1. 使用目的&#10;本應用僅用於教育用途及個人安全評估，幫助使用者了解其本人裝置的安全狀態。&#10;&#10;2. 不提供保證&#10;本應用按「現況」提供，不附帶任何明示或暗示保證。開發者不保證檢測結果的準確性、完整性或可靠性。&#10;&#10;3. 使用者責任&#10;您需自行對本應用的使用方式及由此產生的任何後果負責。&#10;&#10;4. 法律遵循&#10;您同意依照所有適用的地方法律、國家法律及國際法規使用本應用。</string>
+    <string name="disclaimer_title">免責聲明</string>
+    <string name="disclaimer_content" formatted="false">重要提示：&#10;&#10;1. 檢測侷限性&#10;Duck Detector 使用多種方法檢測裝置安全狀態，但沒有任何檢測方法能做到 100&#37; 準確。結果應視為提示資訊，而非最終定論。&#10;&#10;2. 誤報與漏報&#10;本應用可能出現誤報或漏報。請務必結合專業安全工具與您自己的核驗進行全面判斷。&#10;&#10;3. 免責條款&#10;對於因使用或無法使用本應用而導致的任何直接、間接、附帶、特殊或後果性損失，Duck Detector 的開發者、貢獻者和散佈者概不承擔責任。&#10;&#10;4. 第三方服務&#10;TEE 吊銷檢查預設使用應用內建快照。如果您允許線上吊銷庫更新，應用可能會存取 Google 的 attestation revocation endpoint。安全掃描本身仍在您的裝置本地執行，檢測結果也不會被刻意上傳為掃描遙測。</string>
+    <string name="privacy_notice_title">隱私說明</string>
+    <string name="privacy_notice_content" formatted="false">隱私摘要：安全檢查在您的裝置本地執行。檢測結果不會被刻意上傳為掃描遙測。TEE 吊銷檢查預設使用應用內建快照；如果您允許線上吊銷庫更新，應用可能會存取 Google 的 attestation revocation endpoint。</string>
+    <string name="timer_elapsed">已等待 30 秒</string>
+    <string name="timer_waiting">請等待 %1$d 秒</string>
+    <string name="fully_reviewed">已完整閱讀</string>
+    <string name="scroll_to_bottom">請捲動到底部</string>
+    <string name="i_agree_continue">我同意並繼續</string>
+    <string name="complete_all_conditions">完成所有條件</string>
+    <string name="agreement_acknowledgement">繼續即表示您已閱讀並同意這些條款。</string>
+    <string name="settings_title">設定</string>
+    <string name="settings_subtitle">線上驗證路徑的執行階段控制。</string>
+    <string name="settings_crl_title">允許線上重新整理 CRL</string>
+    <string name="settings_crl_summary">TEE 吊銷檢查始終使用內建快照；此開關只允許取得 Google 最新 attestation revocation feed。</string>
+    <string name="settings_crl_footer">變更會立即套用到線上重新整理行為。內建 TEE 吊銷檢查始終保持啟用。</string>
+    <string name="about_title">關於</string>
+    <string name="about_subtitle">專案連結與建置中繼資料。</string>
+    <string name="about_label_version">版本</string>
+    <string name="about_value_version">%1$s (%2$d)</string>
+    <string name="about_label_website">網站</string>
+    <string name="about_label_email">電子郵件</string>
+    <string name="about_label_build_time">建置時間</string>
+    <string name="about_value_build_time">%1$s UTC</string>
+    <string name="about_label_build_hash">建置雜湊</string>
+    <string name="about_label_privacy">隱私 / 資料使用</string>
+    <string name="about_privacy_summary">檢查在裝置本地執行。應用會內建 TEE 吊銷快照；線上 CRL 重新整理為可選功能，只有在您於設定中啟用後才會執行。</string>
+    <string name="about_label_copy_build_info">複製建置資訊</string>
+    <string name="about_copy_build_info_summary">複製版本、建置時間與建置雜湊</string>
+    <string name="about_clipboard_label">Duck Detector 建置資訊</string>
+    <string name="about_clipboard_version_line">版本：%1$s (%2$d)</string>
+    <string name="about_clipboard_build_time_line">建置時間（UTC）：%1$s UTC</string>
+    <string name="about_clipboard_build_hash_line">建置雜湊：%1$s</string>
+    <string name="about_copy_toast">建置資訊已複製</string>
+    <string name="author_summary_eltavine">負責 UI、C++、ASM 與 Kotlin。</string>
+    <string name="author_summary_baka">TEE 與 Zygisk</string>
+    <string name="author_summary_xiaotong">TEE（C++、Kotlin）</string>
+    <string name="author_summary_wxx">CI（Kotlin）</string>
+    <string name="author_summary_aviraxp">SELinux 與 LSPosed 誤報回報</string>
+    <string name="author_summary_5ec1cff">SELinux 與 LSPosed 誤報發現</string>
+    <string name="author_swipe_hint_single">左右滑動以瀏覽作者。</string>
+    <string name="author_swipe_hint_paged">左右滑動以瀏覽作者。%1$d/%2$d</string>
+    <string name="author_boundary_toast">終點</string>
+    <string name="licenses_entry_label">透明度</string>
+    <string name="licenses_entry_title">開源函式庫</string>
+    <string name="licenses_entry_subtitle">瀏覽此建置內含的第三方專案，並查看其授權聲明。</string>
+    <string name="licenses_screen_back">返回</string>
+    <string name="licenses_screen_title">開源授權</string>
+    <string name="licenses_screen_subtitle">此建置內含的第三方元件。</string>
+    <string name="licenses_inventory_title">內含函式庫清單</string>
+    <string name="licenses_inventory_subtitle">點選任一依賴項即可檢視授權文本與上游專案連結。</string>
+    <string name="licenses_dialog_close">關閉</string>
+    <string name="licenses_dialog_home_page">首頁</string>
+    <string name="licenses_dialog_source_repo">原始碼倉庫</string>
+    <string name="licenses_dialog_version">版本 %1$s</string>
+    <string name="licenses_dialog_licenses">授權：%1$s</string>
+    <string name="licenses_dialog_open">開啟</string>
+    <string name="licenses_dialog_no_license_text">沒有可用的授權文本。</string>
+    <string name="alpha_title">ALPHA 建置</string>
+    <string name="alpha_banner">ALPHA</string>
+    <string name="alpha_message">這是 Alpha 測試建置。由於其中包含涉及 C++ 與組合語言的大規模重構，可能發生不穩定崩潰。</string>
+    <string name="alpha_warning_runtime">此分支仍可能出現意外啟動失敗或執行時崩潰。</string>
+    <string name="alpha_warning_report">如果遇到問題，請盡快回報。清楚的重現步驟會特別有幫助。</string>
+    <string name="alpha_warning_download">如果您不知道如何擷取崩潰日誌，請從下方連結下載 AppErrorsTracking。</string>
+    <string name="alpha_helper">崩潰日誌輔助：AppErrorsTracking 可透過 GitHub Actions 與 Telegram CI 取得。</string>
+    <string name="alpha_dismiss_ready">您現在可以關閉此警告了。</string>
+    <string name="alpha_dismiss_waiting">%1$d 秒後可關閉。</string>
+    <string name="alpha_continue">我已了解，繼續</string>
+    <string name="alpha_continue_waiting">我已了解（%1$d 秒）</string>
+    <string name="screen_capture_title">偵測到截圖</string>
+    <string name="screen_capture_message">如果截圖中不包含詳細資訊，此問題將不會被處理。</string>
+    <string name="dialog_continue">繼續</string>
+    <string name="dialog_continue_waiting">繼續（%1$d 秒）</string>
+    <string name="detector_result_title">在求助之前</string>
+    <string name="detector_result_notice">請提供完整資訊以利獲得協助。</string>
+    <string name="detector_result_detail">危險與警告卡片已自動展開，方便完整檢視。</string>
+    <string name="startup_review_label">啟動策略檢查</string>
+    <string name="startup_preparing_title">正在準備啟動</string>
+    <string name="startup_before_scan_title">掃描之前</string>
+    <string name="startup_loading_detail">偏好設定與 PackageManager 可見性仍在載入中。在此完成前，偵測器 ViewModel 會保持暫停。</string>
+    <string name="startup_intro_detail">請在偵測開始前完成必要選項。通知、Live Update 路由、CRL 線上重新整理與 PackageManager 可見性會在這裡一併檢查。在下方所有必要卡片都處理完成前，偵測流程會持續被阻擋。</string>
+    <string name="startup_loading_state">正在載入啟動狀態…</string>
+    <string name="startup_progress_resolved">已完成 %1$d / %2$d 個啟動卡片</string>
+    <string name="startup_loading_dependencies_title">正在載入啟動相依項</string>
+    <string name="startup_loading_dependencies_detail">在任何偵測器啟動前，先讀取同意儲存與 PackageManager 可見性。</string>
+    <string name="startup_status_ready">已就緒</string>
+    <string name="startup_status_action_required">需要操作</string>
+    <string name="startup_status_skipped">已跳過</string>
+    <string name="startup_status_unsupported">不支援</string>
+    <string name="startup_status_waiting">等待中</string>
+    <string name="startup_status_regular">一般</string>
+    <string name="startup_status_local">本地</string>
+    <string name="startup_status_optional">可選</string>
+    <string name="startup_status_acknowledged">已確認</string>
+    <string name="startup_status_review_later">稍後檢查</string>
+    <string name="startup_notifications_title">通知</string>
+    <string name="startup_notifications_ready_headline">掃描通知已啟用。</string>
+    <string name="startup_notifications_ready_detail">Duck Detector 可在偵測卡片蒐集證據時發佈掃描進度通知。</string>
+    <string name="startup_notifications_prompt_headline">請選擇是否允許掃描進度發送通知。</string>
+    <string name="startup_notifications_prompt_detail_api33">Android %1$d 需要執行時通知權限。在您允許或明確選擇不啟用之前，啟動掃描會保持阻擋。</string>
+    <string name="startup_notifications_prompt_detail_legacy">目前 Android 版本不需要執行時通知提示，但啟動策略仍需記錄您的選擇。</string>
+    <string name="startup_notifications_allow">允許通知</string>
+    <string name="startup_notifications_skip">跳過</string>
+    <string name="startup_notifications_skipped_headline">已跳過通知。</string>
+    <string name="startup_notifications_skipped_detail">在您稍後授予通知權限之前，掃描進度都只會顯示在應用內。</string>
+    <string name="startup_live_update_title">Live Update</string>
+    <string name="startup_live_update_unsupported_headline">目前 Android 版本不支援提升型持續通知。</string>
+    <string name="startup_live_update_unsupported_detail">在擁有通知權限時，Duck Detector 將改用一般通知路徑。</string>
+    <string name="startup_live_update_waiting_headline">Live Update 依賴通知路徑。</string>
+    <string name="startup_live_update_waiting_detail">請先授予通知權限。如果您持續停用通知，此卡片將退回為僅在應用內顯示進度。</string>
+    <string name="startup_live_update_ready_headline">已允許提升型持續通知。</string>
+    <string name="startup_live_update_ready_detail">在支援的 Android 版本上，掃描進度可透過更豐富的 Live Update 路徑顯示。</string>
+    <string name="startup_live_update_prompt_headline">請選擇是否使用 Android Live Update 路徑。</string>
+    <string name="startup_live_update_prompt_detail">Duck Detector 可以開啟系統中的提升型持續通知設定頁。如果跳過，掃描進度將退回到一般通知。</string>
+    <string name="startup_live_update_open_settings">開啟設定</string>
+    <string name="startup_live_update_use_regular">使用一般通知</string>
+    <string name="startup_live_update_regular_headline">已選擇一般通知。</string>
+    <string name="startup_live_update_regular_detail">提升型持續通知將保持停用，掃描進度會改用一般通知路徑。</string>
+    <string name="startup_crl_title">CRL 線上重新整理</string>
+    <string name="startup_crl_prompt_headline">請選擇是否允許 TEE 吊銷檢查取得線上更新。</string>
+    <string name="startup_crl_prompt_detail">Duck Detector 始終會檢查內建吊銷快照。允許連線後，可在 TEE 驗證期間取得 Google 最新 attestation revocation feed。</string>
+    <string name="startup_crl_allow_network">允許重新整理</string>
+    <string name="startup_crl_local_only">僅內建庫</string>
+    <string name="startup_crl_ready_headline">已允許線上 CRL 重新整理。</string>
+    <string name="startup_crl_ready_detail">TEE 驗證會檢查內建快照，並可在網路條件允許時重新整理 Google 的 attestation revocation feed。</string>
+    <string name="startup_crl_local_headline">TEE 吊銷檢查使用內建快照。</string>
+    <string name="startup_crl_local_detail">在您重新於設定中啟用之前，Duck Detector 不會執行線上 CRL 重新整理。內建吊銷檢查始終保持啟用。</string>
+    <string name="startup_package_manager_title">PackageManager</string>
+    <string name="startup_package_restricted_headline">套件清單看起來受到限制或過濾。</string>
+    <string name="startup_package_restricted_detail">PackageManager 僅暴露了 %1$d 個已安裝套件。在可見性受限、範圍化清單或類似 HMA 的過濾下，Dangerous Apps 與相關探針可能低報已安裝工具。</string>
+    <string name="startup_package_continue_anyway">仍然繼續</string>
+    <string name="startup_package_ack_headline">已確認受限的 PackageManager 可見性。</string>
+    <string name="startup_package_ack_detail">目前可見套件數量：%1$d。在這種清單範圍下，Dangerous Apps 的結果可能會更保守。</string>
+    <string name="startup_package_low_inventory_headline">PackageManager 看起來完整，但可見清單異常偏少。</string>
+    <string name="startup_package_low_inventory_detail">目前可見套件數量：%1$d。啟動將繼續，但 Dangerous Apps 會將這種低清單狀態視為潛在過濾證據加以檢查。</string>
+    <string name="startup_package_ready_headline">PackageManager 清單看起來完整。</string>
+    <string name="startup_package_ready_detail">目前可見套件數量：%1$d。Dangerous Apps 可以使用標準的套件清單路徑。</string>
+</resources>

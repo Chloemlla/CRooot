@@ -1,0 +1,164 @@
+<!--
+Copyright 2026 Duck Apps Contributor
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<resources>
+    <string name="duck_logo_description">Duck Detector 로고</string>
+    <string name="social_github">GitHub</string>
+    <string name="social_telegram">Telegram</string>
+    <string name="user_agreement">사용자 동의</string>
+    <string name="disclaimer">및 면책 고지</string>
+    <string name="please_read_carefully">계속하기 전에 주의 깊게 읽어 주세요</string>
+    <string name="agreement_risk_title">고위험 사용 안내</string>
+    <string name="agreement_risk_body_emphasis">단일 결과 하나만으로 법률, 규정 준수, 보증 또는 보안에 대한 최종 결론을 내려서는 안 됩니다.</string>
+    <string name="agreement_risk_body_template">Duck Detector는 참고용 신호만 제공합니다. %1$s 조치를 취하기 전에 반드시 수동 검증, 상류 근거, 그리고 사용자의 자체 위험 평가를 함께 확인해 주세요.</string>
+    <string name="user_agreement_title">사용자 동의</string>
+    <string name="user_agreement_content" formatted="false">Duck Detector를 사용함으로써 다음 조건에 동의하게 됩니다:&#10;&#10;1. 사용 목적&#10;이 앱은 교육 목적과 개인 보안 점검 용도로만 설계되었으며, 사용자가 자신의 기기 보안 상태를 이해하도록 돕습니다.&#10;&#10;2. 보증 부인&#10;이 앱은 &quot;있는 그대로&quot; 제공되며, 명시적 또는 묵시적 보증을 제공하지 않습니다. 개발자는 탐지 결과의 정확성, 완전성 또는 신뢰성을 보장하지 않습니다.&#10;&#10;3. 사용자 책임&#10;이 앱을 사용하는 방식과 그로 인해 발생할 수 있는 모든 결과에 대한 책임은 전적으로 사용자에게 있습니다.&#10;&#10;4. 법률 준수&#10;사용자는 모든 관련 지역, 국가 및 국제 법규를 준수하여 이 앱을 사용해야 합니다.</string>
+    <string name="disclaimer_title">면책 고지</string>
+    <string name="disclaimer_content" formatted="false">중요 고지:&#10;&#10;1. 탐지 한계&#10;Duck Detector는 기기 보안 상태를 판단하기 위해 여러 방법을 사용하지만, 어느 방법도 100&#37; 정확하지는 않습니다. 결과는 최종 판정이 아니라 참고 신호로 보아야 합니다.&#10;&#10;2. 오탐과 미탐&#10;이 앱은 오탐 또는 미탐을 낼 수 있습니다. 보다 완전한 판단을 위해서는 전문 보안 도구와 사용자의 자체 검증을 함께 활용해 주세요.&#10;&#10;3. 책임 제한&#10;Duck Detector의 개발자, 기여자 및 배포자는 이 앱의 사용 또는 사용 불가로 인해 발생하는 직접적, 간접적, 부수적, 특별 또는 결과적 손해에 대해 책임을 지지 않습니다.&#10;&#10;4. 제3자 서비스&#10;TEE 폐기 확인은 기본적으로 앱 내장 스냅샷을 사용합니다. 온라인 폐기 데이터 업데이트를 허용하면 앱이 Google attestation revocation endpoint에 접근할 수 있습니다. 보안 스캔 자체는 여전히 사용자의 기기에서 로컬로 수행되며, 탐지 결과가 스캔 텔레메트리로 의도적으로 업로드되지는 않습니다.</string>
+    <string name="privacy_notice_title">개인정보 안내</string>
+    <string name="privacy_notice_content" formatted="false">개인정보 요약: 보안 검사는 사용자의 기기에서 로컬로 수행됩니다. 탐지 결과는 스캔 텔레메트리로 의도적으로 업로드되지 않습니다. TEE 폐기 확인은 기본적으로 앱 내장 스냅샷을 사용합니다. 온라인 폐기 데이터 업데이트를 허용하면 앱이 Google attestation revocation endpoint에 접근할 수 있습니다.</string>
+    <string name="timer_elapsed">30초 경과</string>
+    <string name="timer_waiting">%1$d초 기다려 주세요</string>
+    <string name="fully_reviewed">모두 확인함</string>
+    <string name="scroll_to_bottom">아래로 스크롤</string>
+    <string name="i_agree_continue">동의하고 계속하기</string>
+    <string name="complete_all_conditions">모든 조건 완료</string>
+    <string name="agreement_acknowledgement">계속하면 이 약관을 읽고 동의했음을 인정하는 것입니다.</string>
+    <string name="settings_title">설정</string>
+    <string name="settings_subtitle">온라인 검증 경로에 대한 런타임 제어입니다.</string>
+    <string name="settings_crl_title">온라인 CRL 새로고침 허용</string>
+    <string name="settings_crl_summary">TEE 폐기 확인은 항상 내장 스냅샷을 사용합니다. 이 설정은 Google 최신 attestation revocation feed 가져오기만 허용합니다.</string>
+    <string name="settings_crl_footer">변경 사항은 온라인 새로고침 동작에 즉시 적용됩니다. 내장 TEE 폐기 확인은 계속 활성화됩니다.</string>
+    <string name="about_title">정보</string>
+    <string name="about_subtitle">프로젝트 링크와 빌드 메타데이터입니다.</string>
+    <string name="about_label_version">버전</string>
+    <string name="about_value_version">%1$s (%2$d)</string>
+    <string name="about_label_website">웹사이트</string>
+    <string name="about_label_email">이메일</string>
+    <string name="about_label_build_time">빌드 시간</string>
+    <string name="about_value_build_time">%1$s UTC</string>
+    <string name="about_label_build_hash">빌드 해시</string>
+    <string name="about_label_privacy">개인정보 / 데이터 사용</string>
+    <string name="about_privacy_summary">검사는 기기 내에서 로컬로 수행됩니다. TEE 폐기 데이터는 앱에 내장됩니다. 온라인 CRL 새로고침은 선택 사항이며 설정에서 활성화한 경우에만 수행됩니다.</string>
+    <string name="about_label_copy_build_info">빌드 정보 복사</string>
+    <string name="about_copy_build_info_summary">버전, 빌드 시간 및 빌드 해시 복사</string>
+    <string name="about_clipboard_label">Duck Detector 빌드 정보</string>
+    <string name="about_clipboard_version_line">버전: %1$s (%2$d)</string>
+    <string name="about_clipboard_build_time_line">빌드 시간 (UTC): %1$s UTC</string>
+    <string name="about_clipboard_build_hash_line">빌드 해시: %1$s</string>
+    <string name="about_copy_toast">빌드 정보가 복사되었습니다</string>
+    <string name="author_summary_eltavine">UI, C++, ASM 및 Kotlin 기여</string>
+    <string name="author_summary_baka">TEE &amp; Zygisk</string>
+    <string name="author_summary_xiaotong">TEE (C++, Kotlin)</string>
+    <string name="author_summary_wxx">CI (Kotlin)</string>
+    <string name="author_swipe_hint_single">좌우로 밀어서 작성자를 살펴보세요.</string>
+    <string name="author_swipe_hint_paged">좌우로 밀어서 작성자를 살펴보세요. %1$d/%2$d</string>
+    <string name="author_boundary_toast">끝점</string>
+    <string name="licenses_entry_label">투명성</string>
+    <string name="licenses_entry_title">오픈소스 라이브러리</string>
+    <string name="licenses_entry_subtitle">이 빌드에 포함된 서드파티 프로젝트를 살펴보고 라이선스 고지를 확인하세요.</string>
+    <string name="licenses_screen_back">뒤로</string>
+    <string name="licenses_screen_title">오픈소스 라이선스</string>
+    <string name="licenses_screen_subtitle">이 빌드에 포함된 서드파티 구성 요소입니다.</string>
+    <string name="licenses_inventory_title">포함된 라이브러리 목록</string>
+    <string name="licenses_inventory_subtitle">아무 dependency나 눌러 라이선스 전문과 원본 프로젝트 링크를 확인하세요.</string>
+    <string name="licenses_dialog_close">닫기</string>
+    <string name="licenses_dialog_home_page">홈페이지</string>
+    <string name="licenses_dialog_source_repo">소스 저장소</string>
+    <string name="licenses_dialog_version">버전 %1$s</string>
+    <string name="licenses_dialog_licenses">라이선스: %1$s</string>
+    <string name="licenses_dialog_open">열기</string>
+    <string name="licenses_dialog_no_license_text">사용 가능한 라이선스 전문이 없습니다.</string>
+    <string name="alpha_title">ALPHA 빌드</string>
+    <string name="alpha_banner">ALPHA</string>
+    <string name="alpha_message">이 빌드는 알파 테스트 빌드입니다. C++와 어셈블리를 포함한 대규모 리팩터링이 들어 있어 불안정한 크래시가 발생할 수 있습니다.</string>
+    <string name="alpha_warning_runtime">이 브랜치에서는 예기치 않은 시작 실패나 런타임 크래시가 여전히 발생할 수 있습니다.</string>
+    <string name="alpha_warning_report">문제가 발생하면 제보해 주세요. 명확한 재현 단계가 특히 도움이 됩니다.</string>
+    <string name="alpha_warning_download">크래시 로그를 수집하는 방법을 모른다면 아래 링크 중 하나에서 AppErrorsTracking을 내려받으세요.</string>
+    <string name="alpha_helper">크래시 로그 도우미: AppErrorsTracking은 GitHub Actions와 Telegram CI에서 받을 수 있습니다.</string>
+    <string name="alpha_dismiss_ready">이제 이 경고를 닫을 수 있습니다.</string>
+    <string name="alpha_dismiss_waiting">%1$d초 후에 닫을 수 있습니다.</string>
+    <string name="alpha_continue">이해했습니다. 계속</string>
+    <string name="alpha_continue_waiting">이해했습니다 (%1$d초)</string>
+    <string name="screen_capture_title">스크린샷 감지됨</string>
+    <string name="screen_capture_message">스크린샷에 상세 정보가 없으면 이 문제는 처리되지 않습니다.</string>
+    <string name="dialog_continue">계속</string>
+    <string name="dialog_continue_waiting">계속 (%1$d초)</string>
+    <string name="detector_result_title">도움을 요청하기 전에</string>
+    <string name="detector_result_notice">도움을 받으려면 충분한 정보를 제공해 주세요.</string>
+    <string name="detector_result_detail">위험 및 경고 카드가 전체 검토를 위해 자동으로 펼쳐졌습니다.</string>
+    <string name="startup_review_label">시작 정책 검토</string>
+    <string name="startup_preparing_title">시작 준비 중</string>
+    <string name="startup_before_scan_title">스캔 전</string>
+    <string name="startup_loading_detail">설정값과 PackageManager 가시성을 아직 불러오는 중입니다. 이 작업이 끝날 때까지 detector ViewModel은 일시 중지됩니다.</string>
+    <string name="startup_intro_detail">detector 스캔이 시작되기 전에 필요한 선택을 완료하세요. 알림, Live Update 경로, CRL 온라인 새로고침, PackageManager 가시성을 한 곳에서 검토합니다. 아래의 필수 카드가 모두 정리될 때까지 detector 파이프라인은 차단됩니다.</string>
+    <string name="startup_loading_state">시작 상태를 불러오는 중…</string>
+    <string name="startup_progress_resolved">시작 카드 %1$d / %2$d개 해결됨</string>
+    <string name="startup_loading_dependencies_title">시작 종속성 불러오는 중</string>
+    <string name="startup_loading_dependencies_detail">어떤 detector가 시작되기 전에 동의 저장소와 PackageManager 가시성을 읽는 중입니다.</string>
+    <string name="startup_status_ready">준비됨</string>
+    <string name="startup_status_action_required">조치 필요</string>
+    <string name="startup_status_skipped">건너뜀</string>
+    <string name="startup_status_unsupported">지원 안 됨</string>
+    <string name="startup_status_waiting">대기 중</string>
+    <string name="startup_status_regular">일반</string>
+    <string name="startup_status_local">로컬</string>
+    <string name="startup_status_optional">선택 사항</string>
+    <string name="startup_status_acknowledged">확인됨</string>
+    <string name="startup_status_review_later">나중에 검토</string>
+    <string name="startup_notifications_title">알림</string>
+    <string name="startup_notifications_ready_headline">스캔 알림이 활성화되었습니다.</string>
+    <string name="startup_notifications_ready_detail">detector 카드가 증거를 수집하는 동안 Duck Detector가 스캔 진행 알림을 게시할 수 있습니다.</string>
+    <string name="startup_notifications_prompt_headline">스캔 진행 상황을 알림으로 게시할지 선택하세요.</string>
+    <string name="startup_notifications_prompt_detail_api33">Android %1$d에서는 런타임 알림 권한이 필요합니다. 허용하거나 명시적으로 비활성 상태로 계속하기 전까지 시작 스캔은 차단된 상태로 유지됩니다.</string>
+    <string name="startup_notifications_prompt_detail_legacy">이 Android 버전에서는 런타임 알림 프롬프트가 필요하지 않지만, 시작 정책에는 여전히 선택 내용이 기록되어야 합니다.</string>
+    <string name="startup_notifications_allow">알림 허용</string>
+    <string name="startup_notifications_skip">건너뛰기</string>
+    <string name="startup_notifications_skipped_headline">알림을 건너뛰었습니다.</string>
+    <string name="startup_notifications_skipped_detail">나중에 알림 권한을 부여하기 전까지 스캔 진행 상황은 앱 내부에만 표시됩니다.</string>
+    <string name="startup_live_update_title">Live Update</string>
+    <string name="startup_live_update_unsupported_headline">이 Android 버전에서는 promoted ongoing notification을 사용할 수 없습니다.</string>
+    <string name="startup_live_update_unsupported_detail">알림 권한이 있으면 Duck Detector는 일반 알림 경로를 사용합니다.</string>
+    <string name="startup_live_update_waiting_headline">Live Update는 알림 경로에 의존합니다.</string>
+    <string name="startup_live_update_waiting_detail">먼저 알림 권한을 부여하세요. 알림을 계속 비활성화하면 이 카드는 앱 내부 진행 표시만 사용하는 일반 경로로 돌아갑니다.</string>
+    <string name="startup_live_update_ready_headline">promoted ongoing notification이 허용되었습니다.</string>
+    <string name="startup_live_update_ready_detail">지원되는 Android 버전에서는 스캔 진행 상황이 더 풍부한 Live Update 경로로 표시될 수 있습니다.</string>
+    <string name="startup_live_update_prompt_headline">Android Live Update 경로를 사용할지 선택하세요.</string>
+    <string name="startup_live_update_prompt_detail">Duck Detector는 promoted ongoing notification용 시스템 페이지를 열 수 있습니다. 건너뛰면 스캔 진행 상황은 일반 알림으로 돌아갑니다.</string>
+    <string name="startup_live_update_open_settings">설정 열기</string>
+    <string name="startup_live_update_use_regular">일반 알림 사용</string>
+    <string name="startup_live_update_regular_headline">일반 알림을 선택했습니다.</string>
+    <string name="startup_live_update_regular_detail">promoted ongoing notification은 계속 비활성화되며, 스캔 진행 상황은 일반 알림 경로를 사용합니다.</string>
+    <string name="startup_crl_title">CRL 온라인 새로고침</string>
+    <string name="startup_crl_prompt_headline">TEE 폐기 확인이 온라인 업데이트를 가져올지 선택하세요.</string>
+    <string name="startup_crl_prompt_detail">Duck Detector는 항상 내장 폐기 스냅샷을 확인합니다. 네트워크를 허용하면 TEE 검증 중 Google 최신 attestation revocation feed를 가져올 수 있습니다.</string>
+    <string name="startup_crl_allow_network">새로고침 허용</string>
+    <string name="startup_crl_local_only">내장만</string>
+    <string name="startup_crl_ready_headline">온라인 CRL 새로고침이 허용되었습니다.</string>
+    <string name="startup_crl_ready_detail">TEE 검증은 내장 스냅샷을 확인하고 네트워크 상태가 허용될 때마다 Google attestation revocation feed를 새로고침할 수 있습니다.</string>
+    <string name="startup_crl_local_headline">TEE 폐기 확인은 내장 스냅샷을 사용합니다.</string>
+    <string name="startup_crl_local_detail">설정에서 다시 활성화할 때까지 Duck Detector는 온라인 CRL 새로고침을 수행하지 않습니다. 내장 폐기 확인은 계속 활성화됩니다.</string>
+    <string name="startup_package_manager_title">PackageManager</string>
+    <string name="startup_package_restricted_headline">패키지 목록이 범위 제한되었거나 필터링된 것처럼 보입니다.</string>
+    <string name="startup_package_restricted_detail">PackageManager가 설치된 패키지 %1$d개만 노출했습니다. 가시성 제한, 범위화된 목록, HMA 스타일 필터링 환경에서는 Dangerous Apps와 관련 프로브가 설치된 도구를 적게 보고할 수 있습니다.</string>
+    <string name="startup_package_continue_anyway">그래도 계속</string>
+    <string name="startup_package_ack_headline">제한된 PackageManager 가시성을 확인했습니다.</string>
+    <string name="startup_package_ack_detail">현재 보이는 패키지 수: %1$d개. 이 목록 범위에서는 Dangerous Apps 결과가 더 보수적일 수 있습니다.</string>
+    <string name="startup_package_low_inventory_headline">PackageManager는 전체처럼 보이지만 보이는 목록 수가 비정상적으로 적습니다.</string>
+    <string name="startup_package_low_inventory_detail">현재 보이는 패키지 수: %1$d개. 시작은 계속되지만 Dangerous Apps는 이 낮은 목록 상태를 잠재적 필터링 증거로 검토합니다.</string>
+    <string name="startup_package_ready_headline">PackageManager 목록이 온전해 보입니다.</string>
+    <string name="startup_package_ready_detail">현재 보이는 패키지 수: %1$d개. Dangerous Apps는 표준 패키지 목록 경로를 사용할 수 있습니다.</string>
+</resources>

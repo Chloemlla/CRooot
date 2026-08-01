@@ -1,0 +1,125 @@
+/*
+ * Copyright 2026 Duck Apps Contributor
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.eltavine.duckdetector.buildlogic
+
+import org.gradle.api.GradleException
+import org.gradle.api.provider.Property
+import org.gradle.api.provider.ValueSource
+import org.gradle.api.provider.ValueSourceParameters
+import org.gradle.process.ExecOperations
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.time.Instant
+import java.time.ZonedDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import javax.inject.Inject
+
+private const val UNKNOWN = "unknown"
+private val BUILD_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+    .withZone(ZoneOffset.UTC)
+// Use the Singapore calendar date as the stable versionName prefix.
+private val VERSION_NAME_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+
+interface GitRepositoryParameters : ValueSourceParameters {
+    val repositoryRoot: Property<String>
+}
+
+interface VersionNameDateParameters : ValueSourceParameters {
+    val zoneId: Property<String>
+}
+
+abstract class GitShortHashValueSource @Inject constructor(
+    private val execOperations: ExecOperations,
+) : ValueSource<String, GitRepositoryParameters> {
+    override fun obtain(): String = runGitCommand(
+        execOperations = execOperations,
+        repositoryRoot = parameters.repositoryRoot.get(),
+        "rev-parse",
+        "--short=12",
+        "HEAD",
+    )
+}
+
+abstract class GitCommitTimestampValueSource @Inject constructor(
+    private val execOperations: ExecOperations,
+) : ValueSource<String, GitRepositoryParameters> {
+    override fun obtain(): String {
+        val epochSeconds = runGitCommand(
+            execOperations = execOperations,
+            repositoryRoot = parameters.repositoryRoot.get(),
+            "log",
+            "-1",
+            "--format=%ct",
+            "HEAD",
+        )
+        val instant = epochSeconds.toLongOrNull()?.let(Instant::ofEpochSecond) ?: return UNKNOWN
+        return BUILD_TIME_FORMATTER.format(instant)
+    }
+}
+
+abstract class GitCommitCountValueSource @Inject constructor(
+    private val execOperations: ExecOperations,
+) : ValueSource<Int, GitRepositoryParameters> {
+    override fun obtain(): Int {
+        val count = runGitCommand(
+            execOperations = execOperations,
+            repositoryRoot = parameters.repositoryRoot.get(),
+            "rev-list",
+            "--count",
+            "HEAD",
+        )
+        return count.toIntOrNull()
+            ?: throw GradleException(
+                "Unable to resolve git commit count for versionCode. " +
+                    "Ensure this build runs from a git checkout with full history.",
+            )
+    }
+}
+
+abstract class CurrentDateVersionNameValueSource : ValueSource<String, VersionNameDateParameters> {
+    override fun obtain(): String {
+        return ZonedDateTime.now(ZoneId.of(parameters.zoneId.get()))
+            .format(VERSION_NAME_FORMATTER)
+    }
+}
+
+private fun runGitCommand(
+    execOperations: ExecOperations,
+    repositoryRoot: String,
+    vararg arguments: String,
+): String {
+    val stdout = ByteArrayOutputStream()
+    val stderr = ByteArrayOutputStream()
+
+    val result = runCatching {
+        execOperations.exec {
+            workingDir = File(repositoryRoot)
+            commandLine("git", *arguments)
+            standardOutput = stdout
+            errorOutput = stderr
+            isIgnoreExitValue = true
+        }
+    }.getOrNull() ?: return UNKNOWN
+
+    return if (result.exitValue == 0) {
+        stdout.toString().trim().ifBlank { UNKNOWN }
+    } else {
+        UNKNOWN
+    }
+}
