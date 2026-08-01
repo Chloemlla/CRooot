@@ -34,49 +34,6 @@ android {
         buildConfig = false
         aidl = true
     }
-    // Keep copied UI sources available for audit, but compile only the low-dependency core.
-    sourceSets.getByName("main").java.setSrcDirs(
-        listOf(
-            "src/main/java/com/chloemlla/crooot",
-            "src/main/java/com/juanma0511/rootdetector/detector",
-            "src/main/java/com/juanma0511/rootdetector/model",
-            "src/main/java/com/juanma0511/rootdetector/zygote",
-            "src/main/java/com/eltavine/duckdetector/core/packagevisibility",
-            "src/main/java/com/eltavine/duckdetector/core/startup/preload",
-            "src/main/java/com/eltavine/duckdetector/features/bootloader/data",
-            "src/main/java/com/eltavine/duckdetector/features/bootloader/domain",
-            "src/main/java/com/eltavine/duckdetector/features/customrom/data",
-            "src/main/java/com/eltavine/duckdetector/features/customrom/domain",
-            "src/main/java/com/eltavine/duckdetector/features/dangerousapps/data",
-            "src/main/java/com/eltavine/duckdetector/features/dangerousapps/domain",
-            "src/main/java/com/eltavine/duckdetector/features/deviceinfo/data",
-            "src/main/java/com/eltavine/duckdetector/features/deviceinfo/domain",
-            "src/main/java/com/eltavine/duckdetector/features/kernelcheck/data",
-            "src/main/java/com/eltavine/duckdetector/features/kernelcheck/domain",
-            "src/main/java/com/eltavine/duckdetector/features/lsposed/data",
-            "src/main/java/com/eltavine/duckdetector/features/lsposed/domain",
-            "src/main/java/com/eltavine/duckdetector/features/memory/data",
-            "src/main/java/com/eltavine/duckdetector/features/memory/domain",
-            "src/main/java/com/eltavine/duckdetector/features/mount/data",
-            "src/main/java/com/eltavine/duckdetector/features/mount/domain",
-            "src/main/java/com/eltavine/duckdetector/features/nativeroot/data",
-            "src/main/java/com/eltavine/duckdetector/features/nativeroot/domain",
-            "src/main/java/com/eltavine/duckdetector/features/playintegrityfix/data",
-            "src/main/java/com/eltavine/duckdetector/features/playintegrityfix/domain",
-            "src/main/java/com/eltavine/duckdetector/features/selinux/data",
-            "src/main/java/com/eltavine/duckdetector/features/selinux/domain",
-            "src/main/java/com/eltavine/duckdetector/features/su/data",
-            "src/main/java/com/eltavine/duckdetector/features/su/domain",
-            "src/main/java/com/eltavine/duckdetector/features/systemproperties/data",
-            "src/main/java/com/eltavine/duckdetector/features/systemproperties/domain",
-            "src/main/java/com/eltavine/duckdetector/features/tee/data",
-            "src/main/java/com/eltavine/duckdetector/features/tee/domain",
-            "src/main/java/com/eltavine/duckdetector/features/virtualization/data",
-            "src/main/java/com/eltavine/duckdetector/features/virtualization/domain",
-            "src/main/java/com/eltavine/duckdetector/features/zygisk/data",
-            "src/main/java/com/eltavine/duckdetector/features/zygisk/domain",
-        )
-    )
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
