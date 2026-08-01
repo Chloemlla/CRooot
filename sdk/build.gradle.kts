@@ -75,7 +75,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri(System.getenv("GITHUB_SERVER_URL")?.let { "$it/${System.getenv("GITHUB_REPOSITORY") ?: "Chloemlla/CRooot"}/packages/maven" } ?: "https://maven.pkg.github.com/Chloemlla/CRooot")
+            url = uri("https://maven.pkg.github.com/${System.getenv("GITHUB_REPOSITORY") ?: "Chloemlla/CRooot"}")
             credentials {
                 username = System.getenv("GITHUB_ACTOR") ?: ""
                 password = System.getenv("GITHUB_TOKEN") ?: System.getenv("GH_TOKEN") ?: ""
