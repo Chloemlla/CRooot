@@ -149,7 +149,7 @@ jobs:
           :sdk:publishReleasePublicationToGitHubPackagesRepository
 
       - name: Upload published SDK AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: crooot-sdk-release-${{ steps.release.outputs.version }}
           path: sdk/build/outputs/aar/*.aar

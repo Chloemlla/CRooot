@@ -122,7 +122,7 @@ jobs:
         run: ./gradlew --no-daemon --stacktrace :sdk:lintRelease :sdk:assembleRelease
 
       - name: Upload SDK AARs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: crooot-sdk-aars-${{ github.sha }}
           path: sdk/build/outputs/aar/*.aar
