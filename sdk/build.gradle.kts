@@ -34,19 +34,19 @@ android {
         buildConfig = false
         aidl = true
     }
-    sourceSets["main"].java {
-        // Keep copied UI sources available for audit, but do not make Compose a host SDK dependency.
-        exclude("**/ui/**")
-        exclude("**/presentation/**")
-        exclude("**/MainActivity.kt")
-        exclude("**/MainViewModel.kt")
-        exclude("**/features/dashboard/**")
-        exclude("**/features/licenses/**")
-        exclude("**/features/settings/**")
-        exclude("**/core/ui/**")
-        exclude("**/core/notifications/**")
-        exclude("**/core/startup/legal/**")
-    }
+    // Keep copied UI sources available for audit, but do not make Compose a host SDK dependency.
+    sourceSets.getByName("main").java.exclude(
+        "**/ui/**",
+        "**/presentation/**",
+        "**/MainActivity.kt",
+        "**/MainViewModel.kt",
+        "**/features/dashboard/**",
+        "**/features/licenses/**",
+        "**/features/settings/**",
+        "**/core/ui/**",
+        "**/core/notifications/**",
+        "**/core/startup/legal/**",
+    )
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
