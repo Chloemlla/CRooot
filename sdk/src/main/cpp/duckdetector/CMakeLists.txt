@@ -182,16 +182,18 @@ set(CROOOT_DUCK_SOURCES
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported)
 if(ipo_supported)
-    set(CROOOT_DUCK_IPO_SUPPORTED TRUE)
+    set_property(TARGET chloemlla-crooot PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
 endif()
 
-set(CROOOT_DUCK_COMPILE_OPTIONS
+target_compile_options(chloemlla-crooot PRIVATE
     $<$<AND:$<CONFIG:Release>,$<COMPILE_LANGUAGE:C>>:-O2 -ffunction-sections -fdata-sections -fvisibility=hidden>
     $<$<AND:$<CONFIG:Release>,$<COMPILE_LANGUAGE:CXX>>:-O2 -ffunction-sections -fdata-sections -fvisibility=hidden -fvisibility-inlines-hidden>
 )
 
-set(CROOOT_DUCK_LINK_OPTIONS
+target_link_options(chloemlla-crooot PRIVATE
     $<$<CONFIG:Release>:-Wl,--gc-sections>
 )
 
-set(CROOOT_DUCK_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+target_sources(chloemlla-crooot PRIVATE ${CROOOT_DUCK_SOURCES})
+target_include_directories(chloemlla-crooot PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
+target_link_libraries(chloemlla-crooot android EGL GLESv2 log)
