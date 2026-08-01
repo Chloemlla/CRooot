@@ -15,7 +15,6 @@ limitations under the License.
 -->
 
 <resources>
-    <string name="app_name">Duck Detector</string>
     <string name="status_info">Інформація</string>
     <string name="status_all_clear">Все гаразд</string>
     <string name="status_warning">Попередження</string>
