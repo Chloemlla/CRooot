@@ -16,6 +16,7 @@
 
 package com.eltavine.duckdetector.features.tee.data.verification.keystore
 
+import androidx.annotation.RequiresApi
 import android.content.Context
 import android.os.Build
 import android.security.keystore.KeyStoreManager
@@ -140,6 +141,7 @@ internal data class KeyStoreGrantJavaApiResult(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 private class PublicKeyStoreGrantJavaApi(
     private val manager: KeyStoreManager,
 ) : KeyStoreGrantJavaApi {
