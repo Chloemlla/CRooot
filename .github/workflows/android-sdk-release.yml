@@ -21,8 +21,8 @@ concurrency:
 
 env:
   # These package identifiers must match the SDK's Gradle configuration.
-  ANDROID_PLATFORM: "37"
-  ANDROID_BUILD_TOOLS: "37.0.0"
+  ANDROID_PLATFORM: "36"
+  ANDROID_BUILD_TOOLS: "36.0.0"
   ANDROID_NDK: "30.0.15729638"
   ANDROID_CMAKE: "4.1.2"
 
@@ -92,8 +92,8 @@ jobs:
           from pathlib import Path
 
           expected = {
-              "duckdetector.android.compileSdk": "37",
-              "duckdetector.android.buildTools": "37.0.0",
+              "duckdetector.android.compileSdk": "36",
+              "duckdetector.android.buildTools": "36.0.0",
               "duckdetector.android.ndk": "30.0.15729638",
               "duckdetector.android.cmake": "4.1.2",
           }
