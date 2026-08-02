@@ -41,5 +41,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "CRooot"
-include(":app", ":sdk")
+include(":sdk")
  
