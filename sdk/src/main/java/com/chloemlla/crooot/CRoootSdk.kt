@@ -188,8 +188,13 @@ class CRoootSdk private constructor(private val context: Context) {
         }
     }
 
-    /**
-     * Runs the requested detector groups and returns their legacy combined evidence result.
+    /** Maps an already-completed legacy result without running another scan. */
+    fun mapReport(
+        result: CRoootScanResult,
+        options: CRoootReportOptions = CRoootReportOptions(),
+        startedAtMillis: Long = System.currentTimeMillis() - result.durationMs,
+    ): CRoootLocalReport = CRoootLocalReportMapper.map(result, options, startedAtMillis)
+
      *
      * If an uncaught detector exception escapes a child coroutine, structured concurrency cancels
      * the remaining children and this function rethrows the failure. Caller cancellation is

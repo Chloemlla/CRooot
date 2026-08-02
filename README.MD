@@ -35,6 +35,8 @@ The SDK collects local, heuristic evidence for root, boot integrity, Android Key
 - No Compose, Activity, Coil, or host UI requirement.
 - Consumer R8/ProGuard rules bundled in the AAR.
 - Stable third-party local report API (`scanReport`) with privacy-aware JSON/Text/HTML export
+- Versioned report schema with normalized detector summaries, findings, limitations, and default redaction
+- Report consumers can ignore unknown fields and enum values for additive upgrades
 
 The conservative consumer rules keep both detector trees. Scan options reduce runtime work but do not materially reduce AAR/APK code size.
 

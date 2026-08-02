@@ -19,6 +19,8 @@
 - [6. Kotlin 基础调用](#6-kotlin-基础调用)
 - [7. 生命周期、串行化、超时与 UI 状态](#7-生命周期串行化超时与-ui-状态)
 - [8. 结果模型](#8-结果模型)
+- [8.5 读取 Duck 报告——示例](#85-读取-duck-报告示例)
+- [8.6 面向第三方应用的稳定本地报告](#86-面向第三方应用的稳定本地报告)
 - [9. 安全决策框架](#9-安全决策框架)
 - [10. 失败模型](#10-失败模型)
 - [11. Java 应用](#11-java-应用)
@@ -91,7 +93,27 @@ suspend fun checkDeviceSecurity(): String {
 }
 ```
 
-### 0.4 解读结果
+### 0.4 稳定本地报告（第三方应用推荐）
+
+```kotlin
+import com.chloemlla.crooot.CRoootReportExporter
+import com.chloemlla.crooot.CRoootReportOptions
+import com.chloemlla.crooot.CRoootScanProfile
+
+suspend fun createLocalReport() {
+    val report = sdk.scanReport(
+        CRoootReportOptions(profile = CRoootScanProfile.FULL),
+    )
+    val json = CRoootReportExporter.toJson(report)
+    val text = CRoootReportExporter.toText(report)
+    // 只有取得宿主应用明确同意后才保存或分享。
+}
+```
+
+`scanReport()` 是面向第三方的稳定边界，返回统一的检测器摘要和发现项，默认脱敏，且不会
+隐式上传或持久化数据。已有接入仍可继续使用旧的 `scan()` API。
+
+### 0.5 解读结果
 
 ```kotlin
 val result = sdk.scan(CRoootScanOptions())
@@ -759,6 +781,25 @@ val html = CRoootReportExporter.toHtml(report)
 
 可选进度回调会发送 `Started`、`Completed` 或 `Failed`。取消和异常仍会传播给调用方，
 不会吞掉 `CancellationException`。
+
+### 8.7 报告 schema 与兼容性约定
+
+`CRoootLocalReport.schemaVersion` 从 `1` 开始。调用方必须忽略未知字段和未来新增的枚举值，
+也不应依赖检测器顺序。在同一个 schema 版本内，Finding ID 与 detector ID 保持稳定；新增字段和
+新增 detector ID 采用追加兼容。`CRoootReportOptions.scanOptions` 可能让实际执行项少于档位默认值，
+因此调用方应以每个 detector 的 `status` 和 `executed` 为准，而不能只看 profile 名称。
+
+省略语义明确区分：
+
+- `PASS`：选中的检测器执行完成，支持的检查没有发现信号；
+- `INFO`：执行完成，但只有信息性证据；
+- `WARN` / `FAIL`：发现需要关注的信号；
+- `UNKNOWN`：检测器执行了，但无法确定结果；
+- `NOT_RUN`：选项没有选择该检测器；
+- `ERROR`：检测器返回错误或失败状态。
+
+`includeSensitiveEvidence` 只是诊断详情开关，不是绕过 Secret 脱敏的开关。强制 Secret 脱敏始终
+生效。宿主应把 `privacy` 标签视为元数据，在持久化或传输前执行自己的最终分享策略。
 
 ---
 

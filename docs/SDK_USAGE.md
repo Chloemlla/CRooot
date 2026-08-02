@@ -19,6 +19,8 @@ This guide targets third-party Android applications integrating CRooot `0.1.0`. 
 - [6. Basic Kotlin usage](#6-basic-kotlin-usage)
 - [7. Lifecycle, serialization, timeout, and UI state](#7-lifecycle-serialization-timeout-and-ui-state)
 - [8. Result model](#8-result-model)
+- [8.5 Reading Duck reports — examples](#85-reading-duck-reports--examples)
+- [8.6 Stable local reports for third-party applications](#86-stable-local-reports-for-third-party-applications)
 - [9. Security decision framework](#9-security-decision-framework)
 - [10. Failure model](#10-failure-model)
 - [11. Java applications](#11-java-applications)
@@ -91,7 +93,28 @@ suspend fun checkDeviceSecurity(): String {
 }
 ```
 
-### 0.4 Interpret the result
+### 0.4 Stable local report (recommended for third-party apps)
+
+```kotlin
+import com.chloemlla.crooot.CRoootReportExporter
+import com.chloemlla.crooot.CRoootReportOptions
+import com.chloemlla.crooot.CRoootScanProfile
+
+suspend fun createLocalReport() {
+    val report = sdk.scanReport(
+        CRoootReportOptions(profile = CRoootScanProfile.FULL),
+    )
+    val json = CRoootReportExporter.toJson(report)
+    val text = CRoootReportExporter.toText(report)
+    // Save or share only with explicit host-app consent.
+}
+```
+
+`scanReport()` is the stable third-party boundary. It returns normalized detector summaries and
+findings, redacts sensitive evidence by default, and never uploads or persists data implicitly.
+The legacy `scan()` API remains available for existing integrations.
+
+### 0.5 Interpret the result
 
 ```kotlin
 val result = sdk.scan(CRoootScanOptions())
@@ -760,6 +783,27 @@ for irreversible account or device actions.
 
 The optional progress callback emits `Started`, `Completed`, or `Failed`. Cancellation and exceptions
 still propagate to the caller; `CancellationException` is not swallowed.
+
+### 8.7 Report schema and compatibility contract
+
+`CRoootLocalReport.schemaVersion` starts at `1`. Consumers must ignore unknown fields and enum values,
+and should not assume detector ordering. Finding IDs and detector IDs are stable within a schema version;
+new fields and new detector IDs are additive. `CRoootReportOptions.scanOptions` may intentionally produce
+fewer reports than the selected profile, so consumers must rely on each detector's `status` and
+`executed` fields rather than the profile name alone.
+
+Omission semantics are explicit:
+
+- `PASS`: the selected detector completed and found no signal in its supported checks;
+- `INFO`: the detector completed with informational evidence;
+- `WARN` / `FAIL`: a signal requires attention;
+- `UNKNOWN`: the detector ran but could not establish a result;
+- `NOT_RUN`: the option did not select the detector;
+- `ERROR`: the detector returned an error or failure state.
+
+`includeSensitiveEvidence` is a diagnostic detail switch, not a secret-export bypass. Mandatory secret
+redaction remains active. Hosts should treat `privacy` labels as metadata and use their own final sharing
+policy before persistence or transmission.
 
 ---
 
