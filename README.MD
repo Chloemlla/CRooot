@@ -52,7 +52,9 @@ Consumers of the published AAR do not need the Android NDK or CMake. Building th
 
 ## Critical v0.1.0 Soter warning
 
-The Duck TEE Soter probe can remove or replace an existing Tencent Soter App Global Secure Key during its retry path. Hosts that use Soter must not run Duck features with `v0.1.0`. Set `includeDuckFeatures=false` until the detector is fixed; this also disables all other Duck reports because `v0.1.0` has no per-feature selector.
+The original Duck TEE Soter probe could remove or replace an existing Tencent Soter App Global Secure Key during its retry path. This SDK **fixes the retry path**: the probe no longer deletes a pre-existing key (it belongs to the host application). However, the probe still initializes the Soter Treble service and exercises biometric checks. Hosts that use Soter should validate on representative devices before production use.
+
+For additional safety, v0.1.0 now supports **per-feature flags**: set `includeTee=false` to disable only the TEE report while keeping all other Duck features enabled. Previously the only option was `includeDuckFeatures=false` which disabled all 16 Duck reports.
 
 ## Install from GitHub Packages
 
@@ -110,14 +112,15 @@ val sdk = CRoootSdk.create(applicationContext)
 val result = sdk.scan(
     CRoootScanOptions(
         includeHardware = true,
-        includeDuckFeatures = true, // Must be false for Soter-using hosts on v0.1.0.
+        includeDuckFeatures = true, // Per-feature flags available: includeTee, includeSelinux, etc.
     ),
 )
 
-val rooted = result.kkndRoot.isRooted
-val suspicious = result.kkndRoot.isSuspicious
+val rooted = result.isRooted
+val suspicious = result.isSuspicious
 val hardware = result.kkndHardware
 val teeReport = result.duckReports["tee"]
+val logSummary = result.summary() // "CRooot scan completed in 3200ms; duckReports=16/16"
 ```
 
 Call `scan` from a lifecycle-owned coroutine and handle cancellation, timeout, and exceptions at the host boundary. Run only one scan at a time: blocking native, process, and Keystore work may continue briefly after caller cancellation or timeout. `includeHardware=false` disables only `kkndHardware`; it does not disable `duckReports["tee"]`. Version 0.1.0 has no per-Duck-feature selector: `includeDuckFeatures=false` disables all sixteen Duck reports.

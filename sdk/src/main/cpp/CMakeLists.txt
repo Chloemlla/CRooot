@@ -5,7 +5,6 @@ project("crooot" LANGUAGES C CXX ASM)
 set(CROOOT_DUCK_ROOT "${CMAKE_CURRENT_LIST_DIR}/duckdetector")
 add_library(chloemlla-crooot SHARED
     native_root_checks.cpp
-    native_checks.cpp
 )
 add_subdirectory("${CROOOT_DUCK_ROOT}" duckdetector-build)
 target_include_directories(chloemlla-crooot PRIVATE "${CROOOT_DUCK_ROOT}")

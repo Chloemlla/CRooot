@@ -52,7 +52,9 @@ SDK 在设备本地收集 Root、启动完整性、Android Keystore/TEE、运行
 
 ## v0.1.0 Soter 严重警告
 
-Duck TEE 的 Soter 探针在重试路径中可能删除或替换宿主已有的 Tencent Soter App Global Secure Key。使用 Soter 的宿主不得在 `v0.1.0` 中运行 Duck features；修复前必须设置 `includeDuckFeatures=false`。由于 `0.1.0` 没有逐 feature 开关，这也会同时关闭其他全部 Duck 报告。
+原始 Duck TEE 的 Soter 探针在重试路径中可能删除或替换宿主已有的 Tencent Soter App Global Secure Key。本 SDK **已修复该重试路径**：探针不再删除宿主已有的密钥（属于宿主应用）。但探针仍会初始化 Soter Treble 服务并执行生物识别检查。使用 Soter 的宿主应在代表性设备上验证后再用于生产环境。
+
+v0.1.0 现在支持**逐功能开关**：设置 `includeTee=false` 可仅关闭 TEE 报告，同时保持其他 15 个 Duck 功能启用。之前只能通过 `includeDuckFeatures=false` 关闭所有 Duck 报告。
 
 ## 从 GitHub Packages 安装
 

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:zygotePreloadName="com.eltavine.duckdetector.features.selinux.data.service.AppZygotePreload"
+        tools:ignore="AppZygotePreloadNameNotSet">
         <service
             android:name="com.eltavine.duckdetector.features.zygisk.data.fdtrap.ZygiskFdTrapDetectorService"
             android:exported="false"
@@ -16,7 +20,8 @@
         <service
             android:name="com.eltavine.duckdetector.features.selinux.data.service.SelinuxContextValidityCarrierService"
             android:exported="false"
-            android:isolatedProcess="true" />
+            android:isolatedProcess="true"
+            android:useAppZygote="true" />
         <service
             android:name="com.eltavine.duckdetector.features.tee.data.verification.keystore.TeeGrantDomainGranteeService"
             android:exported="false"

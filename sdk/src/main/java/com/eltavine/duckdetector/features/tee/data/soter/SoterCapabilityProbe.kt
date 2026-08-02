@@ -157,12 +157,22 @@ class SoterCapabilityProbe internal constructor(
 
         repeat(MAX_WECHAT_PREPARE_RETRY) { attempt ->
             state.retryCount = attempt
-            if (attempt == 1) {
+            // CRooot safety: never remove a pre-existing ASK — it belongs to the host application.
+            // The original Duck detector removed the ASK on retry attempt 1 to clear a potentially
+            // corrupted key, but that would destroy the host's Soter keys.
+            if (attempt > 0 && !state.askPreExisted) {
                 runCatching { client.removeAppGlobalSecureKey() }
             }
 
             var askExists = runCatching { client.hasAppGlobalSecureKey() }.getOrDefault(false)
             if (!askExists) {
+                // If the ASK didn't pre-exist, we can generate a new one (the probe owns it).
+                // If it did pre-exist but was deleted externally, treat as failure.
+                if (state.askPreExisted) {
+                    lastErrCode = ASK_DELETED_EXTERNALLY
+                    lastErrMsg = "ASK pre-existed but is now absent — possible external deletion."
+                    return@repeat
+                }
                 val askResult = runCatching { client.generateAppGlobalSecureKey() }.getOrNull()
                 askExists = askResult?.isSuccess() == true
                 if (askExists) {
@@ -242,6 +252,7 @@ class SoterCapabilityProbe internal constructor(
         private const val UNKNOWN_RESULT_CODE = -999
         private const val ASK_MODEL_MISSING = 1003
         private const val AUTH_MODEL_MISSING = 1006
+        private const val ASK_DELETED_EXTERNALLY = 1007
     }
 }
 
