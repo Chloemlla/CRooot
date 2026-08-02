@@ -720,6 +720,49 @@ val bootloaderUnlocked = bootloader?.state?.contains("unlocked", ignoreCase = tr
 
 ---
 
+## 8.6 Stable local reports for third-party applications
+
+Third-party applications should prefer `scanReport()` when they need a local report. It converts the
+legacy `CRoootScanResult` into a stable host-facing model and does not expose Duck's `Any?` map:
+
+```kotlin
+val report = CRoootSdk.create(applicationContext).scanReport(
+    CRoootReportOptions(
+        profile = CRoootScanProfile.FULL,
+        includeSensitiveEvidence = false,
+    ),
+)
+
+val text = CRoootReportExporter.toText(report)
+val json = CRoootReportExporter.toJson(report)
+val html = CRoootReportExporter.toHtml(report)
+```
+
+The existing `scan(CRoootScanOptions)` API is unchanged. `scanReport()` is an additive compatibility
+layer, so applications can migrate without changing existing result consumers.
+
+`CRoootLocalReport` contains:
+
+- `overallStatus`, `rooted`, and `suspicious` without treating `UNKNOWN` or `NOT_RUN` as clean;
+- stable `detectorSummaries` for KKND root, KKND hardware, and all sixteen Duck keys;
+- normalized `findings` with status, severity, confidence, source, recommendations, and privacy-labelled evidence;
+- schema version, SDK version, report ID, scan profile, timestamps, duration, and device ABI/API metadata;
+- `limitations` explaining missing coverage, restricted checks, and the heuristic nature of the result.
+
+`CRoootScanProfile` provides `QUICK`, `STANDARD`, `FULL`, and `PRIVACY_MINIMAL` presets. Use
+`CRoootReportOptions.scanOptions` when a host needs exact per-feature flags. The default exporter emits
+only the stable DTO; it never serializes `duckReports`, and it performs no network request or implicit
+persistence. Hosts remain responsible for encrypted storage, retention, sharing, and upload consent.
+
+Evidence is redacted by default. Set `includeSensitiveEvidence=true` only for an explicit, local
+troubleshooting action. Even then, a report is heuristic evidence and must not be used as the sole basis
+for irreversible account or device actions.
+
+The optional progress callback emits `Started`, `Completed`, or `Failed`. Cancellation and exceptions
+still propagate to the caller; `CancellationException` is not swallowed.
+
+---
+
 ## 9. Security decision framework
 
 CRooot returns **heuristic evidence**, not definitive proof. This section provides a framework for translating evidence into decisions.

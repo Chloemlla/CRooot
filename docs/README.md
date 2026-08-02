@@ -16,7 +16,7 @@ Both guides cover GitHub Packages authentication, Maven and local-AAR integratio
 - Performance benchmarking methodology
 - CI/CD integration examples
 - Release notes / changelog
-- Troubleshooting decision tree
+- Stable third-party local reports with privacy-labelled evidence and JSON/Text/HTML export
 - Permission dependency map
 
 The public facade is implemented in [`CRoootSdk.kt`](../sdk/src/main/java/com/chloemlla/crooot/CRoootSdk.kt). Review [`NOTICE`](../NOTICE) before redistributing the SDK.

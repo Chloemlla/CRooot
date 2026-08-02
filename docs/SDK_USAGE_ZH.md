@@ -719,6 +719,49 @@ val bootloaderUnlocked = bootloader?.state?.contains("unlocked", ignoreCase = tr
 
 ---
 
+## 8.6 面向第三方应用的稳定本地报告
+
+第三方应用需要生成本地报告时，应优先使用 `scanReport()`。它会把旧版
+`CRoootScanResult` 转换为稳定的宿主侧模型，不会把 Duck 的 `Any?` map 暴露给调用方：
+
+```kotlin
+val report = CRoootSdk.create(applicationContext).scanReport(
+    CRoootReportOptions(
+        profile = CRoootScanProfile.FULL,
+        includeSensitiveEvidence = false,
+    ),
+)
+
+val text = CRoootReportExporter.toText(report)
+val json = CRoootReportExporter.toJson(report)
+val html = CRoootReportExporter.toHtml(report)
+```
+
+已有的 `scan(CRoootScanOptions)` API 保持不变。这是一个追加的兼容层，现有调用方可以继续
+使用旧结果模型，并按需迁移到本地报告。
+
+`CRoootLocalReport` 包含：
+
+- `overallStatus`、`rooted`、`suspicious`，且不会把 `UNKNOWN` 或 `NOT_RUN` 当作通过；
+- KKND Root、KKND 硬件以及 16 个 Duck key 的稳定 `detectorSummaries`；
+- 含状态、严重度、置信度、来源、建议和隐私标签证据的统一 `findings`；
+- schema 版本、SDK 版本、报告 ID、扫描档位、时间戳、耗时和设备 ABI/API 信息；
+- 解释覆盖缺口、受限检查及启发式边界的 `limitations`。
+
+`CRoootScanProfile` 提供 `QUICK`、`STANDARD`、`FULL` 和 `PRIVACY_MINIMAL`。如果宿主需要精确的
+逐项检测开关，可以通过 `CRoootReportOptions.scanOptions` 传入原有 `CRoootScanOptions`。
+默认导出器只处理稳定 DTO，不会序列化 `duckReports`，也不会联网或隐式持久化。加密存储、
+保留时间、分享和上传授权由宿主应用负责。
+
+证据默认脱敏。只有在用户明确进行本地排障时，才应设置
+`includeSensitiveEvidence=true`。即使如此，本报告仍然只是启发式证据，不能作为账号封禁、
+删除数据或其他不可逆设备决策的唯一依据。
+
+可选进度回调会发送 `Started`、`Completed` 或 `Failed`。取消和异常仍会传播给调用方，
+不会吞掉 `CancellationException`。
+
+---
+
 ## 9. 安全决策框架
 
 CRooot 返回**启发式证据**，不是最终证明。本节提供将证据转化为决策的框架。

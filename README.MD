@@ -34,7 +34,7 @@ The SDK collects local, heuristic evidence for root, boot integrity, Android Key
 - Native probes packaged as `libchloemlla-crooot.so` for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`; low-level assembly coverage differs by ABI.
 - No Compose, Activity, Coil, or host UI requirement.
 - Consumer R8/ProGuard rules bundled in the AAR.
-- Offline-first TEE revocation checking with an embedded snapshot on the stable facade path.
+- Stable third-party local report API (`scanReport`) with privacy-aware JSON/Text/HTML export
 
 The conservative consumer rules keep both detector trees. Scan options reduce runtime work but do not materially reduce AAR/APK code size.
 

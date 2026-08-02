@@ -161,8 +161,35 @@ data class CRoootScanResult(
  * coroutine and handle exceptions or timeouts at the integration boundary.
  */
 class CRoootSdk private constructor(private val context: Context) {
+    /** Stable public SDK version for local report metadata. */
+    val sdkVersion: String get() = SDK_VERSION
+
     /**
-     * Runs the requested detector groups concurrently and returns their combined evidence.
+     * Produces the stable, privacy-aware local report model for third-party applications.
+     * The existing [scan] API remains unchanged for source and binary compatibility.
+     */
+    suspend fun scanReport(
+        options: CRoootReportOptions = CRoootReportOptions(),
+        onEvent: ((CRoootScanEvent) -> Unit)? = null,
+    ): CRoootLocalReport {
+        onEvent?.invoke(CRoootScanEvent.Started(options.profile))
+        val startedAtMillis = System.currentTimeMillis()
+        return try {
+            val report = CRoootLocalReportMapper.map(
+                result = scan(options.effectiveScanOptions()),
+                options = options,
+                startedAtMillis = startedAtMillis,
+            )
+            onEvent?.invoke(CRoootScanEvent.Completed(report))
+            report
+        } catch (failure: Throwable) {
+            onEvent?.invoke(CRoootScanEvent.Failed(failure))
+            throw failure
+        }
+    }
+
+    /**
+     * Runs the requested detector groups and returns their legacy combined evidence result.
      *
      * If an uncaught detector exception escapes a child coroutine, structured concurrency cancels
      * the remaining children and this function rethrows the failure. Caller cancellation is
@@ -244,6 +271,8 @@ class CRoootSdk private constructor(private val context: Context) {
     }
 
     companion object {
+        const val SDK_VERSION: String = "0.1.0"
+
         /** Creates an SDK instance backed by [Context.getApplicationContext]. */
         fun create(context: Context): CRoootSdk = CRoootSdk(context.applicationContext)
     }
