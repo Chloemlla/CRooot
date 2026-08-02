@@ -37,7 +37,7 @@ import java.util.Locale
 internal const val GITHUB_CONTRIBUTORS_ASSET_FILE_NAME = "github_contributors.json"
 internal const val GITHUB_CONTRIBUTORS_AVATAR_DIRECTORY = "github_contributors/avatars"
 internal const val GITHUB_CONTRIBUTORS_API_URL =
-    "https://github.com/eltavine/Duck-Detector-Refactoring/graphs/contributors-data"
+    "https://github.com/Chloemlla/CRooot/graphs/contributors-data"
 
 abstract class GenerateGithubContributorsAssetTask : DefaultTask() {
 
