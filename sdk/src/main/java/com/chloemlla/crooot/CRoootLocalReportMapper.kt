@@ -186,7 +186,12 @@ object CRoootLocalReportMapper {
                 evidence = fields
                     .filterKeys { it != "headline" && it != "summary" }
                     .map { (field, value) ->
-                        evidence(field, value, duckPrivacy(field), includeSensitiveEvidence)
+                        evidence(
+                            field,
+                            value.asText() ?: value.toString(),
+                            duckPrivacy(field),
+                            includeSensitiveEvidence,
+                        )
                     },
                 confidence = duckConfidence(status),
                 source = CRoootEvidenceSource.DUCK,
@@ -317,6 +322,7 @@ object CRoootLocalReportMapper {
             return CRoootDetectorSummary(key, "$key detector", CRoootReportStatus.UNKNOWN, 0, 0, 0, true)
         }
         val selected = selectedDuckFields(report)
+        val status = duckStatus(selected)
         val nestedFindingCount = nestedDuckFields.sumOf { property ->
             (readProperty(report, property)?.let { value -> collectionSize(value) } ?: 0).coerceAtMost(MAX_NESTED_ITEMS)
         }
@@ -330,8 +336,8 @@ object CRoootLocalReportMapper {
             warningCount = if (status == CRoootReportStatus.WARN) 1 else 0,
             executed = true,
             reportType = report.javaClass.simpleName,
-            errorMessage = fields["errorMessage"]?.asText()?.let { redact(it, false) }
-                ?: fields["failureMessage"]?.asText()?.let { redact(it, false) },
+            errorMessage = selected["errorMessage"]?.asText()?.let { redact(it, false) }
+                ?: selected["failureMessage"]?.asText()?.let { redact(it, false) },
         )
     }
 

@@ -77,24 +77,26 @@ data class CRoootScanOptions(
      * Returns the list of Duck feature keys that should be scanned based on the current options.
      * Each entry is a pair of (key, async block returning the report).
      */
-    internal fun duckFeatureKeys(): List<String> = buildList {
-        if (!includeDuckFeatures) return@buildList emptyList()
-        if (includeBootloader) add("bootloader")
-        if (includeCustomRom) add("customRom")
-        if (includeDangerousApps) add("dangerousApps")
-        if (includeDeviceInfo) add("deviceInfo")
-        if (includeKernel) add("kernel")
-        if (includeLsposed) add("lsposed")
-        if (includeMemory) add("memory")
-        if (includeMount) add("mount")
-        if (includeNativeRoot) add("nativeRoot")
-        if (includePlayIntegrityFix) add("playIntegrityFix")
-        if (includeSelinux) add("selinux")
-        if (includeSu) add("su")
-        if (includeSystemProperties) add("systemProperties")
-        if (includeTee) add("tee")
-        if (includeVirtualization) add("virtualization")
-        if (includeZygisk) add("zygisk")
+    internal fun duckFeatureKeys(): List<String> {
+        if (!includeDuckFeatures) return emptyList()
+        return buildList<String> {
+            if (includeBootloader) add("bootloader")
+            if (includeCustomRom) add("customRom")
+            if (includeDangerousApps) add("dangerousApps")
+            if (includeDeviceInfo) add("deviceInfo")
+            if (includeKernel) add("kernel")
+            if (includeLsposed) add("lsposed")
+            if (includeMemory) add("memory")
+            if (includeMount) add("mount")
+            if (includeNativeRoot) add("nativeRoot")
+            if (includePlayIntegrityFix) add("playIntegrityFix")
+            if (includeSelinux) add("selinux")
+            if (includeSu) add("su")
+            if (includeSystemProperties) add("systemProperties")
+            if (includeTee) add("tee")
+            if (includeVirtualization) add("virtualization")
+            if (includeZygisk) add("zygisk")
+        }
     }
 }
 
@@ -195,7 +197,7 @@ class CRoootSdk private constructor(private val context: Context) {
         startedAtMillis: Long = System.currentTimeMillis() - result.durationMs,
     ): CRoootLocalReport = CRoootLocalReportMapper.map(result, options, startedAtMillis)
 
-     *
+    /**
      * If an uncaught detector exception escapes a child coroutine, structured concurrency cancels
      * the remaining children and this function rethrows the failure. Caller cancellation is
      * cooperative; blocking native, process, or Keystore work may not stop immediately.
