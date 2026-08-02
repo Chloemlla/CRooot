@@ -28,8 +28,8 @@ The DirtySepolicy-related Java, Kotlin, AIDL, and native integration copied into
 
 Preserve the Apache 2.0 license notice when redistributing this material. The full license text is in `LICENSE`.
 
-4. Private-key security gate
+4. Private-key security note
 
-The original Duck snapshot contained a marker private key. CRooot removed that material from the current tree. A private key must never ship in an SDK, AAR, APK, source archive, or release artifact. The CI workflow (`android-sdk-ci.yml`) now includes a scan step that fails if private-key material (`-----BEGIN.*PRIVATE KEY-----`) is reintroduced in `sdk/` or `app/`. Any originally exposed key must be rotated or revoked outside this repository.
+The original Duck snapshot contained a marker private key. CRooot removed that material from the current tree. A private key must never ship in an SDK, AAR, APK, source archive, or release artifact. The CI workflows include a marker check for selected Java, Kotlin, C/C++, header, and AIDL source extensions under `sdk/` and `app/`. That check uses text-file detection and does not cover every file type or binary-classified source, so maintainers and redistributors must also use repository-wide secret scanning before release. Any originally exposed key must be rotated or revoked outside this repository.
 
 Other dependencies retain their own licenses and notices in the project dependency metadata. This file does not replace those notices or grant rights beyond the applicable license.

@@ -1,148 +1,185 @@
 <p align="center">
-  <img src="logo.png" alt="DuckDetector Logo" width="600px">
+  <a href="https://github.com/Chloemlla/CRooot/actions/workflows/android-sdk-ci.yml"><img src="https://github.com/Chloemlla/CRooot/actions/workflows/android-sdk-ci.yml/badge.svg" alt="Android SDK CI"></a>
+  <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="SDK version 0.1.0">
+  <img src="https://img.shields.io/badge/Android-10%2B-3DDC84?logo=android&logoColor=white" alt="Android 10 or newer">
+  <a href="NOTICE"><img src="https://img.shields.io/badge/license-Apache--2.0%20%2B%20MIT-blue" alt="Apache License 2.0 and MIT"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/eltavine/Duck-Detector-Refactoring/stargazers"><img src="https://img.shields.io/github/stars/eltavine/Duck-Detector-Refactoring?style=social" alt="Stars"></a>
-  <a href="https://github.com/eltavine/Duck-Detector-Refactoring/network/members"><img src="https://img.shields.io/github/forks/eltavine/Duck-Detector-Refactoring?style=social" alt="Forks"></a>
-  <a href="https://github.com/eltavine/Duck-Detector-Refactoring/releases"><img src="https://img.shields.io/github/v/release/eltavine/Duck-Detector-Refactoring?style=flat-square&logo=github" alt="Releases"></a>
-  <a href="https://github.com/eltavine/Duck-Detector-Refactoring/releases"><img src="https://img.shields.io/github/downloads/eltavine/Duck-Detector-Refactoring/total?style=flat-square" alt="Downloads"></a>
-  <a href="https://t.me/duck_detector"><img src="https://img.shields.io/badge/Telegram-Channel-2CA5E0?logo=telegram&logoColor=white&style=flat-square" alt="Telegram"></a>
-  <a href="https://github.com/eltavine/Duck-Detector-Refactoring/blob/main/LICENSE"><img src="https://img.shields.io/github/license/eltavine/Duck-Detector-Refactoring?style=flat-square" alt="License"></a>
+  <strong><a href="README.MD">English</a></strong> · <strong><a href="README_ZH.MD">简体中文</a></strong>
 </p>
 
-<p align="center">
-  <strong><a href="README.MD">English</a></strong> &nbsp; <strong><a href="README_ZH.MD">简体中文</a></strong>
-</p>
+# CRooot Android SDK
 
-<h4 align="center">
-  <strong>DuckDetector is the ultimate open-source, on-device Android security tool for auditing Bootloader, Root, SU, and KeyStore Attestation.</strong>
-</h4>
-
-# 📖 Description
-DuckDetector is an Android security detection application focusing on local, on-device evidence collection. It is designed to identify Root-related tampering, runtime Hooks, Mount operations, KeyStore integrity (Attestation Trust), and virtualized execution environments. This application combines a Jetpack Compose UI interface, modular Kotlin detection packages, and low-level C++ / assembly probes to present detailed detection results, method coverage, and scanning status summaries through structured cards.
-
-# CRooot SDK
-CRooot exposes the detector implementations through the UI-independent `CRoootSdk` facade. Add the SDK when a published release is available:
+CRooot is a UI-independent Android security detection SDK. It combines KKND root and hardware checks with Duck detector reports behind one coroutine-based facade:
 
 ```kotlin
-implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+com.chloemlla.crooot.CRoootSdk
 ```
 
-Run a scan from a coroutine:
+The SDK collects local, heuristic evidence for root, boot integrity, Android Keystore/TEE, runtime hooks, mount manipulation, SELinux, suspicious applications, virtualization, Zygisk, and related device-security signals. It does not require root access and does not claim that any single result proves a device trusted or compromised.
+
+## Documentation
+
+- [Complete English integration guide](docs/SDK_USAGE.md)
+- [完整简体中文接入指南](docs/SDK_USAGE_ZH.md)
+- [SDK documentation index](docs/README.md)
+- [Public facade source](sdk/src/main/java/com/chloemlla/crooot/CRoootSdk.kt)
+
+## SDK capabilities
+
+- One `suspend` scan API with application-context ownership.
+- Structured KKND root results and optional KKND hardware/verified-boot results.
+- Sixteen Duck feature reports exposed through fixed, case-sensitive keys.
+- Native probes packaged as `libchloemlla-crooot.so` for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`; low-level assembly coverage differs by ABI.
+- No Compose, Activity, Coil, or host UI requirement.
+- Consumer R8/ProGuard rules bundled in the AAR.
+- Offline-first TEE revocation checking with an embedded snapshot on the stable facade path.
+
+The conservative consumer rules keep both detector trees. Scan options reduce runtime work but do not materially reduce AAR/APK code size.
+
+## Requirements
+
+| Requirement | Value |
+| --- | --- |
+| Minimum Android version | Android 10 / API 29 |
+| Consumer `compileSdk` | 36 or newer (`minCompileSdk=36` in the AAR) |
+| Consumer `targetSdk` | Chosen by the host application |
+| Primary API language | Kotlin; Java callers need a Kotlin coroutine bridge |
+| Maven authentication | GitHub user plus a token with `read:packages` |
+
+Consumers of the published AAR do not need the Android NDK or CMake. Building the SDK from source requires JDK 17, Android SDK/Build Tools 36.0.0, NDK 30.0.15729638, and CMake 4.1.2.
+
+## Critical v0.1.0 Soter warning
+
+The Duck TEE Soter probe can remove or replace an existing Tencent Soter App Global Secure Key during its retry path. Hosts that use Soter must not run Duck features with `v0.1.0`. Set `includeDuckFeatures=false` until the detector is fixed; this also disables all other Duck reports because `v0.1.0` has no per-feature selector.
+
+## Install from GitHub Packages
+
+Store credentials outside the repository, for example in the user-level `~/.gradle/gradle.properties`:
+
+```properties
+gpr.user=YOUR_GITHUB_USERNAME
+gpr.key=YOUR_CLASSIC_PAT_WITH_READ_PACKAGES
+```
+
+Add the repositories to `settings.gradle.kts`. JitPack is required for the transitive Soter dependency and is restricted here to its exact group:
 
 ```kotlin
-val result = CRoootSdk.create(applicationContext).scan()
-val rootItems = result.kkndRoot.items
-val duckReports = result.duckReports
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven(url = "https://jitpack.io") {
+            content { includeGroup("com.github.Tencent.soter") }
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/Chloemlla/CRooot")
+            content { includeGroup("com.chloemlla.crooot") }
+            credentials {
+                username = providers.gradleProperty("gpr.user")
+                    .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                    .orNull
+                password = providers.gradleProperty("gpr.key")
+                    .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                    .orNull
+            }
+        }
+    }
+}
 ```
 
-Use `CRoootScanOptions(includeHardware = false, includeDuckFeatures = false)` to omit optional portions. Results are heuristic evidence, not a guarantee of device integrity; OEM, device, ABI, and sandbox restrictions can reduce coverage. See [`docs/SDK_USAGE.md`](docs/SDK_USAGE.md) for the full API example.
+Add the dependency to the host module:
 
-The published core is UI-independent and does not force Compose, Coil, or Activity dependencies onto the host. The copied UI sources remain available for audit and optional host integration.
+```kotlin
+dependencies {
+    implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+}
+```
 
-# ⚠️ Development Rules
-> Please read the [DuckDetector coding standards](./CODING_STANDARDS.md) before submitting changes to the codebase, workflows, or git history.
+See the full guides for local-AAR and source-module integration.
 
-# ✨ Highlights
- * **Modular Architecture**: Features independent modules with specific functions; each module includes its own exclusive Repository, Mapper, ViewModel, and card UI.
- * **Native Preload**: Implements low-level early preloading via a transparent NativeActivity launcher to capture extremely early mount points and virtualization traces.
- * **Native Probes**: Utilizes system-call (Syscall) level, time-sensitive, mount, and runtime visibility checks implemented in C++ and Assembly.
- * **Cross-Process & Isolated Process Validation**: Co-validates across multiple processes and isolated processes (Isolated Process) to minimize reliance on a single signal.
- * **Local & Privacy-First**: By default, TEE revocation checks use a built-in static snapshot. It only accesses the network when the user manually enables "Online Refresh" in settings.
-# 🔍 Detector Coverage
-The app currently supports heuristic detection in the following security domains:
-> Bootloader · Custom ROM · Dangerous Apps · Kernel Check · LSPosed · Memory · Mount · Native Root · Play Integrity Fix · SELinux · SU · System Properties · TEE · Virtualization · Zygisk
-> 
-In addition, the project contains helper modules such as dashboard, settings, and deviceinfo to provide data aggregation, user controls, and device context visualization.
-# 📱 Compatibility
+## Minimal scan
 
-| Dimension / Target | Notes |
-| :--- | :--- |
-| **Android Version** | Supports Android 10+ (minSdk 29), built based on targetSdk 37 / compileSdk 37.0. |
-| **Architecture (ABI)** | Low-level probes are implemented via the NDK layer; some low-level trap paths are optimized primarily for the arm64-v8a architecture. |
-| **Environment Requirements** | Runs without root permissions, suitable for stock official systems as well as various customized/modified environments. |
-| **Coverage Performance** | When OEM manufacturers or strict sandbox rules restrict access, some checks may downgrade to support, unavailable, or low-coverage status. |
-| **Network Dependency** | Completely local by default. Built-in TEE revocation credentials run offline, generating traffic only during a manual network refresh. |
+```kotlin
+import com.chloemlla.crooot.CRoootScanOptions
+import com.chloemlla.crooot.CRoootSdk
 
-## 🎨 User Interface
- * **Compose Dashboard**: Includes detection cards, scan status summaries, top findings, and detailed expandable rows.
- * **Consistent Card Design**: A unified shared card style ensures excellent readability for long labels, detection statuses, and evidence strings across different modules.
- * **Independent Settings & Info Streams**: Separates advanced controls and environmental context from the main detection logic to keep the interface clean.
-## 📁 Architecture Snapshot
+val sdk = CRoootSdk.create(applicationContext)
+
+val result = sdk.scan(
+    CRoootScanOptions(
+        includeHardware = true,
+        includeDuckFeatures = true, // Must be false for Soter-using hosts on v0.1.0.
+    ),
+)
+
+val rooted = result.kkndRoot.isRooted
+val suspicious = result.kkndRoot.isSuspicious
+val hardware = result.kkndHardware
+val teeReport = result.duckReports["tee"]
+```
+
+Call `scan` from a lifecycle-owned coroutine and handle cancellation, timeout, and exceptions at the host boundary. Run only one scan at a time: blocking native, process, and Keystore work may continue briefly after caller cancellation or timeout. `includeHardware=false` disables only `kkndHardware`; it does not disable `duckReports["tee"]`. Version 0.1.0 has no per-Duck-feature selector: `includeDuckFeatures=false` disables all sixteen Duck reports.
+
+The fixed Duck keys are:
+
 ```text
-Duck-Detector-Refactoring/
-├─ app/
-│  ├─ src/main/java/com/eltavine/duckdetector/
-│  │  ├─ core/            # Core common components and foundations
-│  │  ├─ features/        # Individual detection feature modules
-│  │  └─ ui/              # Global common UI and themes
-│  └─ src/main/cpp/       # Low-level C++ / Assembly probe source code
-├─ build-logic/           # Gradle composite build logic
-├─ gradle/                # Gradle wrapper configuration
-├─ scripts/               # Automation or helper scripts
-├─ build.gradle.kts
-└─ settings.gradle.kts
+bootloader, customRom, dangerousApps, deviceInfo, kernel, lsposed,
+memory, mount, nativeRoot, playIntegrityFix, selinux, su,
+systemProperties, tee, virtualization, zygisk
 ```
-Most detection feature modules (features) strictly follow this clear package structure:
- * **domain**: Data models for reports and results (Models).
- * **data**: Repositories, probes, native bridges, and system service helpers.
- * **presentation**: Data mappers and UI-state reducers.
- * **ui**: Detection card components and module-specific UI models.
-> 💡 All native probes are located under app/src/main/cpp and are ultimately compiled into a single shared dynamic link library (.so). This is used for preload capture, mount checks, virtualization snapshots, renderer validation, and low-level trap path interceptions.
-> 
-## 🛠️ Build
-### Requirements
- * **Android Studio** (Latest stable version recommended)
- * Android SDK 37.0 & Android Build Tools 37.0.0
- * **JDK** 17
- * Android **NDK** 30.0.14904198
- * **CMake** 4.1.2
-### Build Commands
-**Compile Debug Version:**
+
+Values are typed as `Any?` by the facade, so consumers should use safe casts to the documented domain report types and tolerate unknown keys when upgrading.
+
+## Manifest and permissions
+
+The AAR merges five non-exported detector services and declares no `uses-permission` entries. The host remains responsible for every permission it chooses to add.
+
+- Declare the normal `USE_BIOMETRIC` permission for reliable Duck TEE deep checks; on biometric-capable devices, omitting it can fail the complete `tee` report. Legacy `USE_FINGERPRINT` remains optional for older/Soter paths.
+- `QUERY_ALL_PACKAGES` can improve package-inventory checks, but add it only when the application qualifies under distribution-store policy. Restricted visibility is reported as reduced coverage rather than a clean result.
+- On a fresh install, the stable facade uses the embedded revocation snapshot and makes no remote HTTPS request. A previously persisted implementation-level online consent can change later scans; `INTERNET` also improves local loopback-port probe coverage.
+
+Inspect the merged manifest in the host application and read the full guide before changing or removing SDK services.
+
+Version `0.1.0` does not package the original application's app-zygote and early-preload launch wiring. Advanced SELinux app-zygote, DirtySepolicy, and early mount/virtualization paths can therefore report reduced or unavailable coverage in a normal AAR integration.
+
+## Operational side effects
+
+A full scan is local but not purely passive. Some probes send an explicit broadcast to a known third-party package, briefly create and remove probe paths/files, test loopback ports, and generate/delete AndroidKeyStore test keys. In particular, the KKND hardware checks reserve and delete these fixed aliases:
+
+```text
+rootdetector_tee_probe
+rootdetector_ks_backing
+rootdetector_sb_key
+```
+
+TEE deep checks can also temporarily hook the process Keystore Binder cache, widen hidden-API exemptions for the process, and occupy 18 concurrent signing-operation slots. The host must never use the fixed aliases above. Validate scan behavior on representative devices, serialize calls to `scan`, avoid every concurrent host Keystore/cryptographic operation, and expect temporary test aliases to remain if the process is terminated before cleanup completes. A full scan can take tens of seconds and can start child or isolated processes. Do not run it on cold start or during login, payment, signing, or key rotation.
+
+The AAR contains the complete `com.eltavine.duckdetector.*` and `com.juanma0511.rootdetector.*` implementation trees. Do not package original Duck/KKND artifacts or copied detector sources beside CRooot; doing so can cause duplicate classes, manifest components, and native/JNI conflicts.
+
+## Result policy
+
+CRooot returns evidence, availability, severity, details, and support state. Integrators should:
+
+- evaluate multiple independent signals instead of one Boolean;
+- distinguish `FAILED`, `UNKNOWN`, `SUPPORT`, restricted, and unavailable states from clean states;
+- keep detailed evidence for diagnostics while minimizing collection and retention of device data;
+- validate thresholds on representative OEMs, Android releases, ABIs, emulators, and modified devices;
+- avoid using the SDK as the sole basis for irreversible account or device actions.
+
+## Build and verification
+
+Build only the SDK module from source:
+
 ```bash
-# Windows environment
-gradlew.bat :app:assembleDebug
-# Linux / macOS environment
-./gradlew :app:assembleDebug
+./gradlew :sdk:lintRelease :sdk:assembleRelease
 ```
-**Daily Development Validation Command (Recommended):**
-```bash
-# Validate Kotlin compilation, run unit tests, and package the app
-./gradlew :app:compileDebugKotlin :app:testDebugUnitTest :app:assembleDebug
-```
-> 🔐 **Signing Note**: Automatic signing for the Release version is controlled by the environment variables ANDROID_KEYSTORE_PATH, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, and ANDROID_KEY_PASSWORD. When these four variables are fully present, the build system will automatically enable the ciRelease signing configuration.
-> 
-## 🔒 Privacy & Limits
- * **Localized Security**: Detection logic runs primarily locally on the device; it does not collect or upload your sensitive private data.
- * **Non-Intrusive**: The app itself **does not** require root privileges to function properly.
- * **Heuristic Detection**: All security detections are based on heuristic algorithms. No single signal should be relied upon in isolation as absolute proof of trustworthiness.
- * **Hardware & Vendor Restrictions**: Due to OEM policies or sandbox rules, some probes may report downgraded statuses on specific models. Certain low-level checks rely strictly on the arm64-v8a ABI architecture.
-## 📈 Status & Stars
 
-<p>
-  <img src="https://api.star-history.com/svg?repos=eltavine/Duck-Detector-Refactoring&type=Date" alt="Star History Chart" width="600">
-</p>
+The `v0.1.0` GitHub Actions release workflow successfully published the Maven artifact and uploaded an AAR workflow artifact. It did not create a GitHub Release. CI includes a limited private-key marker check for selected source extensions; it is not a substitute for repository-wide secret scanning.
 
-## ⚖️ Disclaimer
-This software is provided "as is", without warranty of any kind. It is designed for educational, diagnostic, and security research purposes only. The developers assume no liability for direct or indirect damage, data loss, or system instability resulting from use of this application. Relying on heuristic security detection is at your own risk.
+## License and redistribution
 
-## 📄 License
-The CRooot integration and Duck detector code are distributed under the Apache License 2.0. The retained KKND detector code is Copyright (c) 2026 Juan Martin and distributed under the MIT License; its notice must be preserved. DirtySepolicy-related code remains blocked from redistribution until its upstream provenance and license notice are verified. See [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
+CRooot integration and Duck detector code use the Apache License 2.0. Retained KKND code uses the MIT License, and DirtySepolicy-derived files retain their Apache 2.0 attribution. Redistributors must preserve the applicable notices.
 
-## 👥 Contributors
-
-### Code Contributors
-
-<a href="https://github.com/eltavine/Duck-Detector-Refactoring/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=eltavine/Duck-Detector-Refactoring" alt="Contributors" />
-</a>
-
-### Special Thanks
-
-<p>
-  <a href="https://github.com/aviraxp" title="aviraxp"><img src="https://images.weserv.nl/?url=https://github.com/aviraxp.png&w=64&h=64&mask=circle" width="64" height="64" alt="aviraxp"></a>
-  &nbsp;
-  <a href="https://github.com/5ec1cff" title="5ec1cff"><img src="https://images.weserv.nl/?url=https://github.com/5ec1cff.png&w=64&h=64&mask=circle" width="64" height="64" alt="5ec1cff"></a>
-</p>
-
+The `v0.1.0` AAR does not embed the required notice files. Before shipping the AAR, source, or a derived product, include [LICENSE](LICENSE), [NOTICE](NOTICE), and [the retained KKND MIT license](legacy/kknd-root-detector/LICENSE-MIT) with the distribution.

@@ -1,141 +1,185 @@
-<img src="logo.png" alt="DuckDetector Logo" width="600px">
-
-  <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Android-minSdk%2029-3DDC84?logo=android&logoColor=white&style=flat-square" alt="Android"></a>
-  <a href="https://developer.android.com"><img src="https://img.shields.io/badge/targetSdk-37-3DDC84?logo=android&logoColor=white&style=flat-square" alt="targetSdk"></a>
-  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.3.21-7F52FF?logo=kotlin&logoColor=white&style=flat-square" alt="Kotlin"></a>
-  <a href="https://developer.android.com/jetpack/compose"><img src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?logo=jetpackcompose&logoColor=white&style=flat-square" alt="Jetpack Compose"></a>
-  <img src="https://img.shields.io/badge/NDK-30.0.14904198-555555?style=flat-square" alt="NDK">
-  <a href="https://github.com/eltavine/Duck-Detector-Refactoring/releases"><img src="https://img.shields.io/github/downloads/eltavine/Duck-Detector-Refactoring/total?style=flat-square" alt="Downloads"></a>
+<p align="center">
+  <a href="https://github.com/Chloemlla/CRooot/actions/workflows/android-sdk-ci.yml"><img src="https://github.com/Chloemlla/CRooot/actions/workflows/android-sdk-ci.yml/badge.svg" alt="Android SDK CI"></a>
+  <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="SDK version 0.1.0">
+  <img src="https://img.shields.io/badge/Android-10%2B-3DDC84?logo=android&logoColor=white" alt="Android 10 or newer">
+  <a href="NOTICE"><img src="https://img.shields.io/badge/license-Apache--2.0%20%2B%20MIT-blue" alt="Apache License 2.0 and MIT"></a>
 </p>
 
-**DuckDetector** 是一个专注于**本地端、设备侧**证据收集的 Android 安全检测应用程序。它旨在识别 Root 相关的篡改、运行时 Hook、挂载操作（Mount）、密钥库可信度（Attestation Trust）以及虚拟化执行环境。
-本应用结合了 **Jetpack Compose UI** 界面、**模块化 Kotlin 检测包** 以及 **底层 C++ / 汇编探针**，通过结构化的卡片形式展示详细的检测结果、方法覆盖范围及扫描状态摘要。
-
-# CRooot SDK
-CRooot 通过与 UI 无关的 `CRoootSdk` 门面暴露检测实现。发布版本可用后，可添加以下依赖：
-
-```kotlin
-implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
-```
-
-在协程中执行扫描：
-
-```kotlin
-val result = CRoootSdk.create(applicationContext).scan()
-val rootItems = result.kkndRoot.items
-val duckReports = result.duckReports
-```
-
-如不需要某部分，可使用 `CRoootScanOptions(includeHardware = false, includeDuckFeatures = false)`。结果是启发式安全证据，不保证设备绝对完整；OEM、设备、ABI 和沙盒限制可能降低覆盖度。完整 API 示例见 [`docs/SDK_USAGE.md`](docs/SDK_USAGE.md)。
-
-发布的核心 SDK 不强制宿主引入 Compose、Coil 或 Activity 依赖；复制保留的 UI 源码仅用于审计，也可由宿主按需单独接入。
-
-# ⚠️ **开发规范 / Development Rules**
-
-在更改代码、工作流程或提交历史记录之前，请阅读 [CODING_STANDARDS.md](./CODING_STANDARDS.md)。
-> changing code, workflows, or commit history.
-
-
-# ✨ 项目亮点 / Highlights
-- 🧩 **模块化检测架构 (Modular Architecture)**：具有特定功能的独立模块，各模块均包含其专属的 Repository、Mapper、ViewModel 和卡片 UI。
-- ⚡ **原生启动预载 (Native Preload)**：通过透明的 `NativeActivity` 启动器实现底层及早预载，以捕捉极早期的挂载（Mount）和虚拟化痕迹。
-- 🛡️ **底层 C++ 与汇编探针 (Native Probes)**：利用 C++ 和汇编实现的系统调用（Syscall）级别、时间敏感型、挂载和运行时可见性检查。
-- 🔄 **跨进程与隔离进程验证 (Cross-Process Validation)**：通过多进程、隔离进程（Isolated Process）协同校验，降低对单一信号的依赖。
-- 🔒 **纯本地离线优先 (Local & Privacy-First)**：默认情况下，TEE 吊销检查使用内置的静态快照。仅在用户手动于设置中开启"在线刷新"时才会访问网络。
----
-# 🔍 检测覆盖范围 / Detector Coverage
-目前应用已支持以下安全领域的启发式检测：
-> `Bootloader` · `Custom ROM` · `Dangerous Apps` · `Kernel Check` · `LSPosed` · `Memory` · `Mount` · `Native Root` · `Play Integrity Fix` · `SELinux` · `SU` · `System Properties` · `TEE` · `Virtualization` · `Zygisk`
-此外，项目内置 `dashboard`（仪表盘）、`settings`（设置）和 `deviceinfo`（设备信息）等辅助模块，提供数据聚合、用户控制和设备上下文展示。
----
-# 📱 兼容性 / Compatibility
-
-| 维度 / Target | 详情与说明 / Notes |
-| :--- | :--- |
-| **Android 版本** | 支持 Android 10+ (`minSdk 29`)，基于 `targetSdk 37` / `compileSdk 37.0` 构建。 |
-| **架构支持 (ABI)** | 底层探针通过 NDK 层实现；部分低level的陷阱拦截（Trap paths）主要针对 `arm64-v8a` 架构进行了优化。 |
-| **环境要求** | 无需 Root 权限即可运行，适用于纯净官方系统及各种定制/修改过的环境。 |
-| **覆盖度表现** | 当 OEM 厂商或严格的沙盒规则限制访问时，部分检查可能会降级为 `support`、`unavailable` 或低覆盖度状态。 |
-| **网络依赖** | 默认完全本地化。内置 TEE 吊销凭证离线运行，仅在手动刷新网络源时产生流量。 |
-
----
-## 🎨 用户界面 / User Interface
-- **Compose 仪表盘**：包含检测卡片、扫描状态摘要、高危发现（Top findings）以及详情展开行。
-- **一致性卡片设计**：统一的共享卡片样式，确保长标签、检测状态和证据字符串在不同模块中均有极佳的可读性。
-- **独立设置与信息流**：将高级控制、环境上下文与主检测逻辑分离，保证界面清爽。
----
-## 📁 架构快照 / Architecture Snapshot
-```text
-Duck-Detector-Refactoring/
-├─ app/
-│  ├─ src/main/java/com/eltavine/duckdetector/
-│  │  ├─ core/            # 核心公共组件与基础底座
-│  │  ├─ features/        # 各检测特征模块
-│  │  └─ ui/              # 全局通用 UI 与主题
-│  └─ src/main/cpp/       # 底层 C++ / 汇编探针源码
-├─ build-logic/           # Gradle 复合构建逻辑
-├─ gradle/                # Gradle 包装器配置
-├─ scripts/               # 自动化或辅助脚本
-├─ build.gradle.kts
-└─ settings.gradle.kts
-```
-绝大多数检测功能模块（Features）均遵循以下清晰的包结构：
- * domain：报告和结果的数据模型（Models）。
- * data：仓库（Repositories）、探针、原生桥接（Native Bridges）和系统服务助手。
- * presentation：数据映射器（Mappers）和 UI 状态状态机（UI-state reducers）。
- * ui：检测卡片组件和专属于该模块的 UI 模型。
-> 💡 所有的原生探针都位于 app/src/main/cpp 下，最终编译成一个共享动态链接库（.so），用于预载捕获、挂载检查、虚拟化快照、渲染器校验以及低级别陷阱拦截。
-> 
-## 🛠️ 编译与构建 / Build
-### 环境依赖 / Requirements
- * **Android Studio** (推荐最新稳定版)
- * Android SDK 37.0 & Android Build Tools 37.0.0
- * **JDK** 17
- * Android **NDK** 30.0.14904198
- * **CMake** 4.1.2
-### 常用构建命令 / Build Commands
-**编译 Debug 版本：**
-```bash
-# Windows 环境
-gradlew.bat :app:assembleDebug
-# Linux / macOS 环境
-./gradlew :app:assembleDebug
-```
-**日常开发校验命令（推荐）：**
-```bash
-# 验证 Kotlin 编译、运行单元测试并打包
-./gradlew :app:compileDebugKotlin :app:testDebugUnitTest :app:assembleDebug
-```
-> 🔐 **签名说明**：Release 版本的自动签名受到环境参数 ANDROID_KEYSTORE_PATH、ANDROID_KEYSTORE_PASSWORD、ANDROID_KEY_ALIAS 和 ANDROID_KEY_PASSWORD 的控制。当这四个环境变量完整存在时，构建系统将自动启用 ciRelease 签名配置。
-> 
-## 🔒 隐私与局限性 / Privacy & Limits
- * **本地化安全**：检测逻辑主要在设备本地运行，不收集或上传您的敏感隐私数据。
- * **非侵入式**：应用本身**不需要** Root 权限即可正常工作。
- * **启发式检测**：所有安全检测均基于启发式算法（Heuristics）。任何单一信号都不应孤立地作为绝对的可信凭证。
- * **硬件与厂商限制**：因 OEM 策略或沙盒规则，部分探针在特定机型上可能报告降级状态。部分低级底层检查依赖于 arm64-v8a ABI 架构。
-## 📈 项目状态与趋势 / Status & Stars
-
-![star-history-chart]
-
-## ⚖️ 免责声明 / Disclaimer
-```text
-本软件按"原样"提供，不提供任何明示或暗示的保证。本程序仅供教育、诊断和安全研究目的使用。
-开发者对因使用本应用程序而导致的任何直接或间接损坏、数据丢失或系统不稳定不承担责任。
-依赖启发式安全检测的风险由您自行承担。
-This software is provided "as is", without warranty of any kind. It is designed
-for educational, diagnostic, and security research purposes only. The developers
-assume no liability for direct or indirect damage, data loss, or system
-instability resulting from use of this application. Relying on heuristic
-security detection is at your own risk.
-```
-## 📄 开源协议 / License
-CRooot 集成代码和 Duck 检测代码基于 **Apache License 2.0**。保留的 KKND 检测代码版权归 Juan Martin（Copyright (c) 2026）所有，基于 **MIT License** 发布，必须保留其许可声明。详见 [`LICENSE`](LICENSE) 和 [`NOTICE`](NOTICE)。
-## 👥 贡献者 / Contributors
-感谢以下为 DuckDetector 做出贡献的开发者们！
-<p>
-  <a href="https://github.com/eltavine/Duck-Detector-Refactoring/graphs/contributors"><img src="https://contrib.rocks/image?repo=eltavine/Duck-Detector-Refactoring" alt="Contributors"></a>
-  <a href="https://github.com/aviraxp" title="SELinux 与 LSPosed 误报反馈"><img src="https://github.com/aviraxp.png?size=64" width="64" alt="aviraxp"></a>
-  <a href="https://github.com/5ec1cff" title="SELinux 与 LSPosed 误报发现"><img src="https://github.com/5ec1cff.png?size=64" width="64" alt="5ec1cff"></a>
+<p align="center">
+  <strong><a href="README_ZH.MD">简体中文</a></strong> · <strong><a href="README.MD">English</a></strong>
 </p>
 
-[star-history-chart]: https://api.star-history.com/svg?repos=eltavine/Duck-Detector-Refactoring&type=Date
+# CRooot Android SDK
+
+CRooot 是一个与 UI 无关的 Android 安全检测 SDK。它将 KKND Root/硬件检查与 Duck 检测报告整合到同一个基于协程的门面中：
+
+```kotlin
+com.chloemlla.crooot.CRoootSdk
+```
+
+SDK 在设备本地收集 Root、启动完整性、Android Keystore/TEE、运行时 Hook、挂载篡改、SELinux、可疑应用、虚拟化、Zygisk 等安全证据。它不需要 Root 权限，也不会把任何单一结果宣称为设备可信或已被攻破的绝对证明。
+
+## 文档
+
+- [完整简体中文接入指南](docs/SDK_USAGE_ZH.md)
+- [Complete English integration guide](docs/SDK_USAGE.md)
+- [SDK 文档索引](docs/README.md)
+- [公开门面源码](sdk/src/main/java/com/chloemlla/crooot/CRoootSdk.kt)
+
+## SDK 能力
+
+- 单一 `suspend` 扫描 API，仅持有 Application Context。
+- 结构化 KKND Root 结果，以及可选的 KKND 硬件/验证启动结果。
+- 通过固定且区分大小写的键返回 16 类 Duck 检测报告。
+- `libchloemlla-crooot.so` 已打包 `arm64-v8a`、`armeabi-v7a`、`x86`、`x86_64`，但不同 ABI 的底层汇编覆盖并不等价。
+- 不要求宿主引入 Compose、Activity、Coil 或任何 SDK UI。
+- AAR 已内置消费者侧 R8/ProGuard 规则。
+- 稳定门面默认使用内置快照执行离线优先的 TEE 吊销检查。
+
+当前消费者规则会保留两套 detector 代码树；扫描选项只能减少运行时工作，不会明显减少 AAR/APK 代码体积。
+
+## 接入要求
+
+| 要求 | 取值 |
+| --- | --- |
+| 最低 Android 版本 | Android 10 / API 29 |
+| 宿主 `compileSdk` | 36 或更高（AAR 的 `minCompileSdk=36`） |
+| 宿主 `targetSdk` | 由宿主应用自行决定 |
+| 主要 API 语言 | Kotlin；Java 调用方需要 Kotlin 协程桥接层 |
+| Maven 认证 | GitHub 用户名及具备 `read:packages` 的令牌 |
+
+通过 Maven/AAR 使用已发布 SDK 时不需要安装 Android NDK 或 CMake。从源码构建 SDK 时需要 JDK 17、Android SDK/Build Tools 36.0.0、NDK 30.0.15729638 和 CMake 4.1.2。
+
+## v0.1.0 Soter 严重警告
+
+Duck TEE 的 Soter 探针在重试路径中可能删除或替换宿主已有的 Tencent Soter App Global Secure Key。使用 Soter 的宿主不得在 `v0.1.0` 中运行 Duck features；修复前必须设置 `includeDuckFeatures=false`。由于 `0.1.0` 没有逐 feature 开关，这也会同时关闭其他全部 Duck 报告。
+
+## 从 GitHub Packages 安装
+
+将凭据保存在仓库之外，例如用户级 `~/.gradle/gradle.properties`：
+
+```properties
+gpr.user=YOUR_GITHUB_USERNAME
+gpr.key=YOUR_CLASSIC_PAT_WITH_READ_PACKAGES
+```
+
+在 `settings.gradle.kts` 中添加仓库。SDK 的传递依赖 Soter 来自 JitPack，示例通过内容过滤仅允许其准确 group：
+
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven(url = "https://jitpack.io") {
+            content { includeGroup("com.github.Tencent.soter") }
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/Chloemlla/CRooot")
+            content { includeGroup("com.chloemlla.crooot") }
+            credentials {
+                username = providers.gradleProperty("gpr.user")
+                    .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                    .orNull
+                password = providers.gradleProperty("gpr.key")
+                    .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                    .orNull
+            }
+        }
+    }
+}
+```
+
+在宿主模块中添加依赖：
+
+```kotlin
+dependencies {
+    implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+}
+```
+
+本地 AAR 与源码模块接入方式见完整指南。
+
+## 最小扫描示例
+
+```kotlin
+import com.chloemlla.crooot.CRoootScanOptions
+import com.chloemlla.crooot.CRoootSdk
+
+val sdk = CRoootSdk.create(applicationContext)
+
+val result = sdk.scan(
+    CRoootScanOptions(
+        includeHardware = true,
+        includeDuckFeatures = true, // v0.1.0 中使用 Soter 的宿主必须设为 false。
+    ),
+)
+
+val rooted = result.kkndRoot.isRooted
+val suspicious = result.kkndRoot.isSuspicious
+val hardware = result.kkndHardware
+val teeReport = result.duckReports["tee"]
+```
+
+请在由生命周期管理的协程中调用 `scan`，并由宿主处理取消、超时与异常。同一时刻只运行一次扫描：阻塞的 native、进程与 Keystore 工作可能在调用方取消或超时后短暂继续。`includeHardware=false` 只关闭 `kkndHardware`，不会关闭 `duckReports["tee"]`。`0.1.0` 暂不支持逐个选择 Duck 模块；`includeDuckFeatures=false` 会关闭全部 16 类 Duck 报告。
+
+固定 Duck 键如下：
+
+```text
+bootloader, customRom, dangerousApps, deviceInfo, kernel, lsposed,
+memory, mount, nativeRoot, playIntegrityFix, selinux, su,
+systemProperties, tee, virtualization, zygisk
+```
+
+门面将值声明为 `Any?`，接入方应按文档使用安全类型转换，并在升级时容忍未知键。
+
+## Manifest 与权限
+
+AAR 会合并 5 个非导出的检测 Service，但自身不声明任何 `uses-permission`；宿主需要自行决定并声明所需权限。
+
+- 为保证 Duck TEE 深检可靠运行，应声明普通权限 `USE_BIOMETRIC`；在具备生物识别硬件的设备上，缺失该权限可能导致整个 `tee` 报告失败。兼容旧版/Soter 路径的 `USE_FINGERPRINT` 为可选项。
+- `QUERY_ALL_PACKAGES` 可提高应用清单检测覆盖度，但只有在应用符合分发平台政策时才应添加。包可见性受限必须解释为覆盖度下降，不能解释为“未检测到风险”。
+- 全新安装时，稳定门面使用内置吊销快照，不会主动发起远程 HTTPS 请求；如果实现层曾持久化在线同意，后续扫描可能改变此行为。`INTERNET` 权限也可提高本机回环端口探针覆盖度。
+
+请在宿主应用中检查最终合并后的 Manifest，并在修改或移除 SDK Service 前阅读完整指南。
+
+`0.1.0` 未打包原应用专用的 app-zygote 与 early-preload 启动接线，因此标准 AAR 接入中的高级 SELinux app-zygote、DirtySepolicy、early mount/virtualization 路径可能报告覆盖度降低或不可用。
+
+## 扫描副作用
+
+完整扫描在本地执行，但并非纯被动读取。部分探针会向已知第三方包发送显式广播、短暂创建并删除探针路径/文件、测试本机回环端口，以及生成和删除 AndroidKeyStore 测试密钥。KKND 硬件检查尤其会占用并删除以下固定 alias：
+
+```text
+rootdetector_tee_probe
+rootdetector_ks_backing
+rootdetector_sb_key
+```
+
+TEE 深检还会临时 Hook 当前进程的 Keystore Binder 缓存、放宽进程级隐藏 API exemption，并占用 18 个并发签名操作槽。宿主绝不能复用上述固定 alias。请先在有代表性的设备上验证扫描行为，串行调用 `scan`，避免与任何宿主 Keystore/密码学操作并发；如果进程在清理前被终止，也应允许存在临时测试 alias。完整扫描可能持续数十秒，并可能拉起子进程或隔离进程。不要在冷启动、登录、支付、签名或密钥轮换期间运行。
+
+AAR 完整包含 `com.eltavine.duckdetector.*` 与 `com.juanma0511.rootdetector.*` 实现树。不要同时打包原始 Duck/KKND artifact 或复制的 detector 源码，否则可能产生 duplicate class、Manifest 组件和 native/JNI 冲突。
+
+## 结果使用原则
+
+CRooot 返回证据、可用性、严重度、详情和支持状态。第三方接入时应：
+
+- 联合评估多个独立信号，不依赖单个布尔值；
+- 将 `FAILED`、`UNKNOWN`、`SUPPORT`、受限和不可用状态与“干净”状态严格区分；
+- 在保留诊断证据的同时，尽量减少设备数据的采集、上传与留存；
+- 在有代表性的 OEM、Android 版本、ABI、模拟器和修改环境上验证阈值；
+- 不把 SDK 作为执行不可逆账号或设备处置的唯一依据。
+
+## 构建与验证
+
+从源码仅构建 SDK 模块：
+
+```bash
+./gradlew :sdk:lintRelease :sdk:assembleRelease
+```
+
+`v0.1.0` 的 GitHub Actions 发布任务已成功发布 Maven 产物并上传 AAR workflow artifact，但没有创建 GitHub Release。CI 仅对选定源码扩展执行有限的私钥标记检查，不能替代仓库级 secret scanning。
+
+## 许可证与再分发
+
+CRooot 集成代码与 Duck 检测代码使用 Apache License 2.0；保留的 KKND 代码使用 MIT License；DirtySepolicy 衍生文件保留 Apache 2.0 归属。再分发方必须保留相应声明。
+
+`v0.1.0` AAR 本身未嵌入所需声明。发布 AAR、源码或衍生产品时，必须随分发附带 [LICENSE](LICENSE)、[NOTICE](NOTICE) 与[保留的 KKND MIT 许可证](legacy/kknd-root-detector/LICENSE-MIT)。
