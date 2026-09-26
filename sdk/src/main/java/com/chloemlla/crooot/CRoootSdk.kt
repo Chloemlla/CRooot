@@ -278,7 +278,7 @@ class CRoootSdk private constructor(private val context: Context) {
     }
 
     companion object {
-        const val SDK_VERSION: String = "0.1.0"
+        const val SDK_VERSION: String = "0.1.1"
 
         /** Creates an SDK instance backed by [Context.getApplicationContext]. */
         fun create(context: Context): CRoootSdk = CRoootSdk(context.applicationContext)

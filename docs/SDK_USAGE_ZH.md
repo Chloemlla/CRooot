@@ -2,9 +2,9 @@
 
 [English](SDK_USAGE.md) · [文档索引](README.md) · [项目 README](../README_ZH.MD)
 
-本文面向接入 CRooot `0.1.0` 的第三方 Android 应用，依据真实源码与已发布 AAR 说明稳定门面、安装方式、结果模型、运行副作用、已知限制和生产上线要求。
+本文面向接入 CRooot `0.1.1` 的第三方 Android 应用，依据真实源码与已发布 AAR 说明稳定门面、安装方式、结果模型、运行副作用、已知限制和生产上线要求。
 
-> **`0.1.0` Soter 说明：** Duck TEE 的 Soter 原始重试路径可能删除或替换宿主已有的 Tencent Soter App Global Secure Key。本 SDK **已修复该重试路径**：探针不再删除宿主已有的密钥。但探针仍会初始化 Soter Treble 服务并执行生物识别检查。使用 Soter 的宿主应在代表性设备上验证后用于生产环境。可设置 `includeTee=false` 仅关闭 TEE 报告，同时保持其他 Duck 报告启用。
+> **`0.1.1` Soter 说明：** Duck TEE 的 Soter 原始重试路径可能删除或替换宿主已有的 Tencent Soter App Global Secure Key。本 SDK **已修复该重试路径**：探针不再删除宿主已有的密钥。但探针仍会初始化 Soter Treble 服务并执行生物识别检查。使用 Soter 的宿主应在代表性设备上验证后用于生产环境。可设置 `includeTee=false` 仅关闭 TEE 报告，同时保持其他 Duck 报告启用。
 
 ---
 
@@ -67,7 +67,7 @@ dependencyResolutionManagement {
 
 // app/build.gradle.kts — 添加依赖
 dependencies {
-    implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+    implementation("com.chloemlla.crooot:crooot-sdk:0.1.1")
 }
 ```
 
@@ -206,9 +206,9 @@ com.chloemlla.crooot.CRoootSdk
 
 AAR 还包含完整的 Duck 与 KKND 实现包。除本文明确用于结果类型转换的报告模型外，请将这些包视为实现细节。
 
-| 项目 | `0.1.0` 取值 |
+| 项目 | `0.1.1` 取值 |
 | --- | --- |
-| Maven 坐标 | `com.chloemlla.crooot:crooot-sdk:0.1.0` |
+| Maven 坐标 | `com.chloemlla.crooot:crooot-sdk:0.1.1` |
 | 最低设备 API | Android 10 / API 29 |
 | 宿主最低 `compileSdk` | 36，由 AAR metadata 声明 |
 | 宿主 `targetSdk` | 由宿主应用控制 |
@@ -264,7 +264,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+    implementation("com.chloemlla.crooot:crooot-sdk:0.1.1")
 }
 ```
 
@@ -278,11 +278,11 @@ CI 中应使用具备 `read:packages` 的 secret。仓库的 `GITHUB_TOKEN` 只�
 ./gradlew :sdk:assembleRelease
 ```
 
-输出位于 `sdk/build/outputs/aar/sdk-release.aar`。复制或重命名到宿主模块，例如 `app/libs/crooot-sdk-0.1.0.aar`：
+输出位于 `sdk/build/outputs/aar/sdk-release.aar`。复制或重命名到宿主模块，例如 `app/libs/crooot-sdk-0.1.1.aar`：
 
 ```kotlin
 dependencies {
-    implementation(files("libs/crooot-sdk-0.1.0.aar"))
+    implementation(files("libs/crooot-sdk-0.1.1.aar"))
 }
 ```
 
@@ -290,7 +290,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation(files("libs/crooot-sdk-0.1.0.aar"))
+    implementation(files("libs/crooot-sdk-0.1.1.aar"))
     implementation("androidx.core:core-ktx:1.18.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
     implementation("androidx.datastore:datastore-preferences:1.2.1")
@@ -321,7 +321,7 @@ includeBuild("../CRooot") {
 宿主依赖仍写为：
 
 ```kotlin
-implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+implementation("com.chloemlla.crooot:crooot-sdk:0.1.1")
 ```
 
 不要只复制 `sdk/` 到另一工程，除非同时迁移所有构建属性、插件、version-catalog alias、原生源码、资源和 assets。
@@ -903,7 +903,7 @@ try {
 
 ## 11. Java 应用
 
-`scan` 是 Kotlin suspend 函数，`0.1.0` 没有 Java-friendly callback/future overload。不要直接调用生成的 `Continuation` 签名，应增加 Kotlin 桥接层：
+`scan` 是 Kotlin suspend 函数，`0.1.1` 没有 Java-friendly callback/future overload。不要直接调用生成的 `Continuation` 签名，应增加 Kotlin 桥接层：
 
 ```kotlin
 import android.content.Context
@@ -1093,7 +1093,7 @@ jobs:
 ./gradlew :sdk:assembleRelease
 
 # 复制到宿主项目
-cp sdk/build/outputs/aar/sdk-release.aar ../host-app/app/libs/crooot-sdk-0.1.0.aar
+cp sdk/build/outputs/aar/sdk-release.aar ../host-app/app/libs/crooot-sdk-0.1.1.aar
 
 # 构建宿主
 cd ../host-app && ./gradlew assembleRelease
@@ -1246,7 +1246,20 @@ CI 私钥标记检查只覆盖选定源码扩展，不是仓库级 secret scanni
 
 ## 21. 发布说明
 
-### 0.1.0（当前版本）
+### 0.1.1（当前版本）
+
+**不再把 stock OEM 设备判为已 root。**
+
+- `crossPartitionFingerprintMismatch` 不再把仅相差厂商后缀（如 vivo 的 `_V000L1`）的 build id
+  当作核心构建字段不一致。
+- `hasExplicitRootArtifacts()` 不再把裸挂载点 `/debug_ramdisk` 当作 root 痕迹，
+  `bootLooksTrustedLocked()` 在 stock Android 11+ 设备上重新生效。
+- `rootPackages` 不再把免 root 的 LSPatch（`org.lsposed.lspatch`）归类为 root 管理器。
+- 已发布到 GitHub Packages（`com.chloemlla.crooot:crooot-sdk:0.1.1`）
+
+### 0.1.0
+
+**初始版本。**
 
 **初始发布。**
 

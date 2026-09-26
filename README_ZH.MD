@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/Chloemlla/CRooot/actions/workflows/android-sdk-ci.yml"><img src="https://github.com/Chloemlla/CRooot/actions/workflows/android-sdk-ci.yml/badge.svg" alt="Android SDK CI"></a>
-  <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="SDK version 0.1.0">
+  <img src="https://img.shields.io/badge/version-0.1.1-blue" alt="SDK version 0.1.1">
   <img src="https://img.shields.io/badge/Android-10%2B-3DDC84?logo=android&logoColor=white" alt="Android 10 or newer">
   <a href="NOTICE"><img src="https://img.shields.io/badge/license-Apache--2.0%20%2B%20MIT-blue" alt="Apache License 2.0 and MIT"></a>
 </p>
@@ -95,7 +95,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+    implementation("com.chloemlla.crooot:crooot-sdk:0.1.1")
 }
 ```
 

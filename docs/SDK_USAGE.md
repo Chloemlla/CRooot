@@ -2,9 +2,9 @@
 
 [简体中文](SDK_USAGE_ZH.md) · [Documentation index](README.md) · [Project README](../README.MD)
 
-This guide targets third-party Android applications integrating CRooot `0.1.0`. It documents the supported facade, installation paths, result model, operational side effects, known limitations, and production rollout requirements from the actual source and published AAR.
+This guide targets third-party Android applications integrating CRooot `0.1.1`. It documents the supported facade, installation paths, result model, operational side effects, known limitations, and production rollout requirements from the actual source and published AAR.
 
-> **Soter note for `0.1.0`:** the original Duck TEE Soter retry path could remove or replace an existing Tencent Soter App Global Secure Key. This SDK **fixes that retry path**: the probe no longer deletes a pre-existing key. However, it still initializes the Soter Treble service and exercises biometric checks. Validate on representative devices before production use. For additional safety, set `includeTee=false` to disable only the TEE report while keeping the other Duck reports enabled.
+> **Soter note for `0.1.1`:** the original Duck TEE Soter retry path could remove or replace an existing Tencent Soter App Global Secure Key. This SDK **fixes that retry path**: the probe no longer deletes a pre-existing key. However, it still initializes the Soter Treble service and exercises biometric checks. Validate on representative devices before production use. For additional safety, set `includeTee=false` to disable only the TEE report while keeping the other Duck reports enabled.
 
 ---
 
@@ -67,7 +67,7 @@ dependencyResolutionManagement {
 
 // app/build.gradle.kts — add dependency
 dependencies {
-    implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+    implementation("com.chloemlla.crooot:crooot-sdk:0.1.1")
 }
 ```
 
@@ -207,9 +207,9 @@ com.chloemlla.crooot.CRoootSdk
 
 The AAR also contains the complete Duck and KKND implementation packages. Treat those packages as implementation details unless this guide explicitly names a report model for result casting.
 
-| Item | `0.1.0` value |
+| Item | `0.1.1` value |
 | --- | --- |
-| Maven coordinate | `com.chloemlla.crooot:crooot-sdk:0.1.0` |
+| Maven coordinate | `com.chloemlla.crooot:crooot-sdk:0.1.1` |
 | Minimum device API | Android 10 / API 29 |
 | Minimum consumer `compileSdk` | 36, declared by AAR metadata |
 | Consumer `targetSdk` | Controlled by the host application |
@@ -265,7 +265,7 @@ Add the dependency to the host module:
 
 ```kotlin
 dependencies {
-    implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+    implementation("com.chloemlla.crooot:crooot-sdk:0.1.1")
 }
 ```
 
@@ -279,11 +279,11 @@ Build the AAR from the complete CRooot checkout:
 ./gradlew :sdk:assembleRelease
 ```
 
-The output is `sdk/build/outputs/aar/sdk-release.aar`. Copy or rename it under the host module, for example `app/libs/crooot-sdk-0.1.0.aar`:
+The output is `sdk/build/outputs/aar/sdk-release.aar`. Copy or rename it under the host module, for example `app/libs/crooot-sdk-0.1.1.aar`:
 
 ```kotlin
 dependencies {
-    implementation(files("libs/crooot-sdk-0.1.0.aar"))
+    implementation(files("libs/crooot-sdk-0.1.1.aar"))
 }
 ```
 
@@ -291,7 +291,7 @@ A file-based AAR has no Maven POM, so declare the current runtime dependencies m
 
 ```kotlin
 dependencies {
-    implementation(files("libs/crooot-sdk-0.1.0.aar"))
+    implementation(files("libs/crooot-sdk-0.1.1.aar"))
     implementation("androidx.core:core-ktx:1.18.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
     implementation("androidx.datastore:datastore-preferences:1.2.1")
@@ -322,7 +322,7 @@ includeBuild("../CRooot") {
 The host dependency remains:
 
 ```kotlin
-implementation("com.chloemlla.crooot:crooot-sdk:0.1.0")
+implementation("com.chloemlla.crooot:crooot-sdk:0.1.1")
 ```
 
 Do not copy only `sdk/` into another build without also migrating every referenced build property, plugin, version-catalog alias, native source, resource, and asset.
@@ -907,7 +907,7 @@ Distinguish:
 
 ## 11. Java applications
 
-`scan` is a Kotlin suspend function and has no Java-friendly callback or future overload in `0.1.0`. Add a small Kotlin bridge instead of calling the generated `Continuation` signature directly:
+`scan` is a Kotlin suspend function and has no Java-friendly callback or future overload in `0.1.1`. Add a small Kotlin bridge instead of calling the generated `Continuation` signature directly:
 
 ```kotlin
 import android.content.Context
@@ -1097,7 +1097,7 @@ jobs:
 ./gradlew :sdk:assembleRelease
 
 # Copy to host project
-cp sdk/build/outputs/aar/sdk-release.aar ../host-app/app/libs/crooot-sdk-0.1.0.aar
+cp sdk/build/outputs/aar/sdk-release.aar ../host-app/app/libs/crooot-sdk-0.1.1.aar
 
 # Build the host
 cd ../host-app && ./gradlew assembleRelease
@@ -1250,7 +1250,19 @@ The CI private-key marker check covers selected source extensions only and is no
 
 ## 21. Release notes
 
-### 0.1.0 (current)
+### 0.1.1 (current)
+
+**Stops reporting stock OEM devices as rooted.**
+
+- `crossPartitionFingerprintMismatch` no longer treats build ids that differ only by a vendor
+  suffix (for example vivo's `_V000L1`) as a core build-field mismatch.
+- `hasExplicitRootArtifacts()` no longer counts the bare `/debug_ramdisk` mount point as root
+  evidence, so `bootLooksTrustedLocked()` works again on stock Android 11+ devices.
+- `rootPackages` no longer classifies the rootless LSPatch variant (`org.lsposed.lspatch`) as a
+  root manager.
+- Published to GitHub Packages (`com.chloemlla.crooot:crooot-sdk:0.1.1`)
+
+### 0.1.0
 
 **Initial release.**
 
