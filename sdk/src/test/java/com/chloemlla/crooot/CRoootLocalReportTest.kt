@@ -47,9 +47,15 @@ class CRoootLocalReportTest {
             durationMs = 30,
         )
 
+        // includeEnvironment=false: CRoootLocalReportMapper.environment() reads
+        // Build.VERSION.SDK_INT and Build.SUPPORTED_ABIS, and the mockable android.jar used for
+        // JVM unit tests leaves the latter null, so the environment branch only exists on a device.
         val report = CRoootLocalReportMapper.map(
             result = result,
-            options = CRoootReportOptions(profile = CRoootScanProfile.STANDARD),
+            options = CRoootReportOptions(
+                profile = CRoootScanProfile.STANDARD,
+                includeEnvironment = false,
+            ),
             startedAtMillis = 100L,
         )
 
@@ -58,6 +64,7 @@ class CRoootLocalReportTest {
         assertTrue(report.findings.any { it.status == CRoootReportStatus.UNKNOWN })
         assertTrue(report.detectorSummaries.any { it.detectorId == "tee" && it.status == CRoootReportStatus.UNKNOWN })
         assertTrue(report.limitations.any { it.contains("UNKNOWN") })
+        assertTrue(report.limitations.any { it.contains("Environment metadata was intentionally omitted") })
     }
 
     @Test
