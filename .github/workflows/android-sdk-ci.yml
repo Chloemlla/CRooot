@@ -59,7 +59,7 @@ jobs:
           java-version: "17"
 
       - name: Set up Android SDK tooling
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Verify declared Android toolchain
         shell: bash
