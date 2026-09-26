@@ -17,6 +17,7 @@
 package com.eltavine.duckdetector.features.tee.data.soter
 
 import com.tencent.soter.core.model.SoterCoreResult
+import com.tencent.soter.core.model.SoterErrCode
 import com.tencent.soter.soterserver.SoterSessionResult
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -73,7 +74,7 @@ class SoterCapabilityProbeTest {
     }
 
     @Test
-    fun `safety fix: never removes pre-existing ASK on retry`() {
+    fun `safety fix never removes pre-existing ASK on retry`() {
         // Simulate the scenario where the ASK pre-existed (host's key)
         // The probe should NOT call removeAppGlobalSecureKey() on retry
         val client = FakeSoterClient(
@@ -99,7 +100,7 @@ class SoterCapabilityProbeTest {
     }
 
     @Test
-    fun `safety fix: removes probe-generated ASK during cleanup`() {
+    fun `safety fix removes probe-generated ASK during cleanup`() {
         // Simulate the scenario where the ASK did NOT pre-exist (probe owns it)
         // The probe SHOULD be able to call removeAppGlobalSecureKey() during cleanup
         val client = FakeSoterClient(
@@ -125,7 +126,7 @@ class SoterCapabilityProbeTest {
     }
 
     @Test
-    fun `safety fix: abnormal environment check still works`() {
+    fun `safety fix abnormal environment check still works`() {
         val client = FakeSoterClient(
             nativeSupport = false,
             trebleConnected = false,
@@ -187,7 +188,7 @@ class SoterCapabilityProbeTest {
         override fun generateAuthKey(alias: String): SoterCoreResult? {
             generateAuthKeyCallCount++
             // Return null means failure (probe checks isSuccess())
-            return if (authKeyOk) SoterCoreResult() else null
+            return if (authKeyOk) SoterCoreResult(SoterErrCode.ERR_OK) else null
         }
         override fun hasAuthKey(alias: String): Boolean = authKeyOk
         override fun getAuthKeyModel(alias: String): Any? = if (authKeyOk) "model" else null
@@ -195,11 +196,11 @@ class SoterCapabilityProbeTest {
             SoterSessionResult().apply { resultCode = 0; session = 12345L }
         override fun removeAuthKey(alias: String, autoDeleteAsk: Boolean): SoterCoreResult? {
             removeAuthKeyCallCount++
-            return SoterCoreResult()
+            return SoterCoreResult(SoterErrCode.ERR_OK)
         }
         override fun removeAppGlobalSecureKey(): SoterCoreResult? {
             removeAppGlobalSecureKeyCallCount++
-            return SoterCoreResult()
+            return SoterCoreResult(SoterErrCode.ERR_OK)
         }
     }
 }

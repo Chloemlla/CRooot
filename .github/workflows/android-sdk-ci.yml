@@ -155,9 +155,12 @@ jobs:
         shell: bash
         run: chmod +x ./gradlew
 
-      - name: Run SDK lint and remote build
+      - name: Run SDK lint, unit tests and release build
         shell: bash
-        run: ./gradlew --no-daemon --stacktrace :sdk:lintRelease :sdk:assembleRelease
+        # AGP 9 enables unit-test components for the tested build type only
+        # (android.onlyEnableUnitTestForTheTestedBuildType defaults to true), so the task is
+        # testDebugUnitTest; testReleaseUnitTest does not exist in this project.
+        run: ./gradlew --no-daemon --stacktrace :sdk:lintRelease :sdk:testDebugUnitTest :sdk:assembleRelease
 
       - name: Upload SDK AARs
         uses: actions/upload-artifact@v4
