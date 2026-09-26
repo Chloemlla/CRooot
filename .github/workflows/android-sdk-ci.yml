@@ -138,9 +138,9 @@ jobs:
         shell: bash
         run: chmod +x ./gradlew
 
-      - name: Run SDK lint and remote build
+      - name: Run SDK lint, unit tests and release build
         shell: bash
-        run: ./gradlew --no-daemon --stacktrace :sdk:lintRelease :sdk:assembleRelease
+        run: ./gradlew --no-daemon --stacktrace :sdk:lintRelease :sdk:testReleaseUnitTest :sdk:assembleRelease
 
       - name: Upload SDK AARs
         uses: actions/upload-artifact@v4

@@ -959,7 +959,7 @@ class RootDetector(private val context: Context) {
 
         val hardMismatch = build.brand != system.brand ||
             build.release != system.release ||
-            build.buildId != system.buildId ||
+            !compatibleBuildId(build.buildId, system.buildId) ||
             build.buildType != system.buildType ||
             build.tags != system.tags
         if (hardMismatch) {
@@ -2728,4 +2728,21 @@ class RootDetector(private val context: Context) {
         ))
     }
 
+}
+
+/**
+ * Compares two build ids across partitions.
+ *
+ * OEM builds append a per-shipment suffix to the build id in `ro.build.fingerprint` that
+ * `ro.system.build.fingerprint` does not carry — a stock vivo Android 16 device reports
+ * `.../BP2A.250605.031.A3_V000L1/...` against `.../BP2A.250605.031.A3/...`. That suffix is not
+ * evidence of a tampered build, so the comparison tolerates it instead of demanding equality;
+ * everything else about the build id still has to line up.
+ */
+internal fun compatibleBuildId(left: String, right: String): Boolean {
+    if (left == right) return true
+    if (left.startsWith(right) || right.startsWith(left)) return true
+    val normalizedLeft = left.substringBefore('_')
+    val normalizedRight = right.substringBefore('_')
+    return normalizedLeft.isNotBlank() && normalizedLeft == normalizedRight
 }

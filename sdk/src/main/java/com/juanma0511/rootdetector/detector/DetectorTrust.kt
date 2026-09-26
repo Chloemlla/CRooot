@@ -131,7 +131,12 @@ object DetectorTrust {
     }
 
     private fun hasExplicitRootArtifacts(): Boolean {
-        if (rootPaths.any { path -> File(path).exists() }) return true
+        // `/debug_ramdisk` is the Android 11+ debug-ramdisk mount point. On user builds it is often
+        // left behind as an empty directory with no mount behind it — a stock vivo Android 16 device
+        // has exactly that — so its mere existence is not a root artifact. The paths that actually
+        // indicate root under it (`/debug_ramdisk/.magisk`, `/debug_ramdisk/su`) are listed in
+        // `magiskPaths` / `suPaths` and are still checked here through `rootPaths`.
+        if (rootPaths.any { path -> path !in STOCK_MOUNT_POINTS && File(path).exists() }) return true
 
         val moduleDirs = HardcodedSignals.moduleDirs
         moduleDirs.forEach { dirPath ->
@@ -200,6 +205,9 @@ object DetectorTrust {
         "/system/xbin/su",
         "/system/bin/su",
     )
+
+    /** Mount points that exist on stock builds and therefore are not root artifacts by themselves. */
+    private val STOCK_MOUNT_POINTS = setOf("/debug_ramdisk")
 
     private fun isZeroLike(value: String): Boolean {
         val normalized = value.filterNot { it == ':' || it == '-' || it.isWhitespace() }
