@@ -47,8 +47,25 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android SDK tooling
-        uses: android-actions/setup-android@v3
+      - name: Locate the Android command-line tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          # android-actions/setup-android@v3 installs the legacy "tools" package, which Google has
+          # removed from the SDK repository, so the action now fails with
+          # "Warning: Failed to find package 'tools'" before any Gradle work runs. The runner image
+          # already ships cmdline-tools and a later step installs the exact packages this build
+          # needs, so only the tool path has to be established here.
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          test -d "${SDK_ROOT}"
+          echo "ANDROID_SDK_ROOT=${SDK_ROOT}" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=${SDK_ROOT}" >> "$GITHUB_ENV"
+
+          CMDLINE_TOOLS="$(ls -d "${SDK_ROOT}"/cmdline-tools/*/bin 2>/dev/null | sort -V | tail -1)"
+          test -n "${CMDLINE_TOOLS}"
+          test -x "${CMDLINE_TOOLS}/sdkmanager"
+          echo "${CMDLINE_TOOLS}" >> "$GITHUB_PATH"
+          "${CMDLINE_TOOLS}/sdkmanager" --version
 
       - name: Resolve and validate release version
         id: release
