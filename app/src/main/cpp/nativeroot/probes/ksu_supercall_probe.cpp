@@ -15,6 +15,7 @@
  */
 
 #include "nativeroot/probes/ksu_supercall_probe.h"
+#include "common/sacrificial_child.h"
 
 #include <csignal>
 #include <cstdint>
@@ -61,7 +62,7 @@ namespace duckdetector::nativeroot {
 
         bool collect_child_packet(
                 KsuSupercallPacket &packet,
-                bool &blocked_by_seccomp
+                bool &probe_restricted
         ) {
             int pipe_fds[2] = {-1, -1};
             if (pipe(pipe_fds) != 0) {
@@ -80,6 +81,9 @@ namespace duckdetector::nativeroot {
 
             if (pid == 0) {
                 close(pipe_fds[0]);
+                if (!sacrificial_child::prepare_sigsys_exit()) {
+                    _exit(sacrificial_child::kSetupUnavailableExitCode);
+                }
 
                 KsuSupercallPacket child_packet{};
 #if defined(__NR_reboot)
@@ -112,30 +116,28 @@ namespace duckdetector::nativeroot {
                 }
 #endif
 
-                const ssize_t ignored = write(pipe_fds[1], &child_packet, sizeof(child_packet));
-                (void) ignored;
+                const bool written = sacrificial_child::write_all(
+                        pipe_fds[1], &child_packet, sizeof(child_packet));
                 close(pipe_fds[1]);
-                _exit(0);
+                _exit(written ? 0 : sacrificial_child::kPayloadFailedExitCode);
             }
 
             close(pipe_fds[1]);
 
-            int status = 0;
-            if (waitpid(pid, &status, 0) < 0) {
-                close(pipe_fds[0]);
-                return false;
-            }
-
-            const ssize_t bytes_read = read(pipe_fds[0], &packet, sizeof(packet));
+            const bool read_ok = sacrificial_child::read_exact(pipe_fds[0], &packet, sizeof(packet));
             close(pipe_fds[0]);
+            int status = 0;
+            if (!sacrificial_child::wait_for_child(pid, status)) return false;
 
-            if (WIFSIGNALED(status) && WTERMSIG(status) == SIGSYS) {
-                blocked_by_seccomp = true;
+            const auto outcome = sacrificial_child::classify_status(status);
+            if (outcome == sacrificial_child::Outcome::kRestricted ||
+                outcome == sacrificial_child::Outcome::kSetupUnavailable) {
+                // A probe that cannot be safely started is denied, never a clean packet.
+                probe_restricted = true;
                 return false;
             }
 
-            return WIFEXITED(status) && WEXITSTATUS(status) == 0 &&
-                   bytes_read == static_cast<ssize_t>(sizeof(packet));
+            return outcome == sacrificial_child::Outcome::kCompleted && read_ok;
         }
 
         Finding build_finding(
@@ -157,10 +159,10 @@ namespace duckdetector::nativeroot {
     ProbeResult run_ksu_supercall_probe() {
         ProbeResult result;
 
-        bool blocked_by_seccomp = false;
+        bool probe_restricted = false;
         KsuSupercallPacket packet{};
-        if (!collect_child_packet(packet, blocked_by_seccomp)) {
-            if (blocked_by_seccomp) {
+        if (!collect_child_packet(packet, probe_restricted)) {
+            if (probe_restricted) {
                 result.checked_count = 1;
                 result.denied_count = 1;
             }

@@ -15,6 +15,7 @@
  */
 
 #include "virtualization/honeypot_traps.h"
+#include "common/sacrificial_child.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -386,7 +387,7 @@ namespace duckdetector::virtualization {
                     true,
                     false,
                     true,
-                    "Sacrificial syscall pack was disabled after a previous SIGSYS in this helper process."
+                    "Sacrificial syscall pack was disabled after a restriction or unsafe child setup in this helper process."
             );
         }
 
@@ -404,6 +405,9 @@ namespace duckdetector::virtualization {
 
         if (child == 0) {
             close(pipefd[0]);
+            if (!sacrificial_child::prepare_sigsys_exit()) {
+                _exit(sacrificial_child::kSetupUnavailableExitCode);
+            }
 
             auto call_via_syscall = [](long number,
                                        long arg0,
@@ -656,9 +660,9 @@ namespace duckdetector::virtualization {
                         false,
                         "Sacrificial syscall pack is unsupported on this kernel, ABI, or libc surface."
                 );
-                write(pipefd[1], payload.data(), payload.size());
+                const bool written = sacrificial_child::write_all(pipefd[1], payload.data(), payload.size());
                 close(pipefd[1]);
-                _exit(0);
+                _exit(written ? 0 : sacrificial_child::kPayloadFailedExitCode);
             }
 
             items.push_back(openat2Item);
@@ -674,32 +678,33 @@ namespace duckdetector::virtualization {
                 payload << encode_sacrificial_item(item);
             }
             const std::string serialized = payload.str();
-            write(pipefd[1], serialized.data(), serialized.size());
+            const bool written = sacrificial_child::write_all(pipefd[1], serialized.data(), serialized.size());
             close(pipefd[1]);
-            _exit(0);
+            _exit(written ? 0 : sacrificial_child::kPayloadFailedExitCode);
         }
 
         close(pipefd[1]);
-        int status = 0;
-        waitpid(child, &status, 0);
         std::string payload;
-        char buffer[1024];
-        ssize_t read = 0;
-        while ((read = ::read(pipefd[0], buffer, sizeof(buffer))) > 0) {
-            payload.append(buffer, static_cast<std::size_t>(read));
-        }
+        const bool read_ok = sacrificial_child::read_to_end(pipefd[0], payload);
         close(pipefd[0]);
+        int status = 0;
+        const bool waited = sacrificial_child::wait_for_child(child, status);
+        const auto outcome = waited ? sacrificial_child::classify_status(status)
+                                    : sacrificial_child::Outcome::kFailed;
 
-        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGSYS) {
+        if (outcome == sacrificial_child::Outcome::kRestricted ||
+            outcome == sacrificial_child::Outcome::kSetupUnavailable) {
             g_sacrificialSyscallPackDisabled = true;
             return encode_basic_pack(
                     true,
                     false,
                     true,
-                    "Sacrificial syscall child died with SIGSYS. The helper process will not run this pack again."
+                    outcome == sacrificial_child::Outcome::kRestricted
+                    ? "Sacrificial syscall child was restricted by SIGSYS. The helper will not run this pack again."
+                    : "Sacrificial syscall child could not safely handle SIGSYS. The helper will not run this pack again."
             );
         }
-        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0 || payload.empty()) {
+        if (outcome != sacrificial_child::Outcome::kCompleted || !read_ok || payload.empty()) {
             return encode_basic_pack(
                     true,
                     false,

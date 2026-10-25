@@ -1,6 +1,8 @@
 package com.chloemlla.crooot
 
+import android.app.Application
 import android.content.Context
+import android.os.Process
 import com.eltavine.duckdetector.features.bootloader.data.repository.BootloaderRepository
 import com.eltavine.duckdetector.features.customrom.data.repository.CustomRomRepository
 import com.eltavine.duckdetector.features.dangerousapps.data.repository.DangerousAppsRepository
@@ -211,12 +213,21 @@ class CRoootSdk private constructor(private val context: Context) {
      * App Global Secure Key. Hosts using Tencent Soter must set [CRoootScanOptions.includeDuckFeatures]
      * to `false` until that detector is fixed. As of 0.1.0, the per-feature flag [CRoootScanOptions.includeTee]
      * can be used to disable only the TEE report while keeping other Duck reports enabled.
+     *
+     * @throws IllegalStateException if called from a detector-owned helper or isolated process,
+     * or if the current process identity cannot be established. Host custom processes are allowed.
      */
     suspend fun scan(
         options: CRoootScanOptions = CRoootScanOptions(),
     ): CRoootScanResult = withContext(Dispatchers.Default) {
         val started = System.currentTimeMillis()
         val appContext = context.applicationContext
+        // Resolve Android state at scan time, never in a companion/static initializer.
+        CRoootProcessPolicy.requireAllowed(
+            packageName = appContext.packageName,
+            processName = Application.getProcessName(),
+            uid = Process.myUid(),
+        )
         coroutineScope {
             val root = async(Dispatchers.IO) { RootDetector(appContext).runAllChecks() }
             val hardware = if (options.includeHardware) {
@@ -278,7 +289,7 @@ class CRoootSdk private constructor(private val context: Context) {
     }
 
     companion object {
-        const val SDK_VERSION: String = "0.1.1"
+        const val SDK_VERSION: String = "0.1.2"
 
         /** Creates an SDK instance backed by [Context.getApplicationContext]. */
         fun create(context: Context): CRoootSdk = CRoootSdk(context.applicationContext)
